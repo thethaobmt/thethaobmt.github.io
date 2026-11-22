@@ -591,12 +591,12 @@
           <input type="number" id="npPrice" required placeholder="Giá bán (VNĐ) *" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
           <input type="number" id="npOldPrice" placeholder="Giá gốc gạch ngang (nếu có)" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
         </div>
-        <input type="text" id="npColors" placeholder="Các màu (cách nhau dấu phẩy, VD: Xanh Vàng, Cam Vàng, Xanh Trắng)" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
+        <input type="text" id="npColors" oninput="renderColorImageMapping()" placeholder="Các màu (cách nhau dấu phẩy, VD: Trắng, Xanh Navy, Hồng Nhạt)" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
         <input type="text" id="npOptions" required placeholder="Size / Phân loại (cách nhau dấu phẩy: M, L, XL, XXL hoặc 39, 40, 41) *" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
         <input type="text" id="npBadge" placeholder="Nhãn nổi bật (tùy chọn)" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
 
-        <!-- CHỌN TỐI ĐA 5 ẢNH 1:1 (600x600) TỪ MÁY / ĐIỆN THOẠI -->
-        <div class="p-3 rounded-2xl bg-slate-950 border border-dashed border-slate-700 space-y-2">
+        <!-- CHỌN TỐI ĐA 5 ẢNH 1:1 (600x600) + ĐỔI THỨ TỰ TRÁI/PHẢI -->
+        <div class="p-3 rounded-2xl bg-slate-950 border border-dashed border-slate-700 space-y-2.5">
           <div class="flex items-center justify-between gap-2">
             <label for="npImageFiles" class="cursor-pointer px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-orange-400 font-extrabold inline-flex items-center gap-1.5 transition shrink-0">
               <i class="fa-solid fa-images"></i>
@@ -605,7 +605,9 @@
             <span id="npImageStatus" class="text-[11px] text-slate-400 truncate">Chưa chọn ảnh (600×600)</span>
           </div>
           <input type="file" id="npImageFiles" accept="image/*" multiple onchange="handleMultiImageSelect(event)" class="hidden" />
-          <div id="npImagePreviewGrid" class="grid grid-cols-5 gap-1.5"></div>
+          <p class="text-[10px] text-slate-400">Bấm <strong class="text-slate-200">◀ / ▶</strong> trên từng ảnh để đổi vị trí hoặc gán đúng ảnh cho từng màu bên dưới:</p>
+          <div id="npImagePreviewGrid" class="grid grid-cols-2 sm:grid-cols-4 gap-2"></div>
+          <div id="npColorMappingBox" class="hidden space-y-1.5 pt-2 border-t border-slate-800/80"></div>
         </div>
 
         <textarea id="npDesc" rows="2" placeholder="Mô tả chi tiết sản phẩm..." class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100"></textarea>
@@ -642,6 +644,7 @@
     let cart = JSON.parse(localStorage.getItem("tttt_cart") || "[]");
     let isAdmin = sessionStorage.getItem("tttt_admin") === "1";
     let uploadedImagesBase64 = [];
+    let colorImageMap = {};
 
     function toggleCatalogDrawer(open) {
       document.getElementById("catalogDrawer").classList.toggle("hidden", !open);
@@ -760,18 +763,86 @@
       }
 
       uploadedImagesBase64 = compressed;
+      colorImageMap = {};
       renderUploadPreviewGrid();
+      renderColorImageMapping();
       document.getElementById("npImageStatus").innerText = `Đã chọn ${uploadedImagesBase64.length}/${MAX_IMAGES} ảnh (600×600)`;
+    }
+
+    function moveUploadedImage(index, delta) {
+      const target = index + delta;
+      if (target < 0 || target >= uploadedImagesBase64.length) return;
+      const temp = uploadedImagesBase64[index];
+      uploadedImagesBase64[index] = uploadedImagesBase64[target];
+      uploadedImagesBase64[target] = temp;
+      renderUploadPreviewGrid();
+      renderColorImageMapping();
+    }
+
+    function removeUploadedImage(index) {
+      if (index < 0 || index >= uploadedImagesBase64.length) return;
+      uploadedImagesBase64.splice(index, 1);
+      colorImageMap = {};
+      renderUploadPreviewGrid();
+      renderColorImageMapping();
+      document.getElementById("npImageStatus").innerText = uploadedImagesBase64.length
+        ? `Đã chọn ${uploadedImagesBase64.length}/${MAX_IMAGES} ảnh (600×600)`
+        : "Chưa chọn ảnh (600×600)";
     }
 
     function renderUploadPreviewGrid() {
       const grid = document.getElementById("npImagePreviewGrid");
       grid.innerHTML = uploadedImagesBase64.map((src, idx) => `
-        <div class="relative aspect-square rounded-lg overflow-hidden border border-slate-700 bg-slate-900">
-          <img src="${src}" alt="Ảnh ${idx + 1}" class="w-full h-full object-cover" />
-          <span class="absolute bottom-0.5 left-0.5 px-1 rounded bg-black/75 text-[9px] font-bold text-white">${idx + 1}</span>
+        <div class="space-y-1 bg-slate-900 p-1.5 rounded-xl border border-slate-700">
+          <div class="relative aspect-square rounded-lg overflow-hidden bg-slate-950">
+            <img src="${src}" alt="Ảnh ${idx + 1}" class="w-full h-full object-cover" />
+            <span class="absolute top-1 left-1 px-1.5 py-0.5 rounded bg-black/80 text-[10px] font-black text-amber-300">#${idx + 1}</span>
+            <button type="button" onclick="removeUploadedImage(${idx})" class="absolute top-1 right-1 w-5 h-5 rounded bg-rose-600/90 text-white text-[10px] flex items-center justify-center" title="Xóa ảnh này">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+          <div class="grid grid-cols-2 gap-1">
+            <button type="button" onclick="moveUploadedImage(${idx}, -1)" ${idx === 0 ? "disabled" : ""} class="py-1 rounded bg-slate-800 hover:bg-slate-700 disabled:opacity-30 text-slate-200 text-[11px] font-bold">
+              <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <button type="button" onclick="moveUploadedImage(${idx}, 1)" ${idx === uploadedImagesBase64.length - 1 ? "disabled" : ""} class="py-1 rounded bg-slate-800 hover:bg-slate-700 disabled:opacity-30 text-slate-200 text-[11px] font-bold">
+              <i class="fa-solid fa-chevron-right"></i>
+            </button>
+          </div>
         </div>
       `).join("");
+    }
+
+    function renderColorImageMapping() {
+      const box = document.getElementById("npColorMappingBox");
+      const rawColors = (document.getElementById("npColors").value || "")
+        .split(",")
+        .map(s => s.trim())
+        .filter(Boolean);
+
+      if (!rawColors.length || !uploadedImagesBase64.length) {
+        box.classList.add("hidden");
+        box.innerHTML = "";
+        return;
+      }
+
+      box.classList.remove("hidden");
+      const imgChoices = uploadedImagesBase64.map((_, i) => `<option value="${i}">Ảnh #${i + 1}</option>`).join("");
+
+      box.innerHTML = `<p class="text-[11px] font-bold text-amber-300">Khớp ảnh cho từng màu:</p>` + rawColors.map((cName, idx) => {
+        const defaultIdx = colorImageMap[cName] !== undefined
+          ? colorImageMap[cName]
+          : Math.min(idx, uploadedImagesBase64.length - 1);
+        colorImageMap[cName] = defaultIdx;
+        return `
+          <div class="flex items-center justify-between gap-2 bg-slate-900 px-2.5 py-1.5 rounded-xl border border-slate-800">
+            <span class="text-xs font-bold text-slate-100 truncate">${cName}</span>
+            <select onchange="colorImageMap['${cName.replace(/'/g, "\\'")}'] = Number(this.value)" class="px-2 py-1 rounded-lg bg-slate-950 border border-slate-700 text-orange-300 font-bold text-[11px]">
+              ${imgChoices.replace(`value="${defaultIdx}"`, `value="${defaultIdx}" selected`)}
+            </select>
+          </div>
+        `;
+      }).join("");
     }
 
     function switchTab(tab) {
@@ -1318,9 +1389,12 @@ Hình thức: ${method} ${address}`);
 
     function openAddProductModal() {
       uploadedImagesBase64 = [];
+      colorImageMap = {};
       document.getElementById("npImageFiles").value = "";
       document.getElementById("npImageStatus").innerText = "Chưa chọn ảnh (600×600)";
       document.getElementById("npImagePreviewGrid").innerHTML = "";
+      document.getElementById("npColorMappingBox").classList.add("hidden");
+      document.getElementById("npColorMappingBox").innerHTML = "";
       document.getElementById("addProductModal").classList.remove("hidden");
     }
 
@@ -1336,10 +1410,14 @@ Hình thức: ${method} ${address}`);
         .split(",")
         .map(s => s.trim())
         .filter(Boolean);
-      const colorObjects = rawColors.map((cName, idx) => ({
-        name: cName,
-        image: imgsToUse[idx] || imgsToUse[0] || FALLBACK_SQUARE_IMG
-      }));
+      const colorObjects = rawColors.map((cName, idx) => {
+        const mappedIdx = colorImageMap[cName] !== undefined ? Number(colorImageMap[cName]) : idx;
+        const chosenImg = imgsToUse[mappedIdx] || imgsToUse[idx] || imgsToUse[0] || FALLBACK_SQUARE_IMG;
+        return {
+          name: cName,
+          image: chosenImg
+        };
+      });
 
       const newProd = {
         id: prodId,
@@ -1377,7 +1455,10 @@ Hình thức: ${method} ${address}`);
       renderProducts();
       e.target.reset();
       uploadedImagesBase64 = [];
+      colorImageMap = {};
       document.getElementById("npImagePreviewGrid").innerHTML = "";
+      document.getElementById("npColorMappingBox").classList.add("hidden");
+      document.getElementById("npColorMappingBox").innerHTML = "";
       btn.disabled = false;
       btn.innerText = "Lưu & Đồng Bộ Lên Google Sheets";
       closeModal("addProductModal");
