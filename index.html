@@ -844,6 +844,7 @@
     const SHOP_ZALO = "0906075077";
     const MAX_IMAGES = 5;
     const MAX_DETAIL_PER_COLOR = 5;
+    const RECENT_LOCAL_TTL_MS = 5 * 60 * 1000;
 
     const DEFAULT_TIER_POOLS = {
       basic: [
@@ -874,6 +875,7 @@
     let currentCategory = "ALL";
     let cart = JSON.parse(localStorage.getItem("tttt_cart") || "[]");
     let isAdmin = sessionStorage.getItem("tttt_admin") === "1";
+    let recentLocalEdits = JSON.parse(sessionStorage.getItem("tttt_recent_edits") || "{}");
 
     let uploadedImagesBase64 = [];
     let colorMediaDrafts = [];
@@ -887,6 +889,65 @@
     let mysterySpinTimer = null;
 
     let currentShareLabel = "THỂ THAO THANH TÂM BMT";
+
+    function markRecentLocalEdit(prod) {
+      if (!prod || !prod.id) return;
+      recentLocalEdits[String(prod.id)] = {
+        ts: Date.now(),
+        product: prod
+      };
+      sessionStorage.setItem("tttt_recent_edits", JSON.stringify(recentLocalEdits));
+    }
+
+    function mergeSheetProductsWithLocal(sheetProducts) {
+      const now = Date.now();
+      const map = new Map();
+
+      (Array.isArray(sheetProducts) ? sheetProducts : []).forEach(p => {
+        if (p && p.id) map.set(String(p.id), p);
+      });
+
+      const cleanedRecent = {};
+      Object.entries(recentLocalEdits).forEach(([id, entry]) => {
+        if (!entry || (now - Number(entry.ts || 0)) > RECENT_LOCAL_TTL_MS) return;
+        cleanedRecent[id] = entry;
+
+        const sheetItem = map.get(id);
+        if (!sheetItem && entry.product) {
+          map.set(id, entry.product);
+        } else if (sheetItem && entry.product) {
+          const sheetPrice = Number(sheetItem.price || 0);
+          const localPrice = Number(entry.product.price || 0);
+          const sheetOpts = JSON.stringify(sheetItem.options || []);
+          const localOpts = JSON.stringify(entry.product.options || []);
+          if (
+            sheetItem.name !== entry.product.name ||
+            sheetPrice !== localPrice ||
+            sheetItem.desc !== entry.product.desc ||
+            sheetItem.section !== entry.product.section ||
+            sheetOpts !== localOpts
+          ) {
+            map.set(id, { ...sheetItem, ...entry.product });
+          } else {
+            delete cleanedRecent[id];
+          }
+        }
+      });
+
+      recentLocalEdits = cleanedRecent;
+      sessionStorage.setItem("tttt_recent_edits", JSON.stringify(recentLocalEdits));
+
+      const newOnes = [];
+      const rest = [];
+      const sheetIds = new Set((Array.isArray(sheetProducts) ? sheetProducts : []).map(x => String(x.id)));
+
+      map.forEach((val, key) => {
+        if (!sheetIds.has(key)) newOnes.unshift(val);
+        else rest.push(val);
+      });
+
+      return [...newOnes, ...rest];
+    }
 
     function openEditProductModal(id) {
       const p = products.find(item => String(item.id) === String(id));
@@ -929,6 +990,7 @@
       };
 
       products[idx] = updatedProd;
+      markRecentLocalEdit(updatedProd);
       renderProducts();
 
       if (GAS_WEBAPP_URL) {
@@ -2241,6 +2303,10 @@ Hình thức: ${method} ${address}`);
         desc: document.getElementById("npDesc").value.trim()
       };
 
+      products.unshift(newProd);
+      markRecentLocalEdit(newProd);
+      renderProducts();
+
       if (GAS_WEBAPP_URL) {
         try {
           await fetch(GAS_WEBAPP_URL, {
@@ -2258,8 +2324,6 @@ Hình thức: ${method} ${address}`);
         }
       }
 
-      products.unshift(newProd);
-      renderProducts();
       e.target.reset();
       uploadedImagesBase64 = [];
       colorMediaDrafts = [];
@@ -2282,8 +2346,8 @@ Hình thức: ${method} ${address}`);
       try {
         const res = await fetch(GAS_WEBAPP_URL + "?t=" + Date.now());
         const data = await res.json();
-        if (data && Array.isArray(data.products) && data.products.length) {
-          products = data.products;
+        if (data && Array.isArray(data.products)) {
+          products = mergeSheetProductsWithLocal(data.products);
           renderProducts();
           openSharedProductIfPresent();
           if (showAlert) alert("Đã đồng bộ " + products.length + " sản phẩm từ Google Sheets!");
