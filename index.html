@@ -439,12 +439,11 @@
 
   <!-- ==================== JAVASCRIPT ==================== -->
   <script>
-    // DÁN URL WEB APP GOOGLE APPS SCRIPT CỦA ANH VÀO ĐÂY KHI TRIỂN KHAI:
-    const GAS_WEBAPP_URL = "";
-    const ADMIN_PIN = "0906075077"; // Anh có thể đổi mã PIN này trước khi up GitHub
+    const GAS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbw0xQnj_GpV3qppAbgVQ5BFCvNmoWVAyYx3Q1zaJrb3WZZljr1HDkUNECv9m0OrpdTk/exec";
+    const ADMIN_PIN = "0906075077";
     const SHOP_ZALO = "0906075077";
 
-    // DỮ LIỆU MẪU BAN ĐẦU (Tự động dùng nếu chưa nối Google Sheets)
+    // DỮ LIỆU MẪU BAN ĐẦU (Dùng dự phòng khi Google Sheets chưa có sản phẩm nào)
     const SAMPLE_PRODUCTS = [
       {
         id: "SP01",
@@ -717,7 +716,7 @@
       const opts = (selectedProduct.options && selectedProduct.options.length) ? selectedProduct.options : ["Tiêu chuẩn"];
       box.innerHTML = opts.map(opt => {
         const active = opt === selectedOption;
-        return `<button type="button" onclick="selectProductOption('${opt.replace(/'/g, "\'")}')" class="px-3 py-1.5 rounded-xl text-xs font-bold border transition ${active ? 'bg-orange-500 text-slate-950 border-orange-500' : 'bg-slate-950 text-slate-300 border-slate-700 hover:border-slate-500'}">${opt}</button>`;
+        return `<button type="button" onclick="selectProductOption('${opt.replace(/'/g, "\\'")}')" class="px-3 py-1.5 rounded-xl text-xs font-bold border transition ${active ? 'bg-orange-500 text-slate-950 border-orange-500' : 'bg-slate-950 text-slate-300 border-slate-700 hover:border-slate-500'}">${opt}</button>`;
       }).join("");
     }
 
@@ -827,9 +826,9 @@
               <p class="text-[11px] text-slate-400">${item.option} • <span class="text-orange-400 font-bold">${formatVND(item.price)}</span></p>
             </div>
             <div class="flex items-center gap-1.5 shrink-0">
-              <button type="button" onclick="changeQty('${item.key.replace(/'/g, "\'")}', -1)" class="w-6 h-6 rounded-lg bg-slate-800 text-slate-200 font-bold">-</button>
+              <button type="button" onclick="changeQty('${item.key.replace(/'/g, "\\'")}', -1)" class="w-6 h-6 rounded-lg bg-slate-800 text-slate-200 font-bold">-</button>
               <span class="w-5 text-center font-extrabold">${item.qty}</span>
-              <button type="button" onclick="changeQty('${item.key.replace(/'/g, "\'")}', 1)" class="w-6 h-6 rounded-lg bg-slate-800 text-slate-200 font-bold">+</button>
+              <button type="button" onclick="changeQty('${item.key.replace(/'/g, "\\'")}', 1)" class="w-6 h-6 rounded-lg bg-slate-800 text-slate-200 font-bold">+</button>
             </div>
           </div>
         `;
@@ -881,7 +880,7 @@
           await fetch(GAS_WEBAPP_URL, {
             method: "POST",
             mode: "no-cors",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
             body: JSON.stringify({
               action: "createOrder",
               orderCode,
@@ -976,7 +975,7 @@ Hình thức: ${method} ${address}`);
           await fetch(GAS_WEBAPP_URL, {
             method: "POST",
             mode: "no-cors",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
             body: JSON.stringify({ action: "addProduct", product: newProd })
           });
         } catch (err) {
@@ -987,20 +986,24 @@ Hình thức: ${method} ${address}`);
 
     async function syncFromSheet(showAlert = false) {
       if (!GAS_WEBAPP_URL) {
-        if (showAlert) alert("Đang chạy chế độ dữ liệu mẫu cục bộ. Khi anh dán link GAS_WEBAPP_URL vào file index.html, nút này sẽ đồng bộ trực tiếp từ Google Sheets!");
+        if (showAlert) alert("Chưa có link GAS_WEBAPP_URL!");
         return;
       }
       const icon = document.getElementById("syncIcon");
       icon.classList.add("fa-spin");
       try {
-        const res = await fetch(GAS_WEBAPP_URL);
+        const res = await fetch(GAS_WEBAPP_URL + "?t=" + Date.now());
         const data = await res.json();
         if (data && Array.isArray(data.products) && data.products.length) {
           products = data.products;
           renderProducts();
+          if (showAlert) alert("Đã đồng bộ " + products.length + " sản phẩm từ Google Sheets!");
+        } else if (showAlert) {
+          alert("Đã kết nối Google Sheets! Hiện Sheet đang dùng danh sách mẫu ban đầu.");
         }
       } catch (err) {
         console.error("Lỗi tải dữ liệu Sheet:", err);
+        if (showAlert) alert("Chưa tải được dữ liệu từ Sheet (Kiểm tra lại quyền 'Bất kỳ ai' khi triển khai Apps Script).");
       } finally {
         icon.classList.remove("fa-spin");
       }
@@ -1054,3 +1057,4 @@ Hình thức: ${method} ${address}`);
   </script>
 </body>
 </html>
+
