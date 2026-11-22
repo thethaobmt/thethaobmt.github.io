@@ -261,9 +261,9 @@
     </div>
   </footer>
 
-  <!-- ==================== MODAL: QUAY / MỞ TÚI MÙ ==================== -->
+  <!-- ==================== MODAL: QUAY / MỞ TÚI MÙ (CHỌN GÓI CƠ BẢN / TIÊU CHUẨN / PREMIUM) ==================== -->
   <div id="mysteryModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-3">
-    <div class="bg-slate-900 border border-amber-500/40 rounded-3xl max-w-md w-full p-5 space-y-4 text-xs shadow-2xl max-h-[92vh] overflow-y-auto">
+    <div class="bg-slate-900 border border-amber-500/40 rounded-3xl max-w-md w-full p-5 space-y-3.5 text-xs shadow-2xl max-h-[92vh] overflow-y-auto">
       <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
         <div>
           <span class="text-[10px] font-extrabold uppercase text-amber-400">TRẢI NGHIỆM BỐC TÚI MÙ</span>
@@ -272,15 +272,21 @@
         <button onclick="closeModal('mysteryModal')" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-base"></i></button>
       </div>
 
+      <!-- CHỌN HẠNG GÓI (CƠ BẢN / TIÊU CHUẨN / PREMIUM) -->
+      <div class="space-y-1.5">
+        <span class="block text-[11px] font-bold text-slate-300">1. Chọn hạng gói túi mù (giá trị quà luôn cao hơn giá gói):</span>
+        <div id="mmTierGrid" class="grid grid-cols-3 gap-2"></div>
+      </div>
+
       <!-- SÂN KHẤU QUAY & MỞ TÚI -->
       <div class="p-4 rounded-2xl bg-gradient-to-br from-slate-950 via-slate-900 to-amber-950/30 border border-amber-500/30 text-center space-y-3">
-        <div id="mmBagVisual" class="w-20 h-20 mx-auto rounded-2xl bg-gradient-to-br from-amber-400 to-orange-600 text-slate-950 flex items-center justify-center text-3xl shadow-lg shadow-orange-500/25">
+        <div id="mmBagVisual" class="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-amber-400 to-orange-600 text-slate-950 flex items-center justify-center text-2xl shadow-lg shadow-orange-500/25">
           <i class="fa-solid fa-gift"></i>
         </div>
 
-        <div class="space-y-1 min-h-[54px] flex flex-col items-center justify-center">
+        <div class="space-y-1 min-h-[50px] flex flex-col items-center justify-center">
           <span id="mmRarityBadge" class="hidden px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase"></span>
-          <p id="mmSlotText" class="text-sm sm:text-base font-black text-amber-300">Bấm nút bên dưới để bốc & hé lộ món quà trong túi!</p>
+          <p id="mmSlotText" class="text-sm font-black text-amber-300">Bấm nút bên dưới để bốc & hé lộ món quà trong túi!</p>
         </div>
 
         <button type="button" id="mmSpinBtn" onclick="spinMysteryBag()" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-300 hover:to-orange-400 text-slate-950 font-black text-xs uppercase tracking-wide shadow-md transition">
@@ -291,38 +297,33 @@
       <!-- DANH SÁCH MÓN CÓ THỂ CÓ TRONG GÓI -->
       <div class="space-y-1.5">
         <div class="flex items-center justify-between text-[11px]">
-          <span class="font-bold text-slate-300">Danh sách món có thể trúng trong gói:</span>
+          <span class="font-bold text-slate-300">Quà có thể trúng trong <strong id="mmActiveTierLabel" class="text-amber-300">gói này</strong>:</span>
           <span id="mmPoolCount" class="text-amber-400 font-extrabold"></span>
         </div>
         <div id="mmPoolList" class="flex flex-wrap gap-1.5"></div>
       </div>
 
-      <!-- CHỌN PHÂN LOẠI GÓI & SỐ LƯỢNG -->
-      <div class="grid grid-cols-2 gap-2 items-end pt-1">
+      <!-- SỐ LƯỢNG & TỔNG TIỀN -->
+      <div class="flex items-center justify-between pt-2 border-t border-slate-800">
         <div>
-          <label class="block text-[11px] font-bold text-slate-400 mb-1">Phân loại gói</label>
-          <select id="mmOptionSelect" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100 font-bold"></select>
+          <span class="text-[11px] text-slate-400 block">Đơn giá gói:</span>
+          <span id="mmPrice" class="text-base font-black text-orange-400"></span>
         </div>
-        <div>
-          <label class="block text-[11px] font-bold text-slate-400 mb-1">Số lượng túi</label>
-          <div class="inline-flex items-center rounded-xl border border-slate-700 bg-slate-950 overflow-hidden w-full justify-between">
-            <button type="button" onclick="changeMysteryQty(-1)" class="px-3 py-2 text-slate-200 hover:bg-slate-800 font-black">-</button>
-            <span id="mmQtyValue" class="font-black text-white text-xs">1</span>
-            <button type="button" onclick="changeMysteryQty(1)" class="px-3 py-2 text-slate-200 hover:bg-slate-800 font-black">+</button>
+        <div class="flex items-center gap-2">
+          <span class="text-[11px] font-bold text-slate-400">Số lượng:</span>
+          <div class="inline-flex items-center rounded-xl border border-slate-700 bg-slate-950 overflow-hidden">
+            <button type="button" onclick="changeMysteryQty(-1)" class="px-3 py-1.5 text-slate-200 hover:bg-slate-800 font-black">-</button>
+            <span id="mmQtyValue" class="px-3 py-1.5 font-black text-white text-xs">1</span>
+            <button type="button" onclick="changeMysteryQty(1)" class="px-3 py-1.5 text-slate-200 hover:bg-slate-800 font-black">+</button>
           </div>
         </div>
       </div>
 
-      <div class="flex items-center justify-between pt-1 border-t border-slate-800">
-        <span class="text-slate-400 font-bold">Giá gói:</span>
-        <span id="mmPrice" class="text-base font-black text-orange-400"></span>
-      </div>
-
-      <div class="grid grid-cols-2 gap-2">
-        <button type="button" onclick="addMysteryToCart()" class="py-2.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-extrabold">
+      <div class="grid grid-cols-2 gap-2 pt-1">
+        <button type="button" onclick="addMysteryToCart()" class="py-2.5 px-2 rounded-xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-extrabold text-center">
           <i class="fa-solid fa-cart-plus mr-1"></i>Thêm vào đơn
         </button>
-        <a id="mmZaloBtn" href="#" target="_blank" class="py-2.5 rounded-xl bg-sky-500/20 hover:bg-sky-500/30 border border-sky-500/40 text-sky-300 font-extrabold text-center">
+        <a id="mmZaloBtn" href="#" target="_blank" class="py-2.5 px-2 rounded-xl bg-sky-500/20 hover:bg-sky-500/30 border border-sky-500/40 text-sky-300 font-extrabold text-center">
           <i class="fa-solid fa-comment-dots mr-1"></i>Chốt nhanh Zalo
         </a>
       </div>
@@ -485,7 +486,6 @@
         <button onclick="closeModal('productModal')" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-base"></i></button>
       </div>
 
-      <!-- KHUNG ẢNH 1:1 + NÚT CHUYỂN + DẢI ẢNH THU NHỎ -->
       <div class="space-y-2">
         <div class="relative aspect-square w-full max-w-[270px] mx-auto rounded-2xl overflow-hidden bg-slate-950 border border-slate-800">
           <img id="pmImage" src="" alt="" class="w-full h-full object-cover object-top" />
@@ -510,7 +510,6 @@
         </button>
       </div>
 
-      <!-- CHỌN MÀU KÈM ẢNH NHỎ -->
       <div id="pmColorSection" class="hidden space-y-1.5">
         <div class="flex items-center gap-2 text-xs">
           <span class="font-bold text-slate-300">Màu</span>
@@ -519,7 +518,6 @@
         <div id="pmColorGrid" class="grid grid-cols-2 sm:grid-cols-4 gap-2"></div>
       </div>
 
-      <!-- CHỌN SIZE / PHÂN LOẠI -->
       <div class="space-y-1.5">
         <div class="flex items-center gap-2 text-xs">
           <span class="font-bold text-slate-300" id="pmOptionHeading">Size</span>
@@ -528,7 +526,6 @@
         <div id="pmOptions" class="flex flex-wrap gap-1.5"></div>
       </div>
 
-      <!-- CHỌN SỐ LƯỢNG -->
       <div class="flex items-center justify-between pt-1">
         <span class="text-xs font-bold text-slate-300">Số lượng</span>
         <div class="inline-flex items-center rounded-xl border border-slate-700 bg-slate-950 overflow-hidden">
@@ -670,14 +667,13 @@
           </select>
         </div>
         <div class="grid grid-cols-2 gap-2">
-          <input type="number" id="npPrice" required placeholder="Giá bán (VNĐ) *" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
+          <input type="number" id="npPrice" required placeholder="Giá bán / Giá gói khởi điểm (VNĐ) *" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
           <input type="number" id="npOldPrice" placeholder="Giá gốc gạch ngang (nếu có)" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
         </div>
         <input type="text" id="npColors" oninput="syncColorBlocksFromInput()" placeholder="Các màu (cách nhau dấu phẩy, VD: Trắng, Xanh Navy, Hồng Nhạt)" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
-        <input type="text" id="npOptions" required placeholder="Size / Phân loại (cách nhau dấu phẩy: M, L, XL, XXL hoặc 39, 40, 41) *" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
+        <input type="text" id="npOptions" required placeholder="Size / Gói (VD: Cơ Bản: 99000, Tiêu Chuẩn: 149000, Premium: 249000) *" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
         <input type="text" id="npBadge" placeholder="Nhãn nổi bật (tùy chọn)" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
 
-        <!-- KHỐI ẢNH THEO TỪNG MÀU (MỖI MÀU CÓ 1 ẢNH CHÍNH + TỐI ĐA 5 ẢNH CHI TIẾT) -->
         <div id="npPerColorSection" class="hidden p-3 rounded-2xl bg-slate-950 border border-slate-700 space-y-2.5">
           <div class="flex items-center justify-between">
             <span class="text-[11px] font-extrabold text-amber-400">ẢNH THEO TỪNG MÀU (1 ảnh màu + tối đa 5 ảnh chi tiết/màu)</span>
@@ -685,7 +681,6 @@
           <div id="npPerColorList" class="space-y-2.5"></div>
         </div>
 
-        <!-- KHO ẢNH CHUNG (DÙNG KHI SẢN PHẨM KHÔNG CHIA MÀU RIÊNG) -->
         <div id="npDefaultImagesSection" class="p-3 rounded-2xl bg-slate-950 border border-dashed border-slate-700 space-y-2">
           <div class="flex items-center justify-between gap-2">
             <label for="npImageFiles" class="cursor-pointer px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-orange-400 font-extrabold inline-flex items-center gap-1.5 transition shrink-0">
@@ -698,7 +693,7 @@
           <div id="npImagePreviewGrid" class="grid grid-cols-3 gap-2"></div>
         </div>
 
-        <textarea id="npDesc" rows="2" placeholder="Mô tả chi tiết sản phẩm (với Túi Mù, liệt kê các món có thể trúng cách nhau dấu phẩy)..." class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100"></textarea>
+        <textarea id="npDesc" rows="3" placeholder="Mô tả chi tiết (với Túi Mù nhiều gói, ghi từng dòng: Cơ Bản: món 1, món 2...)" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100"></textarea>
         <button type="submit" id="btnSaveProduct" class="w-full py-2.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-extrabold">Lưu & Đồng Bộ Lên Google Sheets</button>
       </form>
     </div>
@@ -723,14 +718,27 @@
     const SHOP_ZALO = "0906075077";
     const MAX_IMAGES = 5;
     const MAX_DETAIL_PER_COLOR = 5;
-    const DEFAULT_MYSTERY_POOL = [
-      "Quấn cán vợt cao su/vải",
-      "Vớ thể thao cổ cao/cổ ngắn",
-      "Băng cổ tay / băng trán thấm mồ hôi",
-      "Dây buộc giày thể thao",
-      "Túi rút phụ kiện thể thao",
-      "Bình nước / Phễu / Phụ kiện sân tập"
-    ];
+
+    const DEFAULT_TIER_POOLS = {
+      basic: [
+        "Combo 3 quấn cán + 1 vớ chống trượt (115K)",
+        "Túi đựng giày 2 ngăn chống nước (120K)",
+        "Băng bảo vệ gối thể thao (130K)",
+        "Bóng tập luyện chính hãng (180K)"
+      ],
+      standard: [
+        "Áo thi đấu thể thao cao cấp (165K)",
+        "Balo rút 2 ngăn chống nước (175K)",
+        "Bộ 2 băng bảo vệ khớp chuyên dụng (185K)",
+        "Bóng thi đấu / Vợt tập luyện (260K)"
+      ],
+      premium: [
+        "Bộ quần áo thi đấu cao cấp (265K)",
+        "Balo thể thao chuyên dụng cỡ lớn (320K)",
+        "Vợt Pickleball / Giày thể thao (380K)",
+        "Voucher 300K mua giày tại shop (300K)"
+      ]
+    };
 
     const SAMPLE_PRODUCTS = [];
     const FALLBACK_SQUARE_IMG = "https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=600&h=600&q=80";
@@ -744,8 +752,9 @@
     let uploadedImagesBase64 = [];
     let colorMediaDrafts = [];
 
-    // Biến trạng thái riêng cho Modal Quay / Mở Túi Mù
     let activeMysteryProduct = null;
+    let mysteryTiers = [];
+    let selectedMysteryTierIdx = 0;
     let mysteryPool = [];
     let mysteryRevealedItem = "";
     let mysteryQty = 1;
@@ -770,14 +779,83 @@
       setCategory(currentCategory);
     }
 
-    function getMysteryPoolFromProduct(p) {
-      const raw = String((p && p.desc) || "").trim();
-      if (!raw) return [...DEFAULT_MYSTERY_POOL];
-      const parts = raw
-        .split(/[,|\n;]+/)
-        .map(s => s.replace(/^[-•*]+\s*/, "").trim())
-        .filter(Boolean);
-      return parts.length >= 2 ? parts : [...DEFAULT_MYSTERY_POOL];
+    function detectTierKey(label) {
+      const s = String(label || "").toLowerCase();
+      if (s.includes("premium") || s.includes("vip") || s.includes("đặc biệt") || s.includes("cao cấp")) return "premium";
+      if (s.includes("tiêu chuẩn") || s.includes("standard") || s.includes("nâng cao")) return "standard";
+      return "basic";
+    }
+
+    function parseMysteryTiers(p) {
+      const basePrice = Number(p.price || 99000);
+      const rawOpts = Array.isArray(p.options) && p.options.length
+        ? p.options
+        : ["Gói Cơ Bản", "Gói Tiêu Chuẩn", "Gói Premium"];
+
+      const tiers = rawOpts.map((entry, idx) => {
+        const text = String(entry || "").trim();
+        const match = text.match(/^(.+?)\s*[:=-]\s*(\d[\d.,]*)\s*k?$/i);
+        if (match) {
+          const name = match[1].trim();
+          let num = Number(match[2].replace(/[.,]/g, ""));
+          if (/k$/i.test(text) && num < 10000) num *= 1000;
+          return { name, price: num || basePrice };
+        }
+        const key = detectTierKey(text);
+        let inferredPrice = basePrice;
+        if (rawOpts.length >= 2) {
+          if (key === "standard" || (idx === 1 && key === "basic")) inferredPrice = Math.round(basePrice * 1.5);
+          if (key === "premium" || idx >= 2) inferredPrice = Math.round(basePrice * 2.5);
+        }
+        return { name: text, price: inferredPrice };
+      });
+
+      const rawDesc = String((p && p.desc) || "").trim();
+      const tierPoolsMap = new Map();
+      const generalPool = [];
+
+      if (rawDesc) {
+        rawDesc.split(/\n+/).forEach(line => {
+          const cleanLine = line.trim();
+          if (!cleanLine) return;
+          const colonIdx = cleanLine.indexOf(":");
+          if (colonIdx > 0 && colonIdx < 35) {
+            const prefix = cleanLine.slice(0, colonIdx).trim().toLowerCase();
+            const items = cleanLine.slice(colonIdx + 1)
+              .split(/[,|;]+/)
+              .map(s => s.replace(/^[-•*]+\s*/, "").trim())
+              .filter(Boolean);
+            if (items.length) {
+              tierPoolsMap.set(prefix, items);
+              return;
+            }
+          }
+          cleanLine.split(/[,|;]+/)
+            .map(s => s.replace(/^[-•*]+\s*/, "").trim())
+            .filter(Boolean)
+            .forEach(item => generalPool.push(item));
+        });
+      }
+
+      return tiers.map(t => {
+        const lowerName = t.name.toLowerCase();
+        let matchedPool = null;
+        for (const [prefix, items] of tierPoolsMap.entries()) {
+          if (lowerName.includes(prefix) || prefix.includes(lowerName)) {
+            matchedPool = items;
+            break;
+          }
+        }
+        if (!matchedPool) {
+          if (generalPool.length >= 2) {
+            matchedPool = generalPool;
+          } else {
+            const key = detectTierKey(t.name);
+            matchedPool = [...(DEFAULT_TIER_POOLS[key] || DEFAULT_TIER_POOLS.basic)];
+          }
+        }
+        return { ...t, pool: matchedPool };
+      });
     }
 
     function openMysteryModal(id) {
@@ -789,53 +867,83 @@
       }
 
       activeMysteryProduct = p;
-      mysteryPool = getMysteryPoolFromProduct(p);
-      mysteryRevealedItem = "";
+      mysteryTiers = parseMysteryTiers(p);
+      selectedMysteryTierIdx = 0;
       mysteryQty = 1;
 
       document.getElementById("mmTitle").innerText = p.name;
-      document.getElementById("mmPrice").innerText = formatVND(p.price);
       document.getElementById("mmQtyValue").innerText = mysteryQty;
-      document.getElementById("mmPoolCount").innerText = `${mysteryPool.length} món`;
+
+      selectMysteryTier(0);
+      document.getElementById("mysteryModal").classList.remove("hidden");
+    }
+
+    function selectMysteryTier(idx) {
+      if (mysterySpinTimer) {
+        clearInterval(mysterySpinTimer);
+        mysterySpinTimer = null;
+      }
+      selectedMysteryTierIdx = idx;
+      const tier = mysteryTiers[idx] || mysteryTiers[0];
+      mysteryPool = tier ? tier.pool : [...DEFAULT_TIER_POOLS.basic];
+      mysteryRevealedItem = "";
+
+      const tierGrid = document.getElementById("mmTierGrid");
+      tierGrid.className = mysteryTiers.length === 2 ? "grid grid-cols-2 gap-2" : (mysteryTiers.length === 1 ? "grid grid-cols-1 gap-2" : "grid grid-cols-3 gap-2");
+
+      tierGrid.innerHTML = mysteryTiers.map((t, i) => {
+        const active = i === selectedMysteryTierIdx;
+        return `
+          <button type="button" onclick="selectMysteryTier(${i})" class="p-2 rounded-2xl border-2 text-center transition flex flex-col items-center justify-center gap-0.5 ${active ? 'border-amber-400 bg-amber-400/15' : 'border-slate-800 bg-slate-950 hover:border-slate-700'}">
+            <span class="text-[11px] font-black ${active ? 'text-white' : 'text-slate-300'} line-clamp-1">${t.name}</span>
+            <span class="text-xs font-black ${active ? 'text-orange-400' : 'text-slate-400'}">${formatVND(t.price)}</span>
+          </button>
+        `;
+      }).join("");
 
       const bagEl = document.getElementById("mmBagVisual");
-      bagEl.className = "w-20 h-20 mx-auto rounded-2xl bg-gradient-to-br from-amber-400 to-orange-600 text-slate-950 flex items-center justify-center text-3xl shadow-lg shadow-orange-500/25";
+      bagEl.className = "w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-amber-400 to-orange-600 text-slate-950 flex items-center justify-center text-2xl shadow-lg shadow-orange-500/25";
       bagEl.innerHTML = `<i class="fa-solid fa-gift"></i>`;
 
-      const rarityEl = document.getElementById("mmRarityBadge");
-      rarityEl.classList.add("hidden");
-
+      document.getElementById("mmRarityBadge").classList.add("hidden");
       const slotEl = document.getElementById("mmSlotText");
-      slotEl.className = "text-sm sm:text-base font-black text-amber-300";
+      slotEl.className = "text-sm font-black text-amber-300";
       slotEl.innerText = "Bấm nút bên dưới để bốc & hé lộ món quà trong túi!";
 
       const spinBtn = document.getElementById("mmSpinBtn");
       spinBtn.disabled = false;
-      spinBtn.innerHTML = `<i class="fa-solid fa-dice mr-1.5"></i>Quay / Mở Túi Mù Ngay`;
+      spinBtn.innerHTML = `<i class="fa-solid fa-dice mr-1.5"></i>Quay / Mở ${tier.name}`;
 
-      document.getElementById("mmPoolList").innerHTML = mysteryPool.map(item => `
-        <span class="px-2.5 py-1 rounded-xl bg-slate-950 border border-slate-800 text-[11px] font-bold text-slate-300">${item}</span>
-      `).join("");
+      document.getElementById("mmActiveTierLabel").innerText = tier.name;
+      document.getElementById("mmPoolCount").innerText = `${mysteryPool.length} suất quà`;
+      document.getElementById("mmPoolList").innerHTML = mysteryPool.map((item, itemIdx) => {
+        const isLastSpecial = mysteryPool.length >= 3 && itemIdx === mysteryPool.length - 1;
+        return `<span class="px-2.5 py-1 rounded-xl border text-[11px] font-bold ${isLastSpecial ? 'bg-amber-500/15 border-amber-500/40 text-amber-300' : 'bg-slate-950 border-slate-800 text-slate-300'}">${isLastSpecial ? '★ ' : ''}${item}</span>`;
+      }).join("");
 
-      const opts = (p.options && p.options.length) ? p.options : ["Tiêu chuẩn"];
-      const selectEl = document.getElementById("mmOptionSelect");
-      selectEl.innerHTML = opts.map(o => `<option value="${o}">${o}</option>`).join("");
-      selectEl.onchange = updateMysteryZaloLink;
-
+      document.getElementById("mmPrice").innerText = formatVND(tier.price);
       updateMysteryZaloLink();
-      document.getElementById("mysteryModal").classList.remove("hidden");
+    }
+
+    function pickWeightedIndex(len) {
+      if (len <= 1) return 0;
+      if (len === 2) return Math.random() < 0.85 ? 0 : 1;
+      // Món cuối là Giải Đặc Biệt (Secret ~8%), các món đầu chia đều 92%
+      if (Math.random() < 0.08) return len - 1;
+      return Math.floor(Math.random() * (len - 1));
     }
 
     function spinMysteryBag() {
       if (!activeMysteryProduct || !mysteryPool.length || mysterySpinTimer) return;
 
+      const tier = mysteryTiers[selectedMysteryTierIdx] || mysteryTiers[0];
       const spinBtn = document.getElementById("mmSpinBtn");
       const bagEl = document.getElementById("mmBagVisual");
       const slotEl = document.getElementById("mmSlotText");
       const rarityEl = document.getElementById("mmRarityBadge");
 
       spinBtn.disabled = true;
-      spinBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-1.5"></i>Đang lắc & mở túi...`;
+      spinBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-1.5"></i>Đang lắc & mở ${tier.name}...`;
       bagEl.classList.add("bag-shaking");
       rarityEl.classList.add("hidden");
 
@@ -851,18 +959,18 @@
           clearInterval(mysterySpinTimer);
           mysterySpinTimer = null;
 
-          const pickedIdx = Math.floor(Math.random() * mysteryPool.length);
+          const pickedIdx = pickWeightedIndex(mysteryPool.length);
           mysteryRevealedItem = mysteryPool[pickedIdx];
 
           bagEl.classList.remove("bag-shaking");
           bagEl.innerHTML = `<i class="fa-solid fa-sparkles"></i>`;
 
-          const isSpecial = pickedIdx === mysteryPool.length - 1 || pickedIdx === 0;
+          const isSecret = mysteryPool.length >= 2 && pickedIdx === mysteryPool.length - 1;
           rarityEl.classList.remove("hidden");
-          rarityEl.className = isSpecial
+          rarityEl.className = isSecret
             ? "px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-amber-400/20 text-amber-300 border border-amber-400/40"
             : "px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-500/40";
-          rarityEl.innerText = isSpecial ? "★ Quà Nổi Bật Trong Túi" : "✓ Món Quà Hé Lộ";
+          rarityEl.innerText = isSecret ? "★ Giải Đặc Biệt (Secret)" : "✓ Suất Quà Hé Lộ";
 
           slotEl.className = "text-base font-black text-white reveal-pop";
           slotEl.innerText = mysteryRevealedItem;
@@ -883,17 +991,24 @@
 
     function updateMysteryZaloLink() {
       if (!activeMysteryProduct) return;
-      const opt = document.getElementById("mmOptionSelect").value || "Tiêu chuẩn";
+      const tier = mysteryTiers[selectedMysteryTierIdx] || mysteryTiers[0];
       const luckyNote = mysteryRevealedItem ? ` | Quay mở ra: ${mysteryRevealedItem}` : "";
-      const msg = encodeURIComponent(`Chào Thể Thao Thanh Tâm BMT, mình đặt Túi Mù: ${activeMysteryProduct.name} (${opt}${luckyNote}) x${mysteryQty} - Tổng ${formatVND(activeMysteryProduct.price * mysteryQty)}`);
+      const msg = encodeURIComponent(`Chào Thể Thao Thanh Tâm BMT, mình đặt Túi Mù: ${activeMysteryProduct.name} - ${tier.name} (${formatVND(tier.price)}/túi${luckyNote}) x${mysteryQty} - Tổng ${formatVND(tier.price * mysteryQty)}`);
       document.getElementById("mmZaloBtn").href = `https://zalo.me/${SHOP_ZALO}?text=${msg}`;
     }
 
     function addMysteryToCart() {
       if (!activeMysteryProduct) return;
-      const opt = document.getElementById("mmOptionSelect").value || "Tiêu chuẩn";
-      const combinedOpt = mysteryRevealedItem ? `${opt} • Mở ra: ${mysteryRevealedItem}` : `${opt} • Túi mù ngẫu nhiên`;
-      addToCart(activeMysteryProduct, combinedOpt, mysteryQty);
+      const tier = mysteryTiers[selectedMysteryTierIdx] || mysteryTiers[0];
+      const combinedOpt = mysteryRevealedItem
+        ? `${tier.name} • Mở ra: ${mysteryRevealedItem}`
+        : `${tier.name} • Túi mù ngẫu nhiên`;
+
+      const productForTier = {
+        ...activeMysteryProduct,
+        price: tier.price
+      };
+      addToCart(productForTier, combinedOpt, mysteryQty);
       closeModal("mysteryModal");
       toggleCart(true);
     }
@@ -1230,7 +1345,7 @@
         mystery: {
           tag: "Túi Mù & Set Quà Tặng Thể Thao",
           title: "Bốc / Mở Túi Mù Phụ Kiện & Set Quà Tặng Đóng Gói Theo Yêu Cầu",
-          desc: "Quay mở thử quà trước khi chốt • Phù hợp làm quà tặng, giải đấu phong trào tại BMT."
+          desc: "Chọn gói Cơ Bản / Tiêu Chuẩn / Premium • Giá trị quà trong túi luôn cao hơn giá gói."
         },
         clearance: {
           tag: "Săn Hàng Lẻ Size Cuối Tại Shop",
@@ -1292,7 +1407,11 @@
         const variantLabel = defaultColor ? `${defaultColor} - ${defaultOpt}` : defaultOpt;
         const sizeType = detectSizeTypeFromName(p.name);
         const isMystery = p.section === "mystery";
-        const zaloMsg = encodeURIComponent(`Chào Thể Thao Thanh Tâm BMT, mình muốn hỏi mua: ${p.name} (${variantLabel}) - Giá ${formatVND(p.price)}`);
+        const mysteryTierList = isMystery ? parseMysteryTiers(p) : [];
+        const minTierPrice = isMystery && mysteryTierList.length
+          ? Math.min(...mysteryTierList.map(t => t.price))
+          : p.price;
+        const zaloMsg = encodeURIComponent(`Chào Thể Thao Thanh Tâm BMT, mình muốn hỏi mua: ${p.name} (${variantLabel}) - Giá từ ${formatVND(minTierPrice)}`);
 
         return `
           <article class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between group hover:border-orange-500/50 transition">
@@ -1308,13 +1427,13 @@
                   ${sizeType ? `<button onclick="openSizeModal('${sizeType}')" class="text-amber-400 hover:underline font-bold">Bảng size</button>` : ""}
                 </div>
                 <h3 onclick="${isMystery ? `openMysteryModal('${p.id}')` : `openProductDetail('${p.id}')`}" class="text-xs sm:text-sm font-extrabold text-slate-100 line-clamp-2 cursor-pointer hover:text-orange-400 transition">${p.name}</h3>
-                <p class="text-[11px] text-slate-400 truncate">${isMystery ? `Quay mở túi mù • ${(p.options || ["Tiêu chuẩn"]).join(" • ")}` : (colorList.length ? colorList.map(c => c.name).join(" • ") : (p.options || []).join(" • "))}</p>
+                <p class="text-[11px] text-slate-400 truncate">${isMystery ? mysteryTierList.map(t => t.name).join(" • ") : (colorList.length ? colorList.map(c => c.name).join(" • ") : (p.options || []).join(" • "))}</p>
               </div>
             </div>
 
             <div class="px-3 pb-3 pt-1 space-y-2">
               <div class="flex items-baseline gap-1.5">
-                <span class="text-sm sm:text-base font-black text-orange-400">${formatVND(p.price)}</span>
+                <span class="text-sm sm:text-base font-black text-orange-400">${isMystery && mysteryTierList.length > 1 ? `Từ ${formatVND(minTierPrice)}` : formatVND(p.price)}</span>
                 ${p.oldPrice ? `<span class="text-[10px] text-slate-500 line-through">${formatVND(p.oldPrice)}</span>` : ""}
               </div>
               <div class="grid grid-cols-5 gap-1.5">
