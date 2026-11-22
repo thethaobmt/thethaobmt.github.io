@@ -476,7 +476,12 @@
         <h3 class="text-sm font-black text-white flex items-center gap-2">
           <i class="fa-solid fa-bag-shopping text-orange-400"></i>ĐƠN HÀNG CỦA BẠN
         </h3>
-        <button onclick="toggleCart(false)" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-base"></i></button>
+        <div class="flex items-center gap-2">
+          <button type="button" id="btnClearCart" onclick="clearCart()" class="hidden px-2 py-1 rounded-lg bg-rose-500/15 hover:bg-rose-500/25 border border-rose-500/40 text-rose-300 text-[11px] font-bold transition">
+            Xóa tất cả
+          </button>
+          <button onclick="toggleCart(false)" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-base"></i></button>
+        </div>
       </div>
 
       <div id="cartItemsList" class="flex-1 overflow-y-auto py-3 space-y-2.5"></div>
@@ -1149,6 +1154,17 @@
       saveCart();
     }
 
+    function removeCartItem(key) {
+      cart = cart.filter(item => item.key !== key);
+      saveCart();
+    }
+
+    function clearCart() {
+      if (!cart.length) return;
+      cart = [];
+      saveCart();
+    }
+
     function saveCart() {
       localStorage.setItem("tttt_cart", JSON.stringify(cart));
       renderCart();
@@ -1158,17 +1174,22 @@
       const totalItems = cart.reduce((sum, i) => sum + i.qty, 0);
       document.getElementById("cartBadge").innerText = totalItems;
 
+      const btnClear = document.getElementById("btnClearCart");
       const list = document.getElementById("cartItemsList");
       if (!cart.length) {
+        if (btnClear) btnClear.classList.add("hidden");
         list.innerHTML = `<div class="text-center text-slate-500 py-10">Giỏ hàng đang trống. Anh/chị chọn sản phẩm ở cửa hàng nhé!</div>`;
         document.getElementById("cartSubtotal").innerText = "0đ";
         document.getElementById("cartTotal").innerText = "0đ";
         return;
       }
 
+      if (btnClear) btnClear.classList.remove("hidden");
+
       let subtotal = 0;
       list.innerHTML = cart.map(item => {
         subtotal += item.price * item.qty;
+        const safeKey = item.key.replace(/'/g, "\\'");
         return `
           <div class="p-2.5 rounded-2xl bg-slate-950 border border-slate-800 flex items-center justify-between gap-2">
             <div class="min-w-0">
@@ -1176,9 +1197,12 @@
               <p class="text-[11px] text-slate-400">${item.option} • <span class="text-orange-400 font-bold">${formatVND(item.price)}</span></p>
             </div>
             <div class="flex items-center gap-1.5 shrink-0">
-              <button type="button" onclick="changeQty('${item.key.replace(/'/g, "\\'")}', -1)" class="w-6 h-6 rounded-lg bg-slate-800 text-slate-200 font-bold">-</button>
+              <button type="button" onclick="changeQty('${safeKey}', -1)" class="w-6 h-6 rounded-lg bg-slate-800 text-slate-200 font-bold">-</button>
               <span class="w-5 text-center font-extrabold">${item.qty}</span>
-              <button type="button" onclick="changeQty('${item.key.replace(/'/g, "\\'")}', 1)" class="w-6 h-6 rounded-lg bg-slate-800 text-slate-200 font-bold">+</button>
+              <button type="button" onclick="changeQty('${safeKey}', 1)" class="w-6 h-6 rounded-lg bg-slate-800 text-slate-200 font-bold">+</button>
+              <button type="button" onclick="removeCartItem('${safeKey}')" class="w-6 h-6 rounded-lg bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 flex items-center justify-center transition" title="Xóa sản phẩm này">
+                <i class="fa-solid fa-trash-can text-[11px]"></i>
+              </button>
             </div>
           </div>
         `;
