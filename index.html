@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>THỂ THAO THANH TÂM BMT • Bóng Chuyền • Bóng Đá • Phụ Kiện Thể Thao</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap');
+    body { font-family: 'Be Vietnam Pro', sans-serif; background-color: #090d16; color: #f1f5f9; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .glass-card { background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(51, 65, 85, 0.75); }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-orange-500 selection:text-white">
+
+  <!-- ==================== HEADER ==================== -->
+  <header class="sticky top-0 z-40 bg-slate-950/90 backdrop-blur-md border-b border-slate-800/80">
+    <div class="max-w-5xl mx-auto px-3.5 py-2.5 flex items-center justify-between gap-2">
+      <div class="flex items-center gap-2.5 min-w-0">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center text-slate-950 font-black text-base shrink-0 shadow-lg shadow-orange-500/20">
+          TT
+        </div>
+        <div class="truncate">
+          <div class="flex items-center gap-1.5">
+            <h1 class="text-sm sm:text-base font-black tracking-tight text-white truncate">THỂ THAO THANH TÂM BMT</h1>
+            <span class="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-bold rounded bg-orange-500/15 text-orange-400 border border-orange-500/30">Đại lý Kaiwin</span>
+          </div>
+          <p class="text-[11px] text-slate-400 truncate">08 Nguyễn Đình Chiểu, Buôn Ma Thuột • Zalo: 0906.075.077</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-1.5 shrink-0">
+        <button onclick="openSizeModal()" class="px-2.5 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-bold text-amber-400 flex items-center gap-1.5 transition" title="Tư vấn chọn size giày">
+          <i class="fa-solid fa-ruler-combined"></i>
+          <span class="hidden sm:inline">Tư vấn size</span>
+        </button>
+
+        <button onclick="syncFromSheet(true)" id="btnSync" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 text-xs transition" title="Đồng bộ dữ liệu">
+          <i class="fa-solid fa-rotate" id="syncIcon"></i>
+        </button>
+
+        <button onclick="toggleCart(true)" class="relative px-3 py-1.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-extrabold text-xs flex items-center gap-1.5 shadow-md shadow-orange-500/20 transition">
+          <i class="fa-solid fa-bag-shopping"></i>
+          <span>Đơn hàng</span>
+          <span id="cartBadge" class="px-1.5 py-0.2 rounded-full bg-slate-950 text-orange-400 text-[10px] font-black">0</span>
+        </button>
+
+        <button onclick="openAdminModal()" id="btnAdmin" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-400 hover:text-orange-400 text-xs transition" title="Quản trị cửa hàng">
+          <i class="fa-solid fa-lock" id="adminLockIcon"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- MAIN TABS -->
+    <div class="max-w-5xl mx-auto px-3.5 pb-2 flex items-center gap-1.5 overflow-x-auto no-scrollbar">
+      <button onclick="switchTab('store')" id="tab-store" class="tab-btn px-3.5 py-1.5 rounded-xl text-xs font-extrabold bg-orange-500 text-slate-950 shrink-0 transition">
+        <i class="fa-solid fa-store mr-1"></i>Cửa Hàng
+      </button>
+      <button onclick="switchTab('mystery')" id="tab-mystery" class="tab-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-900 text-slate-300 hover:bg-slate-800 border border-slate-800 shrink-0 transition">
+        <i class="fa-solid fa-gift mr-1 text-amber-400"></i>Túi Mù & Set Quà
+      </button>
+      <button onclick="switchTab('clearance')" id="tab-clearance" class="tab-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-900 text-slate-300 hover:bg-slate-800 border border-slate-800 shrink-0 transition">
+        <i class="fa-solid fa-bolt mr-1 text-emerald-400"></i>Săn Hàng Lẻ Size
+      </button>
+      <button onclick="openSizeModal()" class="sm:hidden px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-900 text-amber-400 border border-slate-800 shrink-0">
+        <i class="fa-solid fa-ruler mr-1"></i>Đo Size Giày
+      </button>
+    </div>
+  </header>
+
+  <!-- ==================== MAIN CONTENT ==================== -->
+  <main class="flex-1 max-w-5xl w-full mx-auto px-3.5 py-4 space-y-4">
+
+    <!-- ADMIN BAR (HIDDEN BY DEFAULT) -->
+    <section id="adminBar" class="hidden glass-card rounded-2xl p-3.5 border-orange-500/40 space-y-3">
+      <div class="flex flex-wrap items-center justify-between gap-2">
+        <div class="flex items-center gap-2">
+          <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-[10px] font-extrabold uppercase">Chế độ Quản Trị Shop</span>
+          <span class="text-xs text-slate-300">Chỉ Admin mới đăng/ẩn sản phẩm chính chủ</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="openAddProductModal()" class="px-3 py-1.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-extrabold text-xs">
+            <i class="fa-solid fa-plus mr-1"></i>Thêm Sản Phẩm Mới
+          </button>
+          <button onclick="logoutAdmin()" class="px-2.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold">
+            Thoát Admin
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- INFO BANNER -->
+    <section class="glass-card rounded-2xl p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div class="space-y-0.5">
+        <p class="text-xs font-extrabold text-orange-400 uppercase tracking-wide" id="bannerTag">Chuyên Bóng Chuyền • Bóng Đá • Phụ Kiện Thể Thao</p>
+        <h2 class="text-sm sm:text-base font-extrabold text-white" id="bannerTitle">Hàng chính hãng Kaiwin & Phụ kiện chọn lọc tại Buôn Ma Thuột</h2>
+        <p class="text-xs text-slate-400" id="bannerDesc">Thử giày & xem hàng trực tiếp tại 08 Nguyễn Đình Chiểu, BMT • Freeship nội thành BMT cho đơn từ 150.000đ.</p>
+      </div>
+      <div class="flex items-center gap-2 shrink-0">
+        <button onclick="openSizeModal()" class="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-bold text-amber-300 transition">
+          <i class="fa-solid fa-shoe-prints mr-1"></i>Tư vấn chọn size
+        </button>
+        <a href="https://zalo.me/0906075077" target="_blank" class="px-3 py-2 rounded-xl bg-sky-500/15 hover:bg-sky-500/25 border border-sky-500/40 text-xs font-extrabold text-sky-300 transition">
+          <i class="fa-solid fa-comment-dots mr-1"></i>Chat Zalo Shop
+        </a>
+      </div>
+    </section>
+
+    <!-- FILTER & SEARCH BAR -->
+    <section class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+      <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar" id="categoryFilters">
+        <button onclick="setCategory('ALL')" data-cat="ALL" class="cat-btn px-3 py-1.5 rounded-xl text-xs font-extrabold bg-slate-100 text-slate-950 shrink-0">Tất cả</button>
+        <button onclick="setCategory('Bóng Chuyền')" data-cat="Bóng Chuyền" class="cat-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-900 text-slate-300 border border-slate-800 hover:border-slate-700 shrink-0">🏐 Bóng Chuyền</button>
+        <button onclick="setCategory('Bóng Đá')" data-cat="Bóng Đá" class="cat-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-900 text-slate-300 border border-slate-800 hover:border-slate-700 shrink-0">⚽ Bóng Đá</button>
+        <button onclick="setCategory('Phụ Kiện Thể Thao')" data-cat="Phụ Kiện Thể Thao" class="cat-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-900 text-slate-300 border border-slate-800 hover:border-slate-700 shrink-0">🧦 Phụ Kiện Thể Thao</button>
+      </div>
+
+      <div class="relative w-full sm:w-64">
+        <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-xs"></i>
+        <input type="text" id="searchInput" oninput="renderProducts()" placeholder="Tìm giày, bóng, vớ, túi mù..." class="w-full pl-8 pr-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-orange-500" />
+      </div>
+    </section>
+
+    <!-- PRODUCT GRID -->
+    <section id="productGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3"></section>
+
+    <!-- EMPTY STATE -->
+    <section id="emptyState" class="hidden glass-card rounded-2xl p-8 text-center space-y-2">
+      <i class="fa-solid fa-box-open text-2xl text-slate-500"></i>
+      <p class="text-sm font-bold text-slate-300">Chưa có sản phẩm phù hợp trong mục này</p>
+      <p class="text-xs text-slate-400">Anh/chị thử chuyển sang bộ môn khác hoặc nhắn Zalo 0906.075.077 để shop kiểm tra kho tại 08 Nguyễn Đình Chiểu nhé.</p>
+    </section>
+
+  </main>
+
+  <!-- ==================== FOOTER (CHUẨN HỘ KINH DOANH) ==================== -->
+  <footer class="border-t border-slate-800/80 bg-slate-950 py-6 px-3.5 text-[11px] text-slate-400 mt-8">
+    <div class="max-w-5xl mx-auto space-y-3">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-3 border-b border-slate-800/80">
+        <div class="space-y-1">
+          <p class="text-xs font-black text-white tracking-tight">
+            THỂ THAO THANH TÂM BMT <span class="text-orange-400 font-bold">• Đại lý chính hãng Kaiwin</span>
+          </p>
+          <p class="text-slate-300">
+            <i class="fa-solid fa-store text-orange-400 mr-1.5"></i>Chủ sở hữu: <strong class="text-slate-100">Hộ Kinh Doanh Thể Thao Thanh Tâm</strong>
+          </p>
+          <p>
+            <i class="fa-solid fa-location-dot text-orange-400 mr-1.5"></i>Địa chỉ cửa hàng: <span class="text-slate-200">08 Nguyễn Đình Chiểu, Phường Buôn Ma Thuột, Tỉnh Đắk Lắk</span>
+          </p>
+          <p>
+            <i class="fa-solid fa-file-invoice text-orange-400 mr-1.5"></i>Mã số thuế / ĐKKD: <span class="text-slate-300" id="footerTaxId">Cập nhật theo Giấy CN ĐKHKD</span>
+          </p>
+        </div>
+
+        <div class="space-y-1 sm:text-right">
+          <p class="text-xs font-bold text-slate-200">Đặt Hàng & Hỗ Trợ Khách Hàng</p>
+          <p>
+            Hotline / Zalo đặt hàng: <a href="tel:0906075077" class="text-orange-400 font-extrabold hover:underline">0906.075.077</a>
+          </p>
+          <p>
+            Chuyển khoản thanh toán: <strong class="text-slate-200">SHB 7772345999 (NGUYEN UNG)</strong>
+          </p>
+          <div class="flex flex-wrap sm:justify-end gap-3 pt-1">
+            <button type="button" onclick="openPolicyModal('terms')" class="text-slate-300 hover:text-orange-400 underline underline-offset-2 transition">
+              Chính sách bán hàng & Đổi trả
+            </button>
+            <button type="button" onclick="openPolicyModal('shipping')" class="text-slate-300 hover:text-orange-400 underline underline-offset-2 transition">
+              Giao nhận & Thanh toán
+            </button>
+            <button type="button" onclick="openPolicyModal('privacy')" class="text-slate-300 hover:text-orange-400 underline underline-offset-2 transition">
+              Bảo mật thông tin
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-center justify-between gap-2 text-[10px] text-slate-500">
+        <span>© 2026 Hộ Kinh Doanh Thể Thao Thanh Tâm • Website bán hàng chính thức của cửa hàng</span>
+        <span>Mở cửa: 07:30 – 21:00 hằng ngày tại 08 Nguyễn Đình Chiểu, BMT</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== MODAL: TƯ VẤN SIZE GIÀY ==================== -->
+  <div id="sizeModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-3">
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-5 space-y-4 text-xs shadow-2xl max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+        <h3 class="text-sm font-black text-white flex items-center gap-2">
+          <i class="fa-solid fa-ruler-combined text-amber-400"></i>TƯ VẤN CHỌN SIZE GIÀY CHUẨN
+        </h3>
+        <button onclick="closeModal('sizeModal')" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-base"></i></button>
+      </div>
+
+      <div class="space-y-3">
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-[11px] font-bold text-slate-400 mb-1">Bộ môn chơi</label>
+            <select id="sizeSport" onchange="calculateShoeSize()" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100 font-bold">
+              <option value="volleyball">🏐 Giày Bóng Chuyền</option>
+              <option value="football">⚽ Giày Bóng Đá (TF/IC)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-slate-400 mb-1">Form bàn chân</label>
+            <select id="footShape" onchange="calculateShoeSize()" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100 font-bold">
+              <option value="normal">Chân thon / Bình thường</option>
+              <option value="wide">Chân bè ngang / Mu dày</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-[11px] font-bold text-slate-400 mb-1">Chiều dài bàn chân (cm) — Đo từ gót đến ngón dài nhất</label>
+          <select id="footLength" onchange="calculateShoeSize()" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100 font-bold">
+            <option value="23.0">23.0 cm</option>
+            <option value="23.5">23.5 cm</option>
+            <option value="24.0">24.0 cm</option>
+            <option value="24.5">24.5 cm</option>
+            <option value="25.0" selected>25.0 cm</option>
+            <option value="25.5">25.5 cm</option>
+            <option value="26.0">26.0 cm</option>
+            <option value="26.5">26.5 cm</option>
+            <option value="27.0">27.0 cm</option>
+            <option value="27.5">27.5 cm</option>
+            <option value="28.0">28.0 cm</option>
+          </select>
+        </div>
+
+        <div id="sizeResultBox" class="p-3.5 rounded-2xl bg-gradient-to-br from-orange-500/15 to-amber-500/10 border border-orange-500/40 space-y-1.5">
+          <p class="text-[11px] text-orange-300 font-bold uppercase">Gợi ý size phù hợp nhất:</p>
+          <p class="text-xl font-black text-white" id="recommendedSizeText">Size 40 EU (25.0 cm)</p>
+          <p class="text-[11px] text-slate-300 leading-relaxed" id="sizeAdviceNote"></p>
+        </div>
+
+        <div class="border border-slate-800 rounded-2xl overflow-hidden">
+          <div class="bg-slate-950 px-3 py-1.5 text-[11px] font-bold text-slate-300">Bảng quy đổi nhanh Kaiwin & Giày thể thao phổ thông</div>
+          <table class="w-full text-left text-[11px]">
+            <thead class="bg-slate-800/60 text-slate-400">
+              <tr>
+                <th class="px-3 py-1.5">Dài chân</th>
+                <th class="px-3 py-1.5">Size EU</th>
+                <th class="px-3 py-1.5">Ghi chú</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800 text-slate-300">
+              <tr><td class="px-3 py-1">23.5 – 24.0 cm</td><td class="px-3 py-1 font-bold text-white">38 – 39</td><td class="px-3 py-1">Nữ / Chân nhỏ</td></tr>
+              <tr><td class="px-3 py-1">24.5 – 25.0 cm</td><td class="px-3 py-1 font-bold text-white">39.5 – 40</td><td class="px-3 py-1">Phổ biến</td></tr>
+              <tr><td class="px-3 py-1">25.5 – 26.0 cm</td><td class="px-3 py-1 font-bold text-white">40.5 – 41</td><td class="px-3 py-1">Phổ biến</td></tr>
+              <tr><td class="px-3 py-1">26.5 – 27.0 cm</td><td class="px-3 py-1 font-bold text-white">42 – 42.5</td><td class="px-3 py-1">Chân lớn</td></tr>
+              <tr><td class="px-3 py-1">27.5 – 28.0 cm</td><td class="px-3 py-1 font-bold text-white">43 – 44</td><td class="px-3 py-1">Big size</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="flex gap-2 pt-1">
+          <a id="sizeZaloBtn" href="https://zalo.me/0906075077" target="_blank" class="flex-1 py-2.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-extrabold text-center">
+            Hỏi mẫu còn size này qua Zalo
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: CHI TIẾT SẢN PHẨM & CHỌN SIZE ==================== -->
+  <div id="productModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-3">
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-5 space-y-3.5 text-xs shadow-2xl max-h-[90vh] overflow-y-auto">
+      <div class="flex items-start justify-between gap-2 border-b border-slate-800 pb-2.5">
+        <div>
+          <span id="pmCategory" class="text-[10px] font-extrabold uppercase text-orange-400"></span>
+          <h3 id="pmTitle" class="text-sm font-black text-white mt-0.5"></h3>
+        </div>
+        <button onclick="closeModal('productModal')" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-base"></i></button>
+      </div>
+
+      <img id="pmImage" src="" alt="" class="w-full h-56 object-cover rounded-2xl bg-slate-950 border border-slate-800" />
+
+      <div class="flex items-center justify-between">
+        <div>
+          <span id="pmPrice" class="text-lg font-black text-orange-400"></span>
+          <span id="pmOldPrice" class="text-xs text-slate-500 line-through ml-1.5"></span>
+        </div>
+        <button onclick="closeModal('productModal'); openSizeModal();" class="text-[11px] font-bold text-amber-400 hover:underline">
+          <i class="fa-solid fa-ruler mr-1"></i>Xem bảng size
+        </button>
+      </div>
+
+      <div>
+        <label class="block text-[11px] font-bold text-slate-400 mb-1.5">Chọn Size / Phân loại có sẵn:</label>
+        <div id="pmOptions" class="flex flex-wrap gap-1.5"></div>
+      </div>
+
+      <p id="pmDesc" class="text-slate-300 leading-relaxed bg-slate-950/70 p-3 rounded-xl border border-slate-800/80"></p>
+
+      <div class="grid grid-cols-2 gap-2 pt-1">
+        <button id="pmAddCartBtn" class="py-2.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-extrabold">
+          <i class="fa-solid fa-cart-plus mr-1"></i>Thêm vào đơn
+        </button>
+        <a id="pmZaloBtn" href="#" target="_blank" class="py-2.5 rounded-xl bg-sky-500/20 hover:bg-sky-500/30 border border-sky-500/40 text-sky-300 font-extrabold text-center">
+          <i class="fa-solid fa-comment-dots mr-1"></i>Chốt nhanh Zalo
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== SLIDE-OVER: GIỎ HÀNG & ĐẶT ĐƠN ==================== -->
+  <div id="cartDrawer" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-xs flex justify-end">
+    <div class="bg-slate-900 border-l border-slate-800 w-full max-w-md h-full flex flex-col justify-between p-4 text-xs shadow-2xl">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <h3 class="text-sm font-black text-white flex items-center gap-2">
+          <i class="fa-solid fa-bag-shopping text-orange-400"></i>ĐƠN HÀNG CỦA BẠN
+        </h3>
+        <button onclick="toggleCart(false)" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-base"></i></button>
+      </div>
+
+      <div id="cartItemsList" class="flex-1 overflow-y-auto py-3 space-y-2.5"></div>
+
+      <form onsubmit="submitOrder(event)" class="border-t border-slate-800 pt-3 space-y-2.5">
+        <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800 space-y-1">
+          <div class="flex justify-between text-slate-400">
+            <span>Tạm tính:</span>
+            <span id="cartSubtotal" class="font-bold text-slate-200">0đ</span>
+          </div>
+          <div class="flex justify-between text-slate-400">
+            <span>Giao hàng nội thành BMT:</span>
+            <span id="cartShipping" class="font-bold text-emerald-400">Miễn phí từ 150K</span>
+          </div>
+          <div class="flex justify-between text-sm font-black text-white pt-1 border-t border-slate-800">
+            <span>Tổng thanh toán:</span>
+            <span id="cartTotal" class="text-orange-400">0đ</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <input type="text" id="custName" required placeholder="Tên anh/chị *" class="px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100 placeholder-slate-500" />
+          <input type="tel" id="custPhone" required placeholder="SĐT 10 số (09...) *" class="px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100 placeholder-slate-500" />
+        </div>
+
+        <select id="deliveryMethod" onchange="toggleAddressField()" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100 font-semibold">
+          <option value="Nhận tại 08 Nguyễn Đình Chiểu, BMT">Nhận trực tiếp tại 08 Nguyễn Đình Chiểu, BMT</option>
+          <option value="Giao tận nơi nội thành Buôn Ma Thuột">Giao tận nơi nội thành Buôn Ma Thuột</option>
+          <option value="Ship tỉnh / Gửi chành xe Đắk Lắk">Ship tỉnh / Gửi xe (Shop báo phí trước)</option>
+        </select>
+
+        <input type="text" id="custAddress" placeholder="Địa chỉ nhận hàng cụ thể (nếu giao tận nơi)..." class="hidden w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100 placeholder-slate-500" />
+
+        <button type="submit" id="btnSubmitOrder" class="w-full py-3 rounded-xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-black text-xs uppercase tracking-wide shadow-lg shadow-orange-500/20">
+          Gửi Đơn Đặt Hàng Cho Shop
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: XÁC NHẬN ĐƠN & VIETQR ==================== -->
+  <div id="orderSuccessModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-3">
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-5 space-y-3.5 text-xs shadow-2xl text-center">
+      <div class="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto text-xl">
+        <i class="fa-solid fa-check"></i>
+      </div>
+      <h3 class="text-base font-black text-white">ĐÃ GHI NHẬN ĐƠN HÀNG!</h3>
+      <p id="orderSummaryText" class="text-slate-300 leading-relaxed"></p>
+
+      <div class="p-3 rounded-2xl bg-slate-950 border border-slate-800 space-y-2">
+        <p class="text-[11px] font-bold text-amber-400">Chuyển khoản nhanh (nếu thanh toán trước) hoặc thanh toán khi nhận hàng:</p>
+        <img id="vietQrImg" src="" alt="VietQR SHB" class="w-44 h-44 mx-auto rounded-xl bg-white p-1.5" />
+        <p class="text-[11px] text-slate-300">SHB: <strong>7772345999</strong> • Chủ TK: <strong>NGUYEN UNG</strong></p>
+      </div>
+
+      <div class="flex gap-2">
+        <a id="orderZaloConfirmBtn" href="#" target="_blank" class="flex-1 py-2.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-extrabold">
+          Gửi chi tiết đơn qua Zalo
+        </a>
+        <button onclick="closeModal('orderSuccessModal')" class="px-4 py-2.5 rounded-xl bg-slate-800 text-slate-300 font-bold">
+          Đóng
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: ADMIN LOGIN & ADD PRODUCT ==================== -->
+  <div id="adminModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-3">
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-sm w-full p-5 space-y-3 text-xs shadow-2xl">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+        <h3 class="text-sm font-black text-white">ĐĂNG NHẬP QUẢN TRỊ SHOP</h3>
+        <button onclick="closeModal('adminModal')" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <p class="text-slate-400">Nhập mã PIN quản trị của Thể Thao Thanh Tâm để thêm/sửa danh mục sản phẩm.</p>
+      <input type="password" id="adminPinInput" placeholder="Nhập mã PIN..." class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
+      <button onclick="verifyAdmin()" class="w-full py-2.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-extrabold">Xác nhận</button>
+    </div>
+  </div>
+
+  <div id="addProductModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-3">
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-5 space-y-3 text-xs shadow-2xl max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+        <h3 class="text-sm font-black text-white">THÊM SẢN PHẨM MỚI CỦA SHOP</h3>
+        <button onclick="closeModal('addProductModal')" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form onsubmit="handleAddProduct(event)" class="space-y-2.5">
+        <input type="text" id="npName" required placeholder="Tên sản phẩm (VD: Giày Bóng Chuyền Kaiwin...) *" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
+        <div class="grid grid-cols-2 gap-2">
+          <select id="npCategory" class="px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100">
+            <option value="Bóng Chuyền">Bóng Chuyền</option>
+            <option value="Bóng Đá">Bóng Đá</option>
+            <option value="Phụ Kiện Thể Thao">Phụ Kiện Thể Thao</option>
+          </select>
+          <select id="npSection" class="px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100">
+            <option value="store">Cửa Hàng Chính</option>
+            <option value="mystery">Túi Mù & Set Quà</option>
+            <option value="clearance">Săn Hàng Lẻ Size</option>
+          </select>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <input type="number" id="npPrice" required placeholder="Giá bán (VD: 450000) *" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
+          <input type="number" id="npOldPrice" placeholder="Giá gốc gạch ngang (nếu có)" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
+        </div>
+        <input type="text" id="npOptions" required placeholder="Size / Phân loại (cách nhau dấu phẩy: 39, 40, 41) *" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
+        <input type="text" id="npBadge" placeholder="Nhãn nổi bật (VD: Chính hãng Kaiwin, Lẻ 1 đôi)" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
+        <input type="url" id="npImage" placeholder="Link ảnh sản phẩm (https://...)" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
+        <textarea id="npDesc" rows="2" placeholder="Mô tả ngắn sản phẩm..." class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100"></textarea>
+        <button type="submit" id="btnSaveProduct" class="w-full py-2.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-extrabold">Lưu & Đồng Bộ Lên Google Sheets</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: CHÍNH SÁCH HỘ KINH DOANH ==================== -->
+  <div id="policyModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-3">
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-5 space-y-3 text-xs shadow-2xl">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+        <h3 id="policyTitle" class="text-sm font-black text-white"></h3>
+        <button onclick="closeModal('policyModal')" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div id="policyBody" class="text-slate-300 space-y-2 leading-relaxed max-h-[60vh] overflow-y-auto"></div>
+      <button onclick="closeModal('policyModal')" class="w-full py-2 rounded-xl bg-slate-800 text-slate-200 font-bold">Đã hiểu</button>
+    </div>
+  </div>
+
+  <!-- ==================== JAVASCRIPT ==================== -->
+  <script>
+    // DÁN URL WEB APP GOOGLE APPS SCRIPT CỦA ANH VÀO ĐÂY KHI TRIỂN KHAI:
+    const GAS_WEBAPP_URL = "";
+    const ADMIN_PIN = "0906075077"; // Anh có thể đổi mã PIN này trước khi up GitHub
+    const SHOP_ZALO = "0906075077";
+
+    // DỮ LIỆU MẪU BAN ĐẦU (Tự động dùng nếu chưa nối Google Sheets)
+    const SAMPLE_PRODUCTS = [
+      {
+        id: "SP01",
+        section: "store",
+        category: "Bóng Chuyền",
+        name: "Giày Bóng Chuyền Kaiwin Chính Hãng",
+        price: 520000,
+        oldPrice: 590000,
+        badge: "Chính hãng Kaiwin",
+        options: ["Size 39", "Size 40", "Size 41", "Size 42"],
+        image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80",
+        desc: "Đế cao su bám sân bê tông & sân thảm cực tốt, cổ giày ôm ổn định chống lật cổ chân khi bật nhảy chắn bóng."
+      },
+      {
+        id: "SP02",
+        section: "store",
+        category: "Bóng Chuyền",
+        name: "Bóng Chuyền Thi Đấu Da Mềm Chuẩn Sân",
+        price: 340000,
+        oldPrice: 380000,
+        badge: "Tặng kim + lưới",
+        options: ["Quả bóng tiêu chuẩn"],
+        image: "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=600&q=80",
+        desc: "Chất liệu da PU mềm êm tay khi đỡ bước 1, giữ hơi lâu, phù hợp tập luyện và thi đấu phong trào tại BMT."
+      },
+      {
+        id: "SP03",
+        section: "store",
+        category: "Bóng Đá",
+        name: "Giày Bóng Đá Sân Cỏ Nhân Tạo Kaiwin TF",
+        price: 450000,
+        oldPrice: 510000,
+        badge: "Chính hãng Kaiwin",
+        options: ["Size 39", "Size 40", "Size 41", "Size 42", "Size 43"],
+        image: "https://images.unsplash.com/photo-1511886929837-354d827aae26?auto=format&fit=crop&w=600&q=80",
+        desc: "Đinh dăm TF bám sân cỏ nhân tạo, form ôm chân thật bóng, đã khâu sẵn mũi chắc chắn."
+      },
+      {
+        id: "SP04",
+        section: "store",
+        category: "Bóng Đá",
+        name: "Bóng Đá Số 5 Kaiwin Sân 7 / Sân 11",
+        price: 390000,
+        oldPrice: 440000,
+        badge: "Freeship BMT",
+        options: ["Bóng số 5"],
+        image: "https://images.unsplash.com/photo-1575361204480-aadea25e6e68?auto=format&fit=crop&w=600&q=80",
+        desc: "Độ nảy chuẩn, chống thấm nước khi đá trời mưa Tây Nguyên, tặng kèm kim bơm và túi lưới."
+      },
+      {
+        id: "SP05",
+        section: "store",
+        category: "Phụ Kiện Thể Thao",
+        name: "Combo 3 Đôi Vớ Chống Trượt Thể Thao Dày Dặn",
+        price: 99000,
+        oldPrice: 135000,
+        badge: "Bán chạy",
+        options: ["Trắng", "Đen", "Mix 3 màu"],
+        image: "https://images.unsplash.com/photo-1586350977771-b3b0abd50c82?auto=format&fit=crop&w=600&q=80",
+        desc: "Hạt silicon chống trượt lòng bàn chân, dệt đệm gót êm ái cho cả bóng đá và bóng chuyền."
+      },
+      {
+        id: "SP06",
+        section: "store",
+        category: "Phụ Kiện Thể Thao",
+        name: "Băng Bảo Vệ Gối & Cổ Chân Thể Thao",
+        price: 110000,
+        oldPrice: 140000,
+        badge: "Bảo hộ sân đấu",
+        options: ["Băng Gối (1 cặp)", "Băng Cổ Chân (1 chiếc)", "Băng Ngón Tay (10 chiếc)"],
+        image: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=600&q=80",
+        desc: "Co giãn 4 chiều thoáng khí, hỗ trợ giảm chấn thương khớp gối và cổ chân khi bật nhảy hoặc tranh chấp."
+      },
+      {
+        id: "SP07",
+        section: "mystery",
+        category: "Phụ Kiện Thể Thao",
+        name: "Túi Mù Phụ Kiện Thể Thao Khởi Động (99K)",
+        price: 99000,
+        oldPrice: 160000,
+        badge: "Giá trị thật > 140K",
+        options: ["Hệ Bóng Chuyền", "Hệ Bóng Đá"],
+        image: "https://images.unsplash.com/photo-1513885535751-8b9238bd345a?auto=format&fit=crop&w=600&q=80",
+        desc: "Gồm 1 đôi vớ chống trượt + 1 phụ kiện bảo hộ/túi rút + 1 món ngẫu nhiên chính hãng từ Thể Thao Thanh Tâm. Có cơ hội trúng balo Kaiwin!"
+      },
+      {
+        id: "SP08",
+        section: "mystery",
+        category: "Phụ Kiện Thể Thao",
+        name: "Set Quà Thể Thao Cá Nhân Hóa (Bóng Chuyền / Bóng Đá)",
+        price: 249000,
+        oldPrice: 310000,
+        badge: "Kèm thiệp chúc mừng",
+        options: ["Set Bóng Chuyền", "Set Bóng Đá"],
+        image: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=600&q=80",
+        desc: "Hộp quà chỉn chu gồm túi đựng giày Kaiwin + vớ chống trượt + băng bảo hộ + thiệp viết lời chúc theo yêu cầu."
+      },
+      {
+        id: "SP09",
+        section: "clearance",
+        category: "Bóng Đá",
+        name: "Giày Bóng Đá Kaiwin Lẻ Size Cuối (Còn 1 đôi)",
+        price: 290000,
+        oldPrice: 460000,
+        badge: "Lẻ 1 đôi duy nhất",
+        options: ["Size 41"],
+        image: "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?auto=format&fit=crop&w=600&q=80",
+        desc: "Hàng trưng bày mới 99% tại 08 Nguyễn Đình Chiểu, bảo hành keo đế đầy đủ từ shop."
+      }
+    ];
+
+    let products = [...SAMPLE_PRODUCTS];
+    let currentTab = "store";
+    let currentCategory = "ALL";
+    let cart = JSON.parse(localStorage.getItem("tttt_cart") || "[]");
+    let isAdmin = sessionStorage.getItem("tttt_admin") === "1";
+
+    // CHUẨN HÓA SĐT 10 SỐ (KHÔNG MẤT SỐ 0 ĐẦU)
+    function normalizePhone(raw) {
+      let digits = String(raw || "").replace(/\D/g, "");
+      if (digits.startsWith("84") && digits.length >= 11) {
+        digits = "0" + digits.slice(2);
+      } else if (digits.length === 9 && !digits.startsWith("0")) {
+        digits = "0" + digits;
+      }
+      return digits;
+    }
+
+    function formatVND(num) {
+      return Number(num || 0).toLocaleString("vi-VN") + "đ";
+    }
+
+    // CHUYỂN TAB
+    function switchTab(tab) {
+      currentTab = tab;
+      document.querySelectorAll(".tab-btn").forEach(btn => {
+        btn.className = "tab-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-900 text-slate-300 hover:bg-slate-800 border border-slate-800 shrink-0 transition";
+      });
+      const activeBtn = document.getElementById("tab-" + tab);
+      if (activeBtn) {
+        activeBtn.className = "tab-btn px-3.5 py-1.5 rounded-xl text-xs font-extrabold bg-orange-500 text-slate-950 shrink-0 transition";
+      }
+
+      const banners = {
+        store: {
+          tag: "Chuyên Bóng Chuyền • Bóng Đá • Phụ Kiện Thể Thao",
+          title: "Hàng chính hãng Kaiwin & Phụ kiện chọn lọc tại Buôn Ma Thuột",
+          desc: "Thử giày & xem hàng trực tiếp tại 08 Nguyễn Đình Chiểu, BMT • Freeship nội thành BMT cho đơn từ 150.000đ."
+        },
+        mystery: {
+          tag: "Túi Mù & Set Quà Tặng Thể Thao",
+          title: "Túi Mù Phụ Kiện (99K) & Set Quà Tặng Đóng Gói Theo Yêu Cầu",
+          desc: "Cam kết giá trị thật trong mỗi túi luôn cao hơn giá bán • Phù hợp làm quà sinh nhật, giải đấu phong trào."
+        },
+        clearance: {
+          tag: "Săn Hàng Lẻ Size Cuối Tại Shop",
+          title: "Giày & Trang Phục Chính Hãng Lẻ Size Giá Tốt",
+          desc: "Sản phẩm chính chủ tại 08 Nguyễn Đình Chiểu, còn đúng 1–2 size cuối, bảo hành keo đế đầy đủ."
+        }
+      };
+      document.getElementById("bannerTag").innerText = banners[tab].tag;
+      document.getElementById("bannerTitle").innerText = banners[tab].title;
+      document.getElementById("bannerDesc").innerText = banners[tab].desc;
+
+      renderProducts();
+    }
+
+    function setCategory(cat) {
+      currentCategory = cat;
+      document.querySelectorAll(".cat-btn").forEach(btn => {
+        if (btn.dataset.cat === cat) {
+          btn.className = "cat-btn px-3 py-1.5 rounded-xl text-xs font-extrabold bg-slate-100 text-slate-950 shrink-0";
+        } else {
+          btn.className = "cat-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-900 text-slate-300 border border-slate-800 hover:border-slate-700 shrink-0";
+        }
+      });
+      renderProducts();
+    }
+
+    // HIỂN THỊ DANH SÁCH SẢN PHẨM
+    function renderProducts() {
+      const grid = document.getElementById("productGrid");
+      const empty = document.getElementById("emptyState");
+      const keyword = (document.getElementById("searchInput").value || "").toLowerCase().trim();
+
+      const filtered = products.filter(p => {
+        const matchTab = p.section === currentTab;
+        const matchCat = currentCategory === "ALL" || p.category === currentCategory;
+        const matchKey = !keyword || p.name.toLowerCase().includes(keyword) || (p.desc || "").toLowerCase().includes(keyword);
+        return matchTab && matchCat && matchKey;
+      });
+
+      if (!filtered.length) {
+        grid.innerHTML = "";
+        empty.classList.remove("hidden");
+        return;
+      }
+
+      empty.classList.add("hidden");
+      grid.innerHTML = filtered.map(p => {
+        const defaultOpt = (p.options && p.options[0]) ? p.options[0] : "Tiêu chuẩn";
+        const zaloMsg = encodeURIComponent(`Chào Thể Thao Thanh Tâm BMT, mình muốn hỏi mua: ${p.name} (${defaultOpt}) - Giá ${formatVND(p.price)}`);
+        return `
+          <article class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between group hover:border-orange-500/50 transition">
+            <div>
+              <div class="relative aspect-square bg-slate-950 overflow-hidden cursor-pointer" onclick="openProductDetail('${p.id}')">
+                <img src="${p.image || 'https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=600&q=80'}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" loading="lazy" />
+                ${p.badge ? `<span class="absolute top-2 left-2 px-2 py-0.5 rounded-lg bg-slate-950/85 backdrop-blur-xs border border-orange-500/40 text-[10px] font-extrabold text-orange-400">${p.badge}</span>` : ""}
+              </div>
+              <div class="p-3 space-y-1.5">
+                <div class="flex items-center justify-between text-[10px] text-slate-400">
+                  <span class="font-bold text-slate-400">${p.category}</span>
+                  ${p.name.toLowerCase().includes("giày") ? `<button onclick="openSizeModal()" class="text-amber-400 hover:underline font-bold">Đo size</button>` : ""}
+                </div>
+                <h3 onclick="openProductDetail('${p.id}')" class="text-xs sm:text-sm font-extrabold text-slate-100 line-clamp-2 cursor-pointer hover:text-orange-400 transition">${p.name}</h3>
+                <p class="text-[11px] text-slate-400 truncate">${(p.options || []).join(" • ")}</p>
+              </div>
+            </div>
+
+            <div class="px-3 pb-3 pt-1 space-y-2">
+              <div class="flex items-baseline gap-1.5">
+                <span class="text-sm sm:text-base font-black text-orange-400">${formatVND(p.price)}</span>
+                ${p.oldPrice ? `<span class="text-[10px] text-slate-500 line-through">${formatVND(p.oldPrice)}</span>` : ""}
+              </div>
+              <div class="grid grid-cols-5 gap-1.5">
+                <button onclick="openProductDetail('${p.id}')" class="col-span-3 py-1.5 px-2 rounded-xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-extrabold text-[11px] transition">
+                  + Chọn mua
+                </button>
+                <a href="https://zalo.me/${SHOP_ZALO}?text=${zaloMsg}" target="_blank" class="col-span-2 py-1.5 px-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-sky-300 font-bold text-[11px] text-center transition">
+                  Zalo
+                </a>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    // CHI TIẾT SẢN PHẨM
+    let selectedProduct = null;
+    let selectedOption = "";
+
+    function openProductDetail(id) {
+      const p = products.find(item => item.id === id);
+      if (!p) return;
+      selectedProduct = p;
+      selectedOption = (p.options && p.options[0]) ? p.options[0] : "Tiêu chuẩn";
+
+      document.getElementById("pmCategory").innerText = p.category;
+      document.getElementById("pmTitle").innerText = p.name;
+      document.getElementById("pmImage").src = p.image || "";
+      document.getElementById("pmPrice").innerText = formatVND(p.price);
+      document.getElementById("pmOldPrice").innerText = p.oldPrice ? formatVND(p.oldPrice) : "";
+      document.getElementById("pmDesc").innerText = p.desc || "Sản phẩm chính hãng phân phối tại Thể Thao Thanh Tâm BMT.";
+
+      renderOptionButtons();
+      updateDetailZaloLink();
+
+      document.getElementById("pmAddCartBtn").onclick = () => {
+        addToCart(selectedProduct, selectedOption);
+        closeModal("productModal");
+        toggleCart(true);
+      };
+
+      document.getElementById("productModal").classList.remove("hidden");
+    }
+
+    function renderOptionButtons() {
+      const box = document.getElementById("pmOptions");
+      const opts = (selectedProduct.options && selectedProduct.options.length) ? selectedProduct.options : ["Tiêu chuẩn"];
+      box.innerHTML = opts.map(opt => {
+        const active = opt === selectedOption;
+        return `<button type="button" onclick="selectProductOption('${opt.replace(/'/g, "\'")}')" class="px-3 py-1.5 rounded-xl text-xs font-bold border transition ${active ? 'bg-orange-500 text-slate-950 border-orange-500' : 'bg-slate-950 text-slate-300 border-slate-700 hover:border-slate-500'}">${opt}</button>`;
+      }).join("");
+    }
+
+    function selectProductOption(opt) {
+      selectedOption = opt;
+      renderOptionButtons();
+      updateDetailZaloLink();
+    }
+
+    function updateDetailZaloLink() {
+      const msg = encodeURIComponent(`Chào Thể Thao Thanh Tâm BMT, mình đặt: ${selectedProduct.name} - Phân loại: ${selectedOption} (${formatVND(selectedProduct.price)})`);
+      document.getElementById("pmZaloBtn").href = `https://zalo.me/${SHOP_ZALO}?text=${msg}`;
+    }
+
+    // TƯ VẤN SIZE GIÀY
+    function openSizeModal() {
+      calculateShoeSize();
+      document.getElementById("sizeModal").classList.remove("hidden");
+    }
+
+    function calculateShoeSize() {
+      const sport = document.getElementById("sizeSport").value;
+      const shape = document.getElementById("footShape").value;
+      const len = parseFloat(document.getElementById("footLength").value);
+
+      const baseMap = {
+        23.0: 37.5, 23.5: 38, 24.0: 39, 24.5: 39.5,
+        25.0: 40, 25.5: 40.5, 26.0: 41, 26.5: 42,
+        27.0: 42.5, 27.5: 43, 28.0: 44
+      };
+      let eu = baseMap[len] || 40;
+      let note = "";
+
+      if (shape === "wide") {
+        eu += 0.5;
+        note = "Chân bè ngang / mu dày: Shop đã cộng thêm 0.5 size để mũi chân thoải mái, không bị kích hai bên má giày.";
+      } else {
+        note = "Chân thon/chuẩn: Chọn đúng size tiêu chuẩn để ôm gót và giữ độ ổn định khi di chuyển đổi hướng.";
+      }
+
+      if (sport === "football") {
+        note += " Với giày đá bóng sân cỏ nhân tạo (đinh TF), nên mang kèm vớ chống trượt để cảm giác bóng tốt nhất.";
+      } else {
+        note += " Với giày bóng chuyền, nên chừa khoảng 0.5 cm ở mũi để tránh dồn ngón chân khi bật nhảy tiếp đất.";
+      }
+
+      const euDisplay = Number.isInteger(eu) ? eu : eu.toFixed(1);
+      document.getElementById("recommendedSizeText").innerText = `Size ${euDisplay} EU (Chân ${len.toFixed(1)} cm)`;
+      document.getElementById("sizeAdviceNote").innerText = note;
+
+      const sportName = sport === "football" ? "Giày Bóng Đá" : "Giày Bóng Chuyền";
+      const msg = encodeURIComponent(`Chào shop, chân mình dài ${len.toFixed(1)}cm (${shape === 'wide' ? 'chân bè' : 'chân thon'}), shop tư vấn giúp mình mẫu ${sportName} size ${euDisplay} nhé!`);
+      document.getElementById("sizeZaloBtn").href = `https://zalo.me/${SHOP_ZALO}?text=${msg}`;
+    }
+
+    // GIỎ HÀNG
+    function addToCart(product, option) {
+      const key = `${product.id}__${option}`;
+      const existing = cart.find(item => item.key === key);
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        cart.push({
+          key,
+          id: product.id,
+          name: product.name,
+          option,
+          price: product.price,
+          qty: 1
+        });
+      }
+      saveCart();
+    }
+
+    function changeQty(key, delta) {
+      const idx = cart.findIndex(i => i.key === key);
+      if (idx === -1) return;
+      cart[idx].qty += delta;
+      if (cart[idx].qty <= 0) cart.splice(idx, 1);
+      saveCart();
+    }
+
+    function saveCart() {
+      localStorage.setItem("tttt_cart", JSON.stringify(cart));
+      renderCart();
+    }
+
+    function renderCart() {
+      const totalItems = cart.reduce((sum, i) => sum + i.qty, 0);
+      document.getElementById("cartBadge").innerText = totalItems;
+
+      const list = document.getElementById("cartItemsList");
+      if (!cart.length) {
+        list.innerHTML = `<div class="text-center text-slate-500 py-10">Giỏ hàng đang trống. Anh/chị chọn sản phẩm ở cửa hàng nhé!</div>`;
+        document.getElementById("cartSubtotal").innerText = "0đ";
+        document.getElementById("cartTotal").innerText = "0đ";
+        return;
+      }
+
+      let subtotal = 0;
+      list.innerHTML = cart.map(item => {
+        subtotal += item.price * item.qty;
+        return `
+          <div class="p-2.5 rounded-2xl bg-slate-950 border border-slate-800 flex items-center justify-between gap-2">
+            <div class="min-w-0">
+              <p class="font-bold text-slate-100 truncate">${item.name}</p>
+              <p class="text-[11px] text-slate-400">${item.option} • <span class="text-orange-400 font-bold">${formatVND(item.price)}</span></p>
+            </div>
+            <div class="flex items-center gap-1.5 shrink-0">
+              <button type="button" onclick="changeQty('${item.key.replace(/'/g, "\'")}', -1)" class="w-6 h-6 rounded-lg bg-slate-800 text-slate-200 font-bold">-</button>
+              <span class="w-5 text-center font-extrabold">${item.qty}</span>
+              <button type="button" onclick="changeQty('${item.key.replace(/'/g, "\'")}', 1)" class="w-6 h-6 rounded-lg bg-slate-800 text-slate-200 font-bold">+</button>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      document.getElementById("cartSubtotal").innerText = formatVND(subtotal);
+      document.getElementById("cartShipping").innerText = subtotal >= 150000 ? "Miễn phí (Nội thành BMT)" : "15.000đ (Freeship từ 150K)";
+      document.getElementById("cartTotal").innerText = formatVND(subtotal);
+    }
+
+    function toggleCart(open) {
+      document.getElementById("cartDrawer").classList.toggle("hidden", !open);
+      if (open) renderCart();
+    }
+
+    function toggleAddressField() {
+      const val = document.getElementById("deliveryMethod").value;
+      const addrInput = document.getElementById("custAddress");
+      addrInput.classList.toggle("hidden", val.includes("08 Nguyễn Đình Chiểu"));
+    }
+
+    // GỬI ĐƠN HÀNG VỀ GOOGLE SHEETS + HIỆN VIETQR
+    async function submitOrder(e) {
+      e.preventDefault();
+      if (!cart.length) {
+        alert("Giỏ hàng đang trống!");
+        return;
+      }
+
+      const name = document.getElementById("custName").value.trim();
+      const phone = normalizePhone(document.getElementById("custPhone").value);
+      if (phone.length !== 10) {
+        alert("Vui lòng nhập đúng số điện thoại 10 số (bắt đầu bằng số 0).");
+        return;
+      }
+
+      const method = document.getElementById("deliveryMethod").value;
+      const address = document.getElementById("custAddress").value.trim();
+      const totalAmount = cart.reduce((s, i) => s + i.price * i.qty, 0);
+      const itemsSummary = cart.map(i => `${i.name} [${i.option}] x${i.qty}`).join(" | ");
+      const orderCode = "TT" + Date.now().toString().slice(-6);
+
+      const btn = document.getElementById("btnSubmitOrder");
+      btn.disabled = true;
+      btn.innerText = "Đang gửi đơn...";
+
+      if (GAS_WEBAPP_URL) {
+        try {
+          await fetch(GAS_WEBAPP_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              action: "createOrder",
+              orderCode,
+              customerName: name,
+              customerPhone: phone,
+              deliveryMethod: method,
+              address,
+              items: itemsSummary,
+              totalAmount
+            })
+          });
+        } catch (err) {
+          console.error("Lỗi đồng bộ đơn:", err);
+        }
+      }
+
+      btn.disabled = false;
+      btn.innerText = "Gửi Đơn Đặt Hàng Cho Shop";
+
+      // Tạo QR VietQR động theo đúng số tiền đơn hàng
+      const qrInfo = encodeURIComponent(`${orderCode} ${phone}`);
+      document.getElementById("vietQrImg").src = `https://img.vietqr.io/image/SHB-7772345999-compact2.png?amount=${totalAmount}&addInfo=${qrInfo}&accountName=NGUYEN%20UNG`;
+      document.getElementById("orderSummaryText").innerHTML = `Mã đơn <strong>#${orderCode}</strong> của <strong>${name}</strong> (${phone})<br/>Tổng tiền: <strong class="text-orange-400">${formatVND(totalAmount)}</strong> • ${method}`;
+
+      const zaloMsg = encodeURIComponent(`ĐƠN MỚI #${orderCode}
+Khách: ${name} - ${phone}
+Sản phẩm: ${itemsSummary}
+Tổng: ${formatVND(totalAmount)}
+Hình thức: ${method} ${address}`);
+      document.getElementById("orderZaloConfirmBtn").href = `https://zalo.me/${SHOP_ZALO}?text=${zaloMsg}`;
+
+      cart = [];
+      saveCart();
+      toggleCart(false);
+      document.getElementById("orderSuccessModal").classList.remove("hidden");
+    }
+
+    // ADMIN & ĐỒNG BỘ GOOGLE SHEETS
+    function openAdminModal() {
+      if (isAdmin) {
+        document.getElementById("adminBar").classList.toggle("hidden");
+        return;
+      }
+      document.getElementById("adminModal").classList.remove("hidden");
+    }
+
+    function verifyAdmin() {
+      const pin = document.getElementById("adminPinInput").value.trim();
+      if (pin === ADMIN_PIN) {
+        isAdmin = true;
+        sessionStorage.setItem("tttt_admin", "1");
+        document.getElementById("adminBar").classList.remove("hidden");
+        document.getElementById("adminLockIcon").className = "fa-solid fa-unlock text-emerald-400";
+        closeModal("adminModal");
+      } else {
+        alert("Mã PIN quản trị chưa đúng!");
+      }
+    }
+
+    function logoutAdmin() {
+      isAdmin = false;
+      sessionStorage.removeItem("tttt_admin");
+      document.getElementById("adminBar").classList.add("hidden");
+      document.getElementById("adminLockIcon").className = "fa-solid fa-lock";
+    }
+
+    function openAddProductModal() {
+      document.getElementById("addProductModal").classList.remove("hidden");
+    }
+
+    async function handleAddProduct(e) {
+      e.preventDefault();
+      const newProd = {
+        id: "SP" + Date.now().toString().slice(-5),
+        name: document.getElementById("npName").value.trim(),
+        category: document.getElementById("npCategory").value,
+        section: document.getElementById("npSection").value,
+        price: Number(document.getElementById("npPrice").value),
+        oldPrice: Number(document.getElementById("npOldPrice").value) || 0,
+        options: document.getElementById("npOptions").value.split(",").map(s => s.trim()).filter(Boolean),
+        badge: document.getElementById("npBadge").value.trim(),
+        image: document.getElementById("npImage").value.trim(),
+        desc: document.getElementById("npDesc").value.trim()
+      };
+
+      products.unshift(newProd);
+      renderProducts();
+      closeModal("addProductModal");
+
+      if (GAS_WEBAPP_URL) {
+        try {
+          await fetch(GAS_WEBAPP_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ action: "addProduct", product: newProd })
+          });
+        } catch (err) {
+          console.error(err);
+        }
+      }
+    }
+
+    async function syncFromSheet(showAlert = false) {
+      if (!GAS_WEBAPP_URL) {
+        if (showAlert) alert("Đang chạy chế độ dữ liệu mẫu cục bộ. Khi anh dán link GAS_WEBAPP_URL vào file index.html, nút này sẽ đồng bộ trực tiếp từ Google Sheets!");
+        return;
+      }
+      const icon = document.getElementById("syncIcon");
+      icon.classList.add("fa-spin");
+      try {
+        const res = await fetch(GAS_WEBAPP_URL);
+        const data = await res.json();
+        if (data && Array.isArray(data.products) && data.products.length) {
+          products = data.products;
+          renderProducts();
+        }
+      } catch (err) {
+        console.error("Lỗi tải dữ liệu Sheet:", err);
+      } finally {
+        icon.classList.remove("fa-spin");
+      }
+    }
+
+    // CHÍNH SÁCH HỘ KINH DOANH
+    function openPolicyModal(type) {
+      const policies = {
+        terms: {
+          title: "CHÍNH SÁCH BÁN HÀNG & ĐỔI TRẢ",
+          html: `
+            <p>• <strong>Cam kết chính hãng:</strong> Toàn bộ sản phẩm đăng bán trên website thuộc quyền kinh doanh trực tiếp của <strong>Hộ Kinh Doanh Thể Thao Thanh Tâm</strong> (08 Nguyễn Đình Chiểu, Buôn Ma Thuột).</p>
+            <p>• <strong>Đổi size linh hoạt:</strong> Hỗ trợ đổi size trong vòng <strong>07 ngày</strong> kể từ ngày nhận hàng (sản phẩm còn nguyên tem mác, chưa qua sử dụng ngoài sân).</p>
+            <p>• <strong>Bảo hành keo đế:</strong> Bảo hành keo đế 03 tháng đối với các dòng giày bóng chuyền và giày bóng đá mua tại cửa hàng.</p>
+          `
+        },
+        shipping: {
+          title: "CHÍNH SÁCH GIAO NHẬN & THANH TOÁN",
+          html: `
+            <p>• <strong>Nội thành Buôn Ma Thuột:</strong> Miễn phí giao hàng cho đơn từ <strong>150.000đ</strong> trở lên (giao nhanh trong ngày) hoặc khách đến thử và nhận trực tiếp tại <strong>08 Nguyễn Đình Chiểu, BMT</strong>.</p>
+            <p>• <strong>Khu vực huyện / tỉnh:</strong> Gửi chuyển phát nhanh hoặc chành xe theo yêu cầu, cho phép kiểm tra hàng trước khi thanh toán.</p>
+            <p>• <strong>Thanh toán:</strong> Tiền mặt khi nhận hàng (COD) hoặc chuyển khoản qua tài khoản chính chủ Hộ kinh doanh: <strong>SHB 7772345999 (NGUYEN UNG)</strong>.</p>
+          `
+        },
+        privacy: {
+          title: "CHÍNH SÁCH BẢO MẬT THÔNG TIN KHÁCH HÀNG",
+          html: `
+            <p>• <strong>Mục đích thu thập:</strong> Họ tên, số điện thoại và địa chỉ chỉ được sử dụng để xác nhận đơn hàng, tư vấn size và giao hàng.</p>
+            <p>• <strong>Cam kết bảo mật:</strong> Hộ Kinh Doanh Thể Thao Thanh Tâm tuyệt đối không chia sẻ, mua bán thông tin cá nhân của khách hàng cho bất kỳ bên thứ ba nào.</p>
+          `
+        }
+      };
+      const item = policies[type] || policies.terms;
+      document.getElementById("policyTitle").innerText = item.title;
+      document.getElementById("policyBody").innerHTML = item.html;
+      document.getElementById("policyModal").classList.remove("hidden");
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.add("hidden");
+    }
+
+    // KHỞI TẠO
+    if (isAdmin) {
+      document.getElementById("adminBar").classList.remove("hidden");
+      document.getElementById("adminLockIcon").className = "fa-solid fa-unlock text-emerald-400";
+    }
+    renderProducts();
+    renderCart();
+    syncFromSheet(false);
+  </script>
+</body>
+</html>
