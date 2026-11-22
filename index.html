@@ -6,27 +6,12 @@
   <title>THỂ THAO THANH TÂM BMT • Quần Áo • Giày • Bóng Thi Đấu • Phụ Kiện</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap');
     body { font-family: 'Be Vietnam Pro', sans-serif; background-color: #090d16; color: #f1f5f9; }
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     .glass-card { background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(51, 65, 85, 0.75); }
-    @keyframes bagShake {
-      0%, 100% { transform: rotate(0deg) scale(1); }
-      20% { transform: rotate(-10deg) scale(1.06); }
-      40% { transform: rotate(10deg) scale(1.08); }
-      60% { transform: rotate(-8deg) scale(1.06); }
-      80% { transform: rotate(8deg) scale(1.04); }
-    }
-    .bag-shaking { animation: bagShake 0.45s ease-in-out infinite; }
-    @keyframes revealPop {
-      0% { transform: scale(0.75); opacity: 0.2; }
-      70% { transform: scale(1.06); opacity: 1; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-    .reveal-pop { animation: revealPop 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
   </style>
 </head>
 <body class="min-h-screen flex flex-col selection:bg-orange-500 selection:text-white">
@@ -52,14 +37,9 @@
       </div>
 
       <div class="flex items-center gap-1.5 shrink-0">
-        <button onclick="openShareModal('store')" class="px-2.5 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-bold text-emerald-400 flex items-center gap-1.5 transition" title="Chia sẻ link & Mã QR cửa hàng">
-          <i class="fa-solid fa-qrcode"></i>
-          <span class="hidden sm:inline">Chia sẻ / QR</span>
-        </button>
-
         <button onclick="openSizeModal('shoe')" class="px-2.5 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-bold text-amber-400 flex items-center gap-1.5 transition" title="Tư vấn chọn size giày & quần áo">
           <i class="fa-solid fa-ruler-combined"></i>
-          <span class="hidden md:inline">Tư vấn size</span>
+          <span class="hidden sm:inline">Tư vấn size</span>
         </button>
 
         <button onclick="syncFromSheet(true)" id="btnSync" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 text-xs transition" title="Đồng bộ dữ liệu">
@@ -135,11 +115,6 @@
             <i class="fa-solid fa-ruler-combined text-orange-500"></i>
           </button>
 
-          <button type="button" onclick="toggleCatalogDrawer(false); openShareModal('store');" class="w-full px-4 py-3 text-left font-bold text-slate-800 hover:bg-slate-50 flex items-center justify-between">
-            <span>Chia sẻ link & Mã QR cửa hàng</span>
-            <i class="fa-solid fa-qrcode text-emerald-600"></i>
-          </button>
-
           <a href="https://zalo.me/0906075077" target="_blank" class="w-full px-4 py-3 text-left font-bold text-slate-800 hover:bg-slate-50 flex items-center justify-between">
             <span>Liên hệ Zalo Shop (0906.075.077)</span>
             <i class="fa-solid fa-comment-dots text-sky-600"></i>
@@ -163,7 +138,7 @@
       <div class="flex flex-wrap items-center justify-between gap-2">
         <div class="flex items-center gap-2">
           <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-[10px] font-extrabold uppercase">Chế độ Quản Trị Shop</span>
-          <span class="text-xs text-slate-300">Bấm nút <strong>Sửa</strong> trên từng sản phẩm để đổi giá/gói nhanh hoặc thêm sản phẩm mới</span>
+          <span class="text-xs text-slate-300">Đăng sản phẩm mới (tự động đồng bộ Google Sheets & Drive)</span>
         </div>
         <div class="flex items-center gap-2">
           <button onclick="openAddProductModal()" class="px-3 py-1.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-extrabold text-xs">
@@ -183,10 +158,7 @@
         <h2 class="text-sm sm:text-base font-extrabold text-white" id="bannerTitle">Quần áo, giày thi đấu, bóng & phụ kiện thể thao tại 08 Nguyễn Đình Chiểu</h2>
         <p class="text-xs text-slate-400" id="bannerDesc">Thử đồ trực tiếp tại 08 Nguyễn Đình Chiểu, BMT • Freeship nội thành BMT cho đơn từ 150.000đ.</p>
       </div>
-      <div class="flex flex-wrap items-center gap-2 shrink-0">
-        <button onclick="openShareModal('store')" class="px-3 py-2 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/40 text-xs font-extrabold text-emerald-300 transition">
-          <i class="fa-solid fa-qrcode mr-1"></i>Chia sẻ / QR
-        </button>
+      <div class="flex items-center gap-2 shrink-0">
         <button onclick="toggleCatalogDrawer(true)" class="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-bold text-orange-300 transition">
           <i class="fa-solid fa-bars mr-1"></i>Chọn danh mục
         </button>
@@ -255,9 +227,6 @@
             Thanh toán: <strong class="text-slate-200">Tiền mặt khi nhận hàng (COD) hoặc thanh toán qua tài khoản Hộ kinh doanh</strong>
           </p>
           <div class="flex flex-wrap sm:justify-end gap-3 pt-1">
-            <button type="button" onclick="openShareModal('store')" class="text-emerald-400 hover:underline font-bold">
-              Chia sẻ / Mã QR Shop
-            </button>
             <button type="button" onclick="openPolicyModal('terms')" class="text-slate-300 hover:text-orange-400 underline underline-offset-2 transition">
               Chính sách bán hàng & Đổi trả
             </button>
@@ -277,114 +246,6 @@
       </div>
     </div>
   </footer>
-
-  <!-- ==================== MODAL: CHIA SẺ & MÃ QR ==================== -->
-  <div id="shareModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-3">
-    <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-sm w-full p-5 space-y-4 text-xs shadow-2xl text-center">
-      <div class="flex items-center justify-between border-b border-slate-800 pb-2.5 text-left">
-        <div>
-          <span class="text-[10px] font-extrabold uppercase text-emerald-400">CHIA SẺ & MÃ QR</span>
-          <h3 id="shareTitle" class="text-sm font-black text-white mt-0.5 truncate">THỂ THAO THANH TÂM BMT</h3>
-        </div>
-        <button onclick="closeModal('shareModal')" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-base"></i></button>
-      </div>
-
-      <div class="p-4 rounded-2xl bg-white text-slate-900 inline-flex flex-col items-center gap-2 mx-auto shadow-inner">
-        <div id="qrCodeBox" class="w-40 h-40 flex items-center justify-center"></div>
-        <span id="qrCaption" class="text-[10px] font-extrabold text-slate-700 max-w-[170px] truncate">thethaobmt.github.io</span>
-      </div>
-
-      <div class="text-left space-y-1">
-        <label class="block text-[11px] font-bold text-slate-400">Đường dẫn chia sẻ:</label>
-        <div class="flex gap-1.5">
-          <input type="text" id="shareUrlInput" readonly class="flex-1 px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-200 text-[11px]" />
-          <button type="button" onclick="copyShareUrl()" class="px-3 py-2 rounded-xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-extrabold shrink-0">
-            <i class="fa-regular fa-copy mr-1"></i>Copy
-          </button>
-        </div>
-        <p id="copyFeedback" class="hidden text-[11px] font-bold text-emerald-400 pt-0.5">Đã sao chép đường dẫn!</p>
-      </div>
-
-      <div class="grid grid-cols-2 gap-2 pt-1">
-        <button type="button" onclick="downloadQrImage()" class="py-2.5 px-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-amber-300 font-extrabold">
-          <i class="fa-solid fa-download mr-1"></i>Tải ảnh QR
-        </button>
-        <a id="shareZaloBtn" href="#" target="_blank" class="py-2.5 px-2 rounded-xl bg-sky-500/20 hover:bg-sky-500/30 border border-sky-500/40 text-sky-300 font-extrabold">
-          <i class="fa-solid fa-share-nodes mr-1"></i>Gửi qua Zalo
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <!-- ==================== MODAL: QUAY / MỞ TÚI MÙ ==================== -->
-  <div id="mysteryModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-3">
-    <div class="bg-slate-900 border border-amber-500/40 rounded-3xl max-w-md w-full p-5 space-y-3.5 text-xs shadow-2xl max-h-[92vh] overflow-y-auto">
-      <div class="flex items-start justify-between gap-2 border-b border-slate-800 pb-2.5">
-        <div>
-          <span class="text-[10px] font-extrabold uppercase text-amber-400">TRẢI NGHIỆM BỐC TÚI MÙ</span>
-          <h3 id="mmTitle" class="text-sm sm:text-base font-black text-white mt-0.5 leading-snug"></h3>
-        </div>
-        <div class="flex items-center gap-2 shrink-0">
-          <button type="button" onclick="openShareCurrentMystery()" class="px-2.5 py-1 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-emerald-400 font-bold text-[11px]" title="Tạo mã QR / chia sẻ gói túi mù này">
-            <i class="fa-solid fa-qrcode mr-1"></i>QR
-          </button>
-          <button onclick="closeModal('mysteryModal')" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-base"></i></button>
-        </div>
-      </div>
-
-      <div class="space-y-1.5">
-        <span class="block text-[11px] font-bold text-slate-300">1. Chọn hạng gói túi mù (giá trị quà luôn cao hơn giá gói):</span>
-        <div id="mmTierGrid" class="grid grid-cols-3 gap-2"></div>
-      </div>
-
-      <div class="p-4 rounded-2xl bg-gradient-to-br from-slate-950 via-slate-900 to-amber-950/30 border border-amber-500/30 text-center space-y-3">
-        <div id="mmBagVisual" class="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-amber-400 to-orange-600 text-slate-950 flex items-center justify-center text-2xl shadow-lg shadow-orange-500/25">
-          <i class="fa-solid fa-gift"></i>
-        </div>
-
-        <div class="space-y-1 min-h-[50px] flex flex-col items-center justify-center">
-          <span id="mmRarityBadge" class="hidden px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase"></span>
-          <p id="mmSlotText" class="text-sm font-black text-amber-300">Bấm nút bên dưới để bốc & hé lộ món quà trong túi!</p>
-        </div>
-
-        <button type="button" id="mmSpinBtn" onclick="spinMysteryBag()" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-300 hover:to-orange-400 text-slate-950 font-black text-xs uppercase tracking-wide shadow-md transition">
-          <i class="fa-solid fa-dice mr-1.5"></i>Quay / Mở Túi Mù Ngay
-        </button>
-      </div>
-
-      <div class="space-y-1.5">
-        <div class="flex items-center justify-between text-[11px]">
-          <span class="font-bold text-slate-300">Quà có thể trúng trong <strong id="mmActiveTierLabel" class="text-amber-300">gói này</strong>:</span>
-          <span id="mmPoolCount" class="text-amber-400 font-extrabold"></span>
-        </div>
-        <div id="mmPoolList" class="flex flex-wrap gap-1.5"></div>
-      </div>
-
-      <div class="flex items-center justify-between pt-2 border-t border-slate-800">
-        <div>
-          <span class="text-[11px] text-slate-400 block">Đơn giá gói:</span>
-          <span id="mmPrice" class="text-base font-black text-orange-400"></span>
-        </div>
-        <div class="flex items-center gap-2">
-          <span class="text-[11px] font-bold text-slate-400">Số lượng:</span>
-          <div class="inline-flex items-center rounded-xl border border-slate-700 bg-slate-950 overflow-hidden">
-            <button type="button" onclick="changeMysteryQty(-1)" class="px-3 py-1.5 text-slate-200 hover:bg-slate-800 font-black">-</button>
-            <span id="mmQtyValue" class="px-3 py-1.5 font-black text-white text-xs">1</span>
-            <button type="button" onclick="changeMysteryQty(1)" class="px-3 py-1.5 text-slate-200 hover:bg-slate-800 font-black">+</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-2 gap-2 pt-1">
-        <button type="button" onclick="addMysteryToCart()" class="py-2.5 px-2 rounded-xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-extrabold text-center">
-          <i class="fa-solid fa-cart-plus mr-1"></i>Thêm vào đơn
-        </button>
-        <a id="mmZaloBtn" href="#" target="_blank" class="py-2.5 px-2 rounded-xl bg-sky-500/20 hover:bg-sky-500/30 border border-sky-500/40 text-sky-300 font-extrabold text-center">
-          <i class="fa-solid fa-comment-dots mr-1"></i>Chốt nhanh Zalo
-        </a>
-      </div>
-    </div>
-  </div>
 
   <!-- ==================== MODAL: TƯ VẤN SIZE GIÀY & QUẦN ÁO ==================== -->
   <div id="sizeModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-3">
@@ -531,7 +392,7 @@
     </div>
   </div>
 
-  <!-- ==================== MODAL: CHI TIẾT SẢN PHẨM ==================== -->
+  <!-- ==================== MODAL: CHI TIẾT SẢN PHẨM (CHỌN MÀU + SIZE + SỐ LƯỢNG) ==================== -->
   <div id="productModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-3">
     <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-5 space-y-3.5 text-xs shadow-2xl max-h-[92vh] overflow-y-auto">
       <div class="flex items-start justify-between gap-2 border-b border-slate-800 pb-2.5">
@@ -539,14 +400,10 @@
           <span id="pmCategory" class="text-[10px] font-extrabold uppercase text-orange-400"></span>
           <h3 id="pmTitle" class="text-sm sm:text-base font-black text-white mt-0.5 leading-snug"></h3>
         </div>
-        <div class="flex items-center gap-2 shrink-0">
-          <button type="button" onclick="openShareCurrentProduct()" class="px-2.5 py-1 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-emerald-400 font-bold text-[11px]" title="Tạo mã QR / chia sẻ sản phẩm này">
-            <i class="fa-solid fa-qrcode mr-1"></i>QR
-          </button>
-          <button onclick="closeModal('productModal')" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-base"></i></button>
-        </div>
+        <button onclick="closeModal('productModal')" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-base"></i></button>
       </div>
 
+      <!-- KHUNG ẢNH 1:1 + NÚT CHUYỂN + DẢI ẢNH THU NHỎ -->
       <div class="space-y-2">
         <div class="relative aspect-square w-full max-w-[270px] mx-auto rounded-2xl overflow-hidden bg-slate-950 border border-slate-800">
           <img id="pmImage" src="" alt="" class="w-full h-full object-cover object-top" />
@@ -571,6 +428,7 @@
         </button>
       </div>
 
+      <!-- CHỌN MÀU KÈM ẢNH NHỎ -->
       <div id="pmColorSection" class="hidden space-y-1.5">
         <div class="flex items-center gap-2 text-xs">
           <span class="font-bold text-slate-300">Màu</span>
@@ -579,6 +437,7 @@
         <div id="pmColorGrid" class="grid grid-cols-2 sm:grid-cols-4 gap-2"></div>
       </div>
 
+      <!-- CHỌN SIZE / PHÂN LOẠI -->
       <div class="space-y-1.5">
         <div class="flex items-center gap-2 text-xs">
           <span class="font-bold text-slate-300" id="pmOptionHeading">Size</span>
@@ -587,6 +446,7 @@
         <div id="pmOptions" class="flex flex-wrap gap-1.5"></div>
       </div>
 
+      <!-- CHỌN SỐ LƯỢNG -->
       <div class="flex items-center justify-between pt-1">
         <span class="text-xs font-bold text-slate-300">Số lượng</span>
         <div class="inline-flex items-center rounded-xl border border-slate-700 bg-slate-950 overflow-hidden">
@@ -690,14 +550,14 @@
     </div>
   </div>
 
-  <!-- ==================== MODAL: ADMIN LOGIN, ADD & EDIT PRODUCT ==================== -->
+  <!-- ==================== MODAL: ADMIN LOGIN & ADD PRODUCT ==================== -->
   <div id="adminModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-3">
     <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-sm w-full p-5 space-y-3 text-xs shadow-2xl">
       <div class="flex items-center justify-between border-b border-slate-800 pb-2">
         <h3 class="text-sm font-black text-white">ĐĂNG NHẬP QUẢN TRỊ SHOP</h3>
         <button onclick="closeModal('adminModal')" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
       </div>
-      <p class="text-slate-400">Nhập mã PIN quản trị của Thể Thao Thanh Tâm để thêm hoặc sửa sản phẩm.</p>
+      <p class="text-slate-400">Nhập mã PIN quản trị của Thể Thao Thanh Tâm để thêm sản phẩm mới.</p>
       <input type="password" id="adminPinInput" placeholder="Nhập mã PIN..." class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
       <button onclick="verifyAdmin()" class="w-full py-2.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-extrabold">Xác nhận</button>
     </div>
@@ -728,13 +588,14 @@
           </select>
         </div>
         <div class="grid grid-cols-2 gap-2">
-          <input type="number" id="npPrice" required placeholder="Giá bán / Giá gói khởi điểm (VNĐ) *" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
+          <input type="number" id="npPrice" required placeholder="Giá bán (VNĐ) *" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
           <input type="number" id="npOldPrice" placeholder="Giá gốc gạch ngang (nếu có)" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
         </div>
         <input type="text" id="npColors" oninput="syncColorBlocksFromInput()" placeholder="Các màu (cách nhau dấu phẩy, VD: Trắng, Xanh Navy, Hồng Nhạt)" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
-        <input type="text" id="npOptions" required placeholder="Size / Gói (VD: Cơ Bản: 99000, Tiêu Chuẩn: 149000, Premium: 249000) *" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
+        <input type="text" id="npOptions" required placeholder="Size / Phân loại (cách nhau dấu phẩy: M, L, XL, XXL hoặc 39, 40, 41) *" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
         <input type="text" id="npBadge" placeholder="Nhãn nổi bật (tùy chọn)" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
 
+        <!-- KHỐI ẢNH THEO TỪNG MÀU (MỖI MÀU CÓ 1 ẢNH CHÍNH + TỐI ĐA 5 ẢNH CHI TIẾT) -->
         <div id="npPerColorSection" class="hidden p-3 rounded-2xl bg-slate-950 border border-slate-700 space-y-2.5">
           <div class="flex items-center justify-between">
             <span class="text-[11px] font-extrabold text-amber-400">ẢNH THEO TỪNG MÀU (1 ảnh màu + tối đa 5 ảnh chi tiết/màu)</span>
@@ -742,6 +603,7 @@
           <div id="npPerColorList" class="space-y-2.5"></div>
         </div>
 
+        <!-- KHO ẢNH CHUNG (DÙNG KHI SẢN PHẨM KHÔNG CHIA MÀU RIÊNG) -->
         <div id="npDefaultImagesSection" class="p-3 rounded-2xl bg-slate-950 border border-dashed border-slate-700 space-y-2">
           <div class="flex items-center justify-between gap-2">
             <label for="npImageFiles" class="cursor-pointer px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-orange-400 font-extrabold inline-flex items-center gap-1.5 transition shrink-0">
@@ -754,73 +616,8 @@
           <div id="npImagePreviewGrid" class="grid grid-cols-3 gap-2"></div>
         </div>
 
-        <textarea id="npDesc" rows="3" placeholder="Mô tả chi tiết (với Túi Mù nhiều gói, ghi từng dòng: Cơ Bản: món 1, món 2...)" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100"></textarea>
+        <textarea id="npDesc" rows="2" placeholder="Mô tả chi tiết sản phẩm..." class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100"></textarea>
         <button type="submit" id="btnSaveProduct" class="w-full py-2.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-extrabold">Lưu & Đồng Bộ Lên Google Sheets</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- MODAL: CHỈNH SỬA SẢN PHẨM TRONG ADMIN -->
-  <div id="editProductModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-3">
-    <div class="bg-slate-900 border border-amber-500/40 rounded-3xl max-w-md w-full p-5 space-y-3 text-xs shadow-2xl max-h-[92vh] overflow-y-auto">
-      <div class="flex items-center justify-between border-b border-slate-800 pb-2">
-        <div>
-          <span class="text-[10px] font-extrabold uppercase text-amber-400">QUẢN TRỊ • CẬP NHẬT NHANH</span>
-          <h3 class="text-sm font-black text-white">CHỈNH SỬA SẢN PHẨM</h3>
-        </div>
-        <button onclick="closeModal('editProductModal')" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
-      </div>
-      <form onsubmit="handleUpdateProduct(event)" class="space-y-2.5">
-        <input type="hidden" id="epId" />
-        <div>
-          <label class="block text-[11px] font-bold text-slate-400 mb-1">Tên sản phẩm *</label>
-          <input type="text" id="epName" required class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
-        </div>
-        <div class="grid grid-cols-2 gap-2">
-          <div>
-            <label class="block text-[11px] font-bold text-slate-400 mb-1">Danh mục</label>
-            <select id="epCategory" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100">
-              <option value="Quần áo bóng chuyền">Quần áo bóng chuyền</option>
-              <option value="Quần áo bóng đá">Quần áo bóng đá</option>
-              <option value="Giày bóng chuyền">Giày bóng chuyền</option>
-              <option value="Giày pickleball/cầu lông">Giày pickleball/cầu lông</option>
-              <option value="Giày bóng đá">Giày bóng đá</option>
-              <option value="Bóng thi đấu">Bóng thi đấu</option>
-              <option value="Phụ kiện thể thao">Phụ kiện thể thao</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-[11px] font-bold text-slate-400 mb-1">Khu vực hiển thị</label>
-            <select id="epSection" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100">
-              <option value="store">Cửa Hàng Chính</option>
-              <option value="mystery">Túi Mù & Set Quà</option>
-              <option value="clearance">Săn Hàng Lẻ Size</option>
-            </select>
-          </div>
-        </div>
-        <div class="grid grid-cols-2 gap-2">
-          <div>
-            <label class="block text-[11px] font-bold text-slate-400 mb-1">Giá bán / Gói khởi điểm (VNĐ) *</label>
-            <input type="number" id="epPrice" required class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100 font-bold text-orange-400" />
-          </div>
-          <div>
-            <label class="block text-[11px] font-bold text-slate-400 mb-1">Giá gốc gạch ngang</label>
-            <input type="number" id="epOldPrice" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
-          </div>
-        </div>
-        <div>
-          <label class="block text-[11px] font-bold text-slate-400 mb-1">Size / Gói (cách nhau dấu phẩy)</label>
-          <input type="text" id="epOptions" required class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
-        </div>
-        <div>
-          <label class="block text-[11px] font-bold text-slate-400 mb-1">Nhãn nổi bật</label>
-          <input type="text" id="epBadge" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
-        </div>
-        <div>
-          <label class="block text-[11px] font-bold text-slate-400 mb-1">Mô tả chi tiết / Danh sách quà túi mù</label>
-          <textarea id="epDesc" rows="3" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100"></textarea>
-        </div>
-        <button type="submit" id="btnUpdateProduct" class="w-full py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black">Lưu Thay Đổi</button>
       </form>
     </div>
   </div>
@@ -844,28 +641,6 @@
     const SHOP_ZALO = "0906075077";
     const MAX_IMAGES = 5;
     const MAX_DETAIL_PER_COLOR = 5;
-    const RECENT_LOCAL_TTL_MS = 5 * 60 * 1000;
-
-    const DEFAULT_TIER_POOLS = {
-      basic: [
-        "Combo 3 quấn cán + 1 vớ chống trượt (115K)",
-        "Túi đựng giày 2 ngăn chống nước (120K)",
-        "Băng bảo vệ gối thể thao (130K)",
-        "Bóng tập luyện chính hãng (180K)"
-      ],
-      standard: [
-        "Áo thi đấu thể thao cao cấp (165K)",
-        "Balo rút 2 ngăn chống nước (175K)",
-        "Bộ 2 băng bảo vệ khớp chuyên dụng (185K)",
-        "Bóng thi đấu / Vợt tập luyện (260K)"
-      ],
-      premium: [
-        "Bộ quần áo thi đấu cao cấp (265K)",
-        "Balo thể thao chuyên dụng cỡ lớn (320K)",
-        "Vợt Pickleball / Giày thể thao (380K)",
-        "Voucher 300K mua giày tại shop (300K)"
-      ]
-    };
 
     const SAMPLE_PRODUCTS = [];
     const FALLBACK_SQUARE_IMG = "https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=600&h=600&q=80";
@@ -875,241 +650,9 @@
     let currentCategory = "ALL";
     let cart = JSON.parse(localStorage.getItem("tttt_cart") || "[]");
     let isAdmin = sessionStorage.getItem("tttt_admin") === "1";
-    let recentLocalEdits = JSON.parse(sessionStorage.getItem("tttt_recent_edits") || "{}");
 
     let uploadedImagesBase64 = [];
     let colorMediaDrafts = [];
-
-    let activeMysteryProduct = null;
-    let mysteryTiers = [];
-    let selectedMysteryTierIdx = 0;
-    let mysteryPool = [];
-    let mysteryRevealedItem = "";
-    let mysteryQty = 1;
-    let mysterySpinTimer = null;
-
-    let currentShareLabel = "THỂ THAO THANH TÂM BMT";
-
-    function markRecentLocalEdit(prod) {
-      if (!prod || !prod.id) return;
-      recentLocalEdits[String(prod.id)] = {
-        ts: Date.now(),
-        product: prod
-      };
-      sessionStorage.setItem("tttt_recent_edits", JSON.stringify(recentLocalEdits));
-    }
-
-    function mergeSheetProductsWithLocal(sheetProducts) {
-      const now = Date.now();
-      const map = new Map();
-
-      (Array.isArray(sheetProducts) ? sheetProducts : []).forEach(p => {
-        if (p && p.id) map.set(String(p.id), p);
-      });
-
-      const cleanedRecent = {};
-      Object.entries(recentLocalEdits).forEach(([id, entry]) => {
-        if (!entry || (now - Number(entry.ts || 0)) > RECENT_LOCAL_TTL_MS) return;
-        cleanedRecent[id] = entry;
-
-        const sheetItem = map.get(id);
-        if (!sheetItem && entry.product) {
-          map.set(id, entry.product);
-        } else if (sheetItem && entry.product) {
-          const sheetPrice = Number(sheetItem.price || 0);
-          const localPrice = Number(entry.product.price || 0);
-          const sheetOpts = JSON.stringify(sheetItem.options || []);
-          const localOpts = JSON.stringify(entry.product.options || []);
-          if (
-            sheetItem.name !== entry.product.name ||
-            sheetPrice !== localPrice ||
-            sheetItem.desc !== entry.product.desc ||
-            sheetItem.section !== entry.product.section ||
-            sheetOpts !== localOpts
-          ) {
-            map.set(id, { ...sheetItem, ...entry.product });
-          } else {
-            delete cleanedRecent[id];
-          }
-        }
-      });
-
-      recentLocalEdits = cleanedRecent;
-      sessionStorage.setItem("tttt_recent_edits", JSON.stringify(recentLocalEdits));
-
-      const newOnes = [];
-      const rest = [];
-      const sheetIds = new Set((Array.isArray(sheetProducts) ? sheetProducts : []).map(x => String(x.id)));
-
-      map.forEach((val, key) => {
-        if (!sheetIds.has(key)) newOnes.unshift(val);
-        else rest.push(val);
-      });
-
-      return [...newOnes, ...rest];
-    }
-
-    function openEditProductModal(id) {
-      const p = products.find(item => String(item.id) === String(id));
-      if (!p) return;
-
-      document.getElementById("epId").value = p.id;
-      document.getElementById("epName").value = p.name || "";
-      document.getElementById("epCategory").value = p.category || "Phụ kiện thể thao";
-      document.getElementById("epSection").value = p.section || "store";
-      document.getElementById("epPrice").value = Number(p.price || 0);
-      document.getElementById("epOldPrice").value = Number(p.oldPrice || 0) || "";
-      document.getElementById("epOptions").value = Array.isArray(p.options) ? p.options.join(", ") : String(p.options || "");
-      document.getElementById("epBadge").value = p.badge || "";
-      document.getElementById("epDesc").value = p.desc || "";
-
-      document.getElementById("editProductModal").classList.remove("hidden");
-    }
-
-    async function handleUpdateProduct(e) {
-      e.preventDefault();
-      const id = document.getElementById("epId").value;
-      const idx = products.findIndex(item => String(item.id) === String(id));
-      if (idx === -1) return;
-
-      const btn = document.getElementById("btnUpdateProduct");
-      btn.disabled = true;
-      btn.innerText = "Đang lưu thay đổi...";
-
-      const existing = products[idx];
-      const updatedProd = {
-        ...existing,
-        name: document.getElementById("epName").value.trim(),
-        category: document.getElementById("epCategory").value,
-        section: document.getElementById("epSection").value,
-        price: Number(document.getElementById("epPrice").value) || 0,
-        oldPrice: Number(document.getElementById("epOldPrice").value) || 0,
-        options: document.getElementById("epOptions").value.split(",").map(s => s.trim()).filter(Boolean),
-        badge: document.getElementById("epBadge").value.trim(),
-        desc: document.getElementById("epDesc").value.trim()
-      };
-
-      products[idx] = updatedProd;
-      markRecentLocalEdit(updatedProd);
-      renderProducts();
-
-      if (GAS_WEBAPP_URL) {
-        try {
-          await fetch(GAS_WEBAPP_URL, {
-            method: "POST",
-            mode: "no-cors",
-            headers: { "Content-Type": "text/plain;charset=utf-8" },
-            body: JSON.stringify({
-              action: "updateProduct",
-              product: updatedProd
-            })
-          });
-        } catch (err) {
-          console.error("Lỗi đồng bộ cập nhật sản phẩm:", err);
-        }
-      }
-
-      btn.disabled = false;
-      btn.innerText = "Lưu Thay Đổi";
-      closeModal("editProductModal");
-    }
-
-    function buildShareUrl(productId = "") {
-      const base = `${window.location.origin}${window.location.pathname}`;
-      if (!productId) return base;
-      return `${base}?sp=${encodeURIComponent(productId)}`;
-    }
-
-    function openShareModal(mode = "store", prod = null) {
-      let url = buildShareUrl("");
-      let title = "THỂ THAO THANH TÂM BMT";
-      let caption = "08 Nguyễn Đình Chiểu, BMT";
-
-      if (mode === "product" && prod) {
-        url = buildShareUrl(prod.id);
-        title = prod.name;
-        caption = `${formatVND(prod.price)} • ${prod.category}`;
-      }
-
-      currentShareLabel = title;
-      document.getElementById("shareTitle").innerText = title;
-      document.getElementById("qrCaption").innerText = caption;
-      document.getElementById("shareUrlInput").value = url;
-      document.getElementById("copyFeedback").classList.add("hidden");
-
-      const qrBox = document.getElementById("qrCodeBox");
-      qrBox.innerHTML = "";
-      if (typeof QRCode !== "undefined") {
-        new QRCode(qrBox, {
-          text: url,
-          width: 150,
-          height: 150,
-          colorDark: "#090d16",
-          colorLight: "#ffffff",
-          correctLevel: QRCode.CorrectLevel.M
-        });
-      }
-
-      const zaloMsg = encodeURIComponent(`Xem ${title} tại Thể Thao Thanh Tâm BMT: ${url}`);
-      document.getElementById("shareZaloBtn").href = `https://zalo.me/${SHOP_ZALO}?text=${zaloMsg}`;
-      document.getElementById("shareModal").classList.remove("hidden");
-    }
-
-    function openShareCurrentProduct() {
-      if (!selectedProduct) return;
-      openShareModal("product", selectedProduct);
-    }
-
-    function openShareCurrentMystery() {
-      if (!activeMysteryProduct) return;
-      openShareModal("product", activeMysteryProduct);
-    }
-
-    function copyShareUrl() {
-      const input = document.getElementById("shareUrlInput");
-      const val = input.value;
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(val).catch(() => {});
-      }
-      input.select();
-      document.execCommand("copy");
-      document.getElementById("copyFeedback").classList.remove("hidden");
-    }
-
-    function downloadQrImage() {
-      const qrBox = document.getElementById("qrCodeBox");
-      const canvas = qrBox.querySelector("canvas");
-      const img = qrBox.querySelector("img");
-      let dataUrl = "";
-      if (canvas) {
-        dataUrl = canvas.toDataURL("image/png");
-      } else if (img && img.src) {
-        dataUrl = img.src;
-      }
-      if (!dataUrl) return;
-
-      const link = document.createElement("a");
-      const safeName = currentShareLabel.toLowerCase().replace(/[^a-z0-9]+/gi, "_").replace(/^_|_$/g, "") || "qr_shop";
-      link.download = `QR_${safeName}.png`;
-      link.href = dataUrl;
-      link.click();
-    }
-
-    function openSharedProductIfPresent() {
-      const params = new URLSearchParams(window.location.search);
-      const spId = params.get("sp");
-      if (!spId || !products.length) return;
-      const found = products.find(p => String(p.id) === String(spId));
-      if (!found) return;
-
-      if (found.section === "mystery") {
-        switchTab("mystery");
-        openMysteryModal(found.id);
-      } else {
-        switchTab(found.section || "store");
-        openProductDetail(found.id);
-      }
-    }
 
     function toggleCatalogDrawer(open) {
       document.getElementById("catalogDrawer").classList.toggle("hidden", !open);
@@ -1128,239 +671,6 @@
       currentCategory = cat || "ALL";
       switchTab(currentTab);
       setCategory(currentCategory);
-    }
-
-    function detectTierKey(label) {
-      const s = String(label || "").toLowerCase();
-      if (s.includes("premium") || s.includes("vip") || s.includes("đặc biệt") || s.includes("cao cấp")) return "premium";
-      if (s.includes("tiêu chuẩn") || s.includes("standard") || s.includes("nâng cao")) return "standard";
-      return "basic";
-    }
-
-    function parseMysteryTiers(p) {
-      const basePrice = Number(p.price || 99000);
-      const rawOpts = Array.isArray(p.options) && p.options.length
-        ? p.options
-        : ["Gói Cơ Bản", "Gói Tiêu Chuẩn", "Gói Premium"];
-
-      const tiers = rawOpts.map((entry, idx) => {
-        const text = String(entry || "").trim();
-        const match = text.match(/^(.+?)\s*[:=-]\s*(\d[\d.,]*)\s*k?$/i);
-        if (match) {
-          const name = match[1].trim();
-          let num = Number(match[2].replace(/[.,]/g, ""));
-          if (/k$/i.test(text) && num < 10000) num *= 1000;
-          return { name, price: num || basePrice };
-        }
-        const key = detectTierKey(text);
-        let inferredPrice = basePrice;
-        if (rawOpts.length >= 2) {
-          if (key === "standard" || (idx === 1 && key === "basic")) inferredPrice = Math.round(basePrice * 1.5);
-          if (key === "premium" || idx >= 2) inferredPrice = Math.round(basePrice * 2.5);
-        }
-        return { name: text, price: inferredPrice };
-      });
-
-      const rawDesc = String((p && p.desc) || "").trim();
-      const tierPoolsMap = new Map();
-      const generalPool = [];
-
-      if (rawDesc) {
-        rawDesc.split(/\n+/).forEach(line => {
-          const cleanLine = line.trim();
-          if (!cleanLine) return;
-          const colonIdx = cleanLine.indexOf(":");
-          if (colonIdx > 0 && colonIdx < 35) {
-            const prefix = cleanLine.slice(0, colonIdx).trim().toLowerCase();
-            const items = cleanLine.slice(colonIdx + 1)
-              .split(/[,|;]+/)
-              .map(s => s.replace(/^[-•*]+\s*/, "").trim())
-              .filter(Boolean);
-            if (items.length) {
-              tierPoolsMap.set(prefix, items);
-              return;
-            }
-          }
-          cleanLine.split(/[,|;]+/)
-            .map(s => s.replace(/^[-•*]+\s*/, "").trim())
-            .filter(Boolean)
-            .forEach(item => generalPool.push(item));
-        });
-      }
-
-      return tiers.map(t => {
-        const lowerName = t.name.toLowerCase();
-        let matchedPool = null;
-        for (const [prefix, items] of tierPoolsMap.entries()) {
-          if (lowerName.includes(prefix) || prefix.includes(lowerName)) {
-            matchedPool = items;
-            break;
-          }
-        }
-        if (!matchedPool) {
-          if (generalPool.length >= 2) {
-            matchedPool = generalPool;
-          } else {
-            const key = detectTierKey(t.name);
-            matchedPool = [...(DEFAULT_TIER_POOLS[key] || DEFAULT_TIER_POOLS.basic)];
-          }
-        }
-        return { ...t, pool: matchedPool };
-      });
-    }
-
-    function openMysteryModal(id) {
-      const p = products.find(item => item.id === id);
-      if (!p) return;
-      if (mysterySpinTimer) {
-        clearInterval(mysterySpinTimer);
-        mysterySpinTimer = null;
-      }
-
-      activeMysteryProduct = p;
-      mysteryTiers = parseMysteryTiers(p);
-      selectedMysteryTierIdx = 0;
-      mysteryQty = 1;
-
-      document.getElementById("mmTitle").innerText = p.name;
-      document.getElementById("mmQtyValue").innerText = mysteryQty;
-
-      selectMysteryTier(0);
-      document.getElementById("mysteryModal").classList.remove("hidden");
-    }
-
-    function selectMysteryTier(idx) {
-      if (mysterySpinTimer) {
-        clearInterval(mysterySpinTimer);
-        mysterySpinTimer = null;
-      }
-      selectedMysteryTierIdx = idx;
-      const tier = mysteryTiers[idx] || mysteryTiers[0];
-      mysteryPool = tier ? tier.pool : [...DEFAULT_TIER_POOLS.basic];
-      mysteryRevealedItem = "";
-
-      const tierGrid = document.getElementById("mmTierGrid");
-      tierGrid.className = mysteryTiers.length === 2 ? "grid grid-cols-2 gap-2" : (mysteryTiers.length === 1 ? "grid grid-cols-1 gap-2" : "grid grid-cols-3 gap-2");
-
-      tierGrid.innerHTML = mysteryTiers.map((t, i) => {
-        const active = i === selectedMysteryTierIdx;
-        return `
-          <button type="button" onclick="selectMysteryTier(${i})" class="p-2 rounded-2xl border-2 text-center transition flex flex-col items-center justify-center gap-0.5 ${active ? 'border-amber-400 bg-amber-400/15' : 'border-slate-800 bg-slate-950 hover:border-slate-700'}">
-            <span class="text-[11px] font-black ${active ? 'text-white' : 'text-slate-300'} line-clamp-1">${t.name}</span>
-            <span class="text-xs font-black ${active ? 'text-orange-400' : 'text-slate-400'}">${formatVND(t.price)}</span>
-          </button>
-        `;
-      }).join("");
-
-      const bagEl = document.getElementById("mmBagVisual");
-      bagEl.className = "w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-amber-400 to-orange-600 text-slate-950 flex items-center justify-center text-2xl shadow-lg shadow-orange-500/25";
-      bagEl.innerHTML = `<i class="fa-solid fa-gift"></i>`;
-
-      document.getElementById("mmRarityBadge").classList.add("hidden");
-      const slotEl = document.getElementById("mmSlotText");
-      slotEl.className = "text-sm font-black text-amber-300";
-      slotEl.innerText = "Bấm nút bên dưới để bốc & hé lộ món quà trong túi!";
-
-      const spinBtn = document.getElementById("mmSpinBtn");
-      spinBtn.disabled = false;
-      spinBtn.innerHTML = `<i class="fa-solid fa-dice mr-1.5"></i>Quay / Mở ${tier.name}`;
-
-      document.getElementById("mmActiveTierLabel").innerText = tier.name;
-      document.getElementById("mmPoolCount").innerText = `${mysteryPool.length} suất quà`;
-      document.getElementById("mmPoolList").innerHTML = mysteryPool.map((item, itemIdx) => {
-        const isLastSpecial = mysteryPool.length >= 3 && itemIdx === mysteryPool.length - 1;
-        return `<span class="px-2.5 py-1 rounded-xl border text-[11px] font-bold ${isLastSpecial ? 'bg-amber-500/15 border-amber-500/40 text-amber-300' : 'bg-slate-950 border-slate-800 text-slate-300'}">${isLastSpecial ? '★ ' : ''}${item}</span>`;
-      }).join("");
-
-      document.getElementById("mmPrice").innerText = formatVND(tier.price);
-      updateMysteryZaloLink();
-    }
-
-    function pickWeightedIndex(len) {
-      if (len <= 1) return 0;
-      if (len === 2) return Math.random() < 0.85 ? 0 : 1;
-      if (Math.random() < 0.08) return len - 1;
-      return Math.floor(Math.random() * (len - 1));
-    }
-
-    function spinMysteryBag() {
-      if (!activeMysteryProduct || !mysteryPool.length || mysterySpinTimer) return;
-
-      const tier = mysteryTiers[selectedMysteryTierIdx] || mysteryTiers[0];
-      const spinBtn = document.getElementById("mmSpinBtn");
-      const bagEl = document.getElementById("mmBagVisual");
-      const slotEl = document.getElementById("mmSlotText");
-      const rarityEl = document.getElementById("mmRarityBadge");
-
-      spinBtn.disabled = true;
-      spinBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-1.5"></i>Đang lắc & mở ${tier.name}...`;
-      bagEl.classList.add("bag-shaking");
-      rarityEl.classList.add("hidden");
-
-      let ticks = 0;
-      const totalTicks = 18;
-      mysterySpinTimer = setInterval(() => {
-        const previewItem = mysteryPool[ticks % mysteryPool.length];
-        slotEl.className = "text-sm font-extrabold text-slate-200";
-        slotEl.innerText = previewItem;
-        ticks++;
-
-        if (ticks >= totalTicks) {
-          clearInterval(mysterySpinTimer);
-          mysterySpinTimer = null;
-
-          const pickedIdx = pickWeightedIndex(mysteryPool.length);
-          mysteryRevealedItem = mysteryPool[pickedIdx];
-
-          bagEl.classList.remove("bag-shaking");
-          bagEl.innerHTML = `<i class="fa-solid fa-sparkles"></i>`;
-
-          const isSecret = mysteryPool.length >= 2 && pickedIdx === mysteryPool.length - 1;
-          rarityEl.classList.remove("hidden");
-          rarityEl.className = isSecret
-            ? "px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-amber-400/20 text-amber-300 border border-amber-400/40"
-            : "px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-500/40";
-          rarityEl.innerText = isSecret ? "★ Giải Đặc Biệt (Secret)" : "✓ Suất Quà Hé Lộ";
-
-          slotEl.className = "text-base font-black text-white reveal-pop";
-          slotEl.innerText = mysteryRevealedItem;
-
-          spinBtn.disabled = false;
-          spinBtn.innerHTML = `<i class="fa-solid fa-rotate-right mr-1.5"></i>Quay Thử Túi Khác`;
-
-          updateMysteryZaloLink();
-        }
-      }, 65);
-    }
-
-    function changeMysteryQty(delta) {
-      mysteryQty = Math.max(1, mysteryQty + delta);
-      document.getElementById("mmQtyValue").innerText = mysteryQty;
-      updateMysteryZaloLink();
-    }
-
-    function updateMysteryZaloLink() {
-      if (!activeMysteryProduct) return;
-      const tier = mysteryTiers[selectedMysteryTierIdx] || mysteryTiers[0];
-      const luckyNote = mysteryRevealedItem ? ` | Quay mở ra: ${mysteryRevealedItem}` : "";
-      const msg = encodeURIComponent(`Chào Thể Thao Thanh Tâm BMT, mình đặt Túi Mù: ${activeMysteryProduct.name} - ${tier.name} (${formatVND(tier.price)}/túi${luckyNote}) x${mysteryQty} - Tổng ${formatVND(tier.price * mysteryQty)}`);
-      document.getElementById("mmZaloBtn").href = `https://zalo.me/${SHOP_ZALO}?text=${msg}`;
-    }
-
-    function addMysteryToCart() {
-      if (!activeMysteryProduct) return;
-      const tier = mysteryTiers[selectedMysteryTierIdx] || mysteryTiers[0];
-      const combinedOpt = mysteryRevealedItem
-        ? `${tier.name} • Mở ra: ${mysteryRevealedItem}`
-        : `${tier.name} • Túi mù ngẫu nhiên`;
-
-      const productForTier = {
-        ...activeMysteryProduct,
-        price: tier.price
-      };
-      addToCart(productForTier, combinedOpt, mysteryQty);
-      closeModal("mysteryModal");
-      toggleCart(true);
     }
 
     function getProductImages(p) {
@@ -1694,8 +1004,8 @@
         },
         mystery: {
           tag: "Túi Mù & Set Quà Tặng Thể Thao",
-          title: "Bốc / Mở Túi Mù Phụ Kiện & Set Quà Tặng Đóng Gói Theo Yêu Cầu",
-          desc: "Chọn gói Cơ Bản / Tiêu Chuẩn / Premium • Giá trị quà trong túi luôn cao hơn giá gói."
+          title: "Túi Mù Phụ Kiện & Set Quà Tặng Đóng Gói Theo Yêu Cầu",
+          desc: "Phù hợp làm quà tặng, giải đấu phong trào • Đặt nhanh qua website hoặc Zalo 0906.075.077."
         },
         clearance: {
           tag: "Săn Hàng Lẻ Size Cuối Tại Shop",
@@ -1756,22 +1066,14 @@
         const defaultOpt = (p.options && p.options[0]) ? p.options[0] : "Tiêu chuẩn";
         const variantLabel = defaultColor ? `${defaultColor} - ${defaultOpt}` : defaultOpt;
         const sizeType = detectSizeTypeFromName(p.name);
-        const isMystery = p.section === "mystery";
-        const mysteryTierList = isMystery ? parseMysteryTiers(p) : [];
-        const minTierPrice = isMystery && mysteryTierList.length
-          ? Math.min(...mysteryTierList.map(t => t.price))
-          : p.price;
-        const zaloMsg = encodeURIComponent(`Chào Thể Thao Thanh Tâm BMT, mình muốn hỏi mua: ${p.name} (${variantLabel}) - Giá từ ${formatVND(minTierPrice)}`);
+        const zaloMsg = encodeURIComponent(`Chào Thể Thao Thanh Tâm BMT, mình muốn hỏi mua: ${p.name} (${variantLabel}) - Giá ${formatVND(p.price)}`);
 
         return `
           <article class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between group hover:border-orange-500/50 transition">
             <div>
-              <div class="relative aspect-square bg-slate-950 overflow-hidden cursor-pointer" onclick="${isMystery ? `openMysteryModal('${p.id}')` : `openProductDetail('${p.id}')`}">
+              <div class="relative aspect-square bg-slate-950 overflow-hidden cursor-pointer" onclick="openProductDetail('${p.id}')">
                 <img src="${coverImg}" alt="${p.name}" class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-300" loading="lazy" />
                 ${p.badge ? `<span class="absolute top-2 left-2 px-2 py-0.5 rounded-lg bg-slate-950/85 backdrop-blur-xs border border-orange-500/40 text-[10px] font-extrabold text-orange-400">${p.badge}</span>` : ""}
-                <button type="button" onclick="event.stopPropagation(); openShareModal('product', products.find(x => x.id === '${p.id}'))" class="absolute top-2 right-2 w-7 h-7 rounded-lg bg-slate-950/80 hover:bg-slate-900 border border-slate-700 text-emerald-400 flex items-center justify-center text-[11px]" title="Chia sẻ / QR">
-                  <i class="fa-solid fa-qrcode"></i>
-                </button>
                 ${imgs.length > 1 ? `<span class="absolute bottom-2 right-2 px-1.5 py-0.5 rounded-md bg-slate-950/85 text-[10px] font-bold text-slate-200"><i class="fa-regular fa-images mr-1"></i>${imgs.length}</span>` : ""}
               </div>
               <div class="p-3 space-y-1.5">
@@ -1779,34 +1081,24 @@
                   <span class="font-bold text-slate-400">${p.category}</span>
                   ${sizeType ? `<button onclick="openSizeModal('${sizeType}')" class="text-amber-400 hover:underline font-bold">Bảng size</button>` : ""}
                 </div>
-                <h3 onclick="${isMystery ? `openMysteryModal('${p.id}')` : `openProductDetail('${p.id}')`}" class="text-xs sm:text-sm font-extrabold text-slate-100 line-clamp-2 cursor-pointer hover:text-orange-400 transition">${p.name}</h3>
-                <p class="text-[11px] text-slate-400 truncate">${isMystery ? mysteryTierList.map(t => t.name).join(" • ") : (colorList.length ? colorList.map(c => c.name).join(" • ") : (p.options || []).join(" • "))}</p>
+                <h3 onclick="openProductDetail('${p.id}')" class="text-xs sm:text-sm font-extrabold text-slate-100 line-clamp-2 cursor-pointer hover:text-orange-400 transition">${p.name}</h3>
+                <p class="text-[11px] text-slate-400 truncate">${colorList.length ? colorList.map(c => c.name).join(" • ") : (p.options || []).join(" • ")}</p>
               </div>
             </div>
 
             <div class="px-3 pb-3 pt-1 space-y-2">
               <div class="flex items-baseline gap-1.5">
-                <span class="text-sm sm:text-base font-black text-orange-400">${isMystery && mysteryTierList.length > 1 ? `Từ ${formatVND(minTierPrice)}` : formatVND(p.price)}</span>
+                <span class="text-sm sm:text-base font-black text-orange-400">${formatVND(p.price)}</span>
                 ${p.oldPrice ? `<span class="text-[10px] text-slate-500 line-through">${formatVND(p.oldPrice)}</span>` : ""}
               </div>
               <div class="grid grid-cols-5 gap-1.5">
-                ${isMystery
-                  ? `<button onclick="openMysteryModal('${p.id}')" class="col-span-3 py-1.5 px-2 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-300 hover:to-orange-400 text-slate-950 font-extrabold text-[11px] transition">
-                      <i class="fa-solid fa-dice mr-1"></i>Mở túi mù
-                    </button>`
-                  : `<button onclick="openProductDetail('${p.id}')" class="col-span-3 py-1.5 px-2 rounded-xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-extrabold text-[11px] transition">
-                      + Chọn mua
-                    </button>`
-                }
+                <button onclick="openProductDetail('${p.id}')" class="col-span-3 py-1.5 px-2 rounded-xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-extrabold text-[11px] transition">
+                  + Chọn mua
+                </button>
                 <a href="https://zalo.me/${SHOP_ZALO}?text=${zaloMsg}" target="_blank" class="col-span-2 py-1.5 px-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-sky-300 font-bold text-[11px] text-center transition">
                   Zalo
                 </a>
               </div>
-              ${isAdmin ? `
-                <button type="button" onclick="openEditProductModal('${p.id}')" class="w-full py-1.5 px-2 rounded-xl bg-amber-400/15 hover:bg-amber-400/25 border border-amber-400/40 text-amber-300 font-extrabold text-[11px] transition">
-                  <i class="fa-solid fa-pen-to-square mr-1"></i>Sửa giá / thông tin
-                </button>
-              ` : ""}
             </div>
           </article>
         `;
@@ -2216,7 +1508,6 @@ Hình thức: ${method} ${address}`);
     function openAdminModal() {
       if (isAdmin) {
         document.getElementById("adminBar").classList.toggle("hidden");
-        renderProducts();
         return;
       }
       document.getElementById("adminModal").classList.remove("hidden");
@@ -2229,7 +1520,6 @@ Hình thức: ${method} ${address}`);
         sessionStorage.setItem("tttt_admin", "1");
         document.getElementById("adminBar").classList.remove("hidden");
         document.getElementById("adminLockIcon").className = "fa-solid fa-unlock text-emerald-400";
-        renderProducts();
         closeModal("adminModal");
       } else {
         alert("Mã PIN quản trị chưa đúng!");
@@ -2241,7 +1531,6 @@ Hình thức: ${method} ${address}`);
       sessionStorage.removeItem("tttt_admin");
       document.getElementById("adminBar").classList.add("hidden");
       document.getElementById("adminLockIcon").className = "fa-solid fa-lock";
-      renderProducts();
     }
 
     function openAddProductModal() {
@@ -2303,10 +1592,6 @@ Hình thức: ${method} ${address}`);
         desc: document.getElementById("npDesc").value.trim()
       };
 
-      products.unshift(newProd);
-      markRecentLocalEdit(newProd);
-      renderProducts();
-
       if (GAS_WEBAPP_URL) {
         try {
           await fetch(GAS_WEBAPP_URL, {
@@ -2324,6 +1609,8 @@ Hình thức: ${method} ${address}`);
         }
       }
 
+      products.unshift(newProd);
+      renderProducts();
       e.target.reset();
       uploadedImagesBase64 = [];
       colorMediaDrafts = [];
@@ -2346,10 +1633,9 @@ Hình thức: ${method} ${address}`);
       try {
         const res = await fetch(GAS_WEBAPP_URL + "?t=" + Date.now());
         const data = await res.json();
-        if (data && Array.isArray(data.products)) {
-          products = mergeSheetProductsWithLocal(data.products);
+        if (data && Array.isArray(data.products) && data.products.length) {
+          products = data.products;
           renderProducts();
-          openSharedProductIfPresent();
           if (showAlert) alert("Đã đồng bộ " + products.length + " sản phẩm từ Google Sheets!");
         } else if (showAlert) {
           alert("Đã kết nối Google Sheets! Hiện chưa có sản phẩm nào trong Sheet.");
@@ -2395,10 +1681,6 @@ Hình thức: ${method} ${address}`);
     }
 
     function closeModal(id) {
-      if (id === "mysteryModal" && mysterySpinTimer) {
-        clearInterval(mysterySpinTimer);
-        mysterySpinTimer = null;
-      }
       document.getElementById(id).classList.add("hidden");
     }
 
