@@ -163,7 +163,7 @@
       <div class="flex flex-wrap items-center justify-between gap-2">
         <div class="flex items-center gap-2">
           <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-[10px] font-extrabold uppercase">Chế độ Quản Trị Shop</span>
-          <span class="text-xs text-slate-300">Đăng sản phẩm mới (tự động đồng bộ Google Sheets & Drive)</span>
+          <span class="text-xs text-slate-300">Bấm nút <strong>Sửa</strong> trên từng sản phẩm để đổi giá/gói nhanh hoặc thêm sản phẩm mới</span>
         </div>
         <div class="flex items-center gap-2">
           <button onclick="openAddProductModal()" class="px-3 py-1.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-extrabold text-xs">
@@ -690,14 +690,14 @@
     </div>
   </div>
 
-  <!-- ==================== MODAL: ADMIN LOGIN & ADD PRODUCT ==================== -->
+  <!-- ==================== MODAL: ADMIN LOGIN, ADD & EDIT PRODUCT ==================== -->
   <div id="adminModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-3">
     <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-sm w-full p-5 space-y-3 text-xs shadow-2xl">
       <div class="flex items-center justify-between border-b border-slate-800 pb-2">
         <h3 class="text-sm font-black text-white">ĐĂNG NHẬP QUẢN TRỊ SHOP</h3>
         <button onclick="closeModal('adminModal')" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
       </div>
-      <p class="text-slate-400">Nhập mã PIN quản trị của Thể Thao Thanh Tâm để thêm sản phẩm mới.</p>
+      <p class="text-slate-400">Nhập mã PIN quản trị của Thể Thao Thanh Tâm để thêm hoặc sửa sản phẩm.</p>
       <input type="password" id="adminPinInput" placeholder="Nhập mã PIN..." class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
       <button onclick="verifyAdmin()" class="w-full py-2.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-extrabold">Xác nhận</button>
     </div>
@@ -756,6 +756,71 @@
 
         <textarea id="npDesc" rows="3" placeholder="Mô tả chi tiết (với Túi Mù nhiều gói, ghi từng dòng: Cơ Bản: món 1, món 2...)" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100"></textarea>
         <button type="submit" id="btnSaveProduct" class="w-full py-2.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-extrabold">Lưu & Đồng Bộ Lên Google Sheets</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: CHỈNH SỬA SẢN PHẨM TRONG ADMIN -->
+  <div id="editProductModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-3">
+    <div class="bg-slate-900 border border-amber-500/40 rounded-3xl max-w-md w-full p-5 space-y-3 text-xs shadow-2xl max-h-[92vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+        <div>
+          <span class="text-[10px] font-extrabold uppercase text-amber-400">QUẢN TRỊ • CẬP NHẬT NHANH</span>
+          <h3 class="text-sm font-black text-white">CHỈNH SỬA SẢN PHẨM</h3>
+        </div>
+        <button onclick="closeModal('editProductModal')" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form onsubmit="handleUpdateProduct(event)" class="space-y-2.5">
+        <input type="hidden" id="epId" />
+        <div>
+          <label class="block text-[11px] font-bold text-slate-400 mb-1">Tên sản phẩm *</label>
+          <input type="text" id="epName" required class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-[11px] font-bold text-slate-400 mb-1">Danh mục</label>
+            <select id="epCategory" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100">
+              <option value="Quần áo bóng chuyền">Quần áo bóng chuyền</option>
+              <option value="Quần áo bóng đá">Quần áo bóng đá</option>
+              <option value="Giày bóng chuyền">Giày bóng chuyền</option>
+              <option value="Giày pickleball/cầu lông">Giày pickleball/cầu lông</option>
+              <option value="Giày bóng đá">Giày bóng đá</option>
+              <option value="Bóng thi đấu">Bóng thi đấu</option>
+              <option value="Phụ kiện thể thao">Phụ kiện thể thao</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-slate-400 mb-1">Khu vực hiển thị</label>
+            <select id="epSection" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100">
+              <option value="store">Cửa Hàng Chính</option>
+              <option value="mystery">Túi Mù & Set Quà</option>
+              <option value="clearance">Săn Hàng Lẻ Size</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-[11px] font-bold text-slate-400 mb-1">Giá bán / Gói khởi điểm (VNĐ) *</label>
+            <input type="number" id="epPrice" required class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100 font-bold text-orange-400" />
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-slate-400 mb-1">Giá gốc gạch ngang</label>
+            <input type="number" id="epOldPrice" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
+          </div>
+        </div>
+        <div>
+          <label class="block text-[11px] font-bold text-slate-400 mb-1">Size / Gói (cách nhau dấu phẩy)</label>
+          <input type="text" id="epOptions" required class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
+        </div>
+        <div>
+          <label class="block text-[11px] font-bold text-slate-400 mb-1">Nhãn nổi bật</label>
+          <input type="text" id="epBadge" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
+        </div>
+        <div>
+          <label class="block text-[11px] font-bold text-slate-400 mb-1">Mô tả chi tiết / Danh sách quà túi mù</label>
+          <textarea id="epDesc" rows="3" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100"></textarea>
+        </div>
+        <button type="submit" id="btnUpdateProduct" class="w-full py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black">Lưu Thay Đổi</button>
       </form>
     </div>
   </div>
@@ -822,6 +887,70 @@
     let mysterySpinTimer = null;
 
     let currentShareLabel = "THỂ THAO THANH TÂM BMT";
+
+    function openEditProductModal(id) {
+      const p = products.find(item => String(item.id) === String(id));
+      if (!p) return;
+
+      document.getElementById("epId").value = p.id;
+      document.getElementById("epName").value = p.name || "";
+      document.getElementById("epCategory").value = p.category || "Phụ kiện thể thao";
+      document.getElementById("epSection").value = p.section || "store";
+      document.getElementById("epPrice").value = Number(p.price || 0);
+      document.getElementById("epOldPrice").value = Number(p.oldPrice || 0) || "";
+      document.getElementById("epOptions").value = Array.isArray(p.options) ? p.options.join(", ") : String(p.options || "");
+      document.getElementById("epBadge").value = p.badge || "";
+      document.getElementById("epDesc").value = p.desc || "";
+
+      document.getElementById("editProductModal").classList.remove("hidden");
+    }
+
+    async function handleUpdateProduct(e) {
+      e.preventDefault();
+      const id = document.getElementById("epId").value;
+      const idx = products.findIndex(item => String(item.id) === String(id));
+      if (idx === -1) return;
+
+      const btn = document.getElementById("btnUpdateProduct");
+      btn.disabled = true;
+      btn.innerText = "Đang lưu thay đổi...";
+
+      const existing = products[idx];
+      const updatedProd = {
+        ...existing,
+        name: document.getElementById("epName").value.trim(),
+        category: document.getElementById("epCategory").value,
+        section: document.getElementById("epSection").value,
+        price: Number(document.getElementById("epPrice").value) || 0,
+        oldPrice: Number(document.getElementById("epOldPrice").value) || 0,
+        options: document.getElementById("epOptions").value.split(",").map(s => s.trim()).filter(Boolean),
+        badge: document.getElementById("epBadge").value.trim(),
+        desc: document.getElementById("epDesc").value.trim()
+      };
+
+      products[idx] = updatedProd;
+      renderProducts();
+
+      if (GAS_WEBAPP_URL) {
+        try {
+          await fetch(GAS_WEBAPP_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: JSON.stringify({
+              action: "updateProduct",
+              product: updatedProd
+            })
+          });
+        } catch (err) {
+          console.error("Lỗi đồng bộ cập nhật sản phẩm:", err);
+        }
+      }
+
+      btn.disabled = false;
+      btn.innerText = "Lưu Thay Đổi";
+      closeModal("editProductModal");
+    }
 
     function buildShareUrl(productId = "") {
       const base = `${window.location.origin}${window.location.pathname}`;
@@ -1611,6 +1740,11 @@
                   Zalo
                 </a>
               </div>
+              ${isAdmin ? `
+                <button type="button" onclick="openEditProductModal('${p.id}')" class="w-full py-1.5 px-2 rounded-xl bg-amber-400/15 hover:bg-amber-400/25 border border-amber-400/40 text-amber-300 font-extrabold text-[11px] transition">
+                  <i class="fa-solid fa-pen-to-square mr-1"></i>Sửa giá / thông tin
+                </button>
+              ` : ""}
             </div>
           </article>
         `;
@@ -2020,6 +2154,7 @@ Hình thức: ${method} ${address}`);
     function openAdminModal() {
       if (isAdmin) {
         document.getElementById("adminBar").classList.toggle("hidden");
+        renderProducts();
         return;
       }
       document.getElementById("adminModal").classList.remove("hidden");
@@ -2032,6 +2167,7 @@ Hình thức: ${method} ${address}`);
         sessionStorage.setItem("tttt_admin", "1");
         document.getElementById("adminBar").classList.remove("hidden");
         document.getElementById("adminLockIcon").className = "fa-solid fa-unlock text-emerald-400";
+        renderProducts();
         closeModal("adminModal");
       } else {
         alert("Mã PIN quản trị chưa đúng!");
@@ -2043,6 +2179,7 @@ Hình thức: ${method} ${address}`);
       sessionStorage.removeItem("tttt_admin");
       document.getElementById("adminBar").classList.add("hidden");
       document.getElementById("adminLockIcon").className = "fa-solid fa-lock";
+      renderProducts();
     }
 
     function openAddProductModal() {
