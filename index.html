@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>THỂ THAO THANH TÂM BMT • Giày • Quần Áo • Bóng • Phụ Kiện</title>
+  <title>THỂ THAO THANH TÂM BMT • Quần Áo • Giày • Bóng Thi Đấu • Phụ Kiện</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
   <style>
@@ -79,7 +79,7 @@
   <div id="catalogDrawer" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-xs flex">
     <div class="w-full max-w-xs bg-white text-slate-900 h-full flex flex-col justify-between shadow-2xl overflow-y-auto">
       <div>
-        <!-- Thanh tiêu đề cam giống ảnh -->
+        <!-- Thanh tiêu đề cam -->
         <div class="bg-orange-500 text-white px-4 py-3 flex items-center justify-between sticky top-0 z-10">
           <span class="text-xs font-black tracking-wide uppercase">DANH MỤC SẢN PHẨM</span>
           <button type="button" onclick="toggleCatalogDrawer(false)" class="text-white/90 hover:text-white p-1">
@@ -101,12 +101,13 @@
             </button>
 
             <div id="subCatalogList" class="bg-slate-50/70 divide-y divide-slate-100 text-[13px] font-medium text-slate-800">
-              <button type="button" onclick="selectCatalogFilter('Giày Bóng Chuyền', 'store')" class="w-full pl-5 pr-4 py-2.5 text-left hover:bg-orange-50 hover:text-orange-600 transition">Giày Bóng Chuyền</button>
-              <button type="button" onclick="selectCatalogFilter('Giày Bóng Đá', 'store')" class="w-full pl-5 pr-4 py-2.5 text-left hover:bg-orange-50 hover:text-orange-600 transition">Giày Bóng Đá</button>
-              <button type="button" onclick="selectCatalogFilter('Quần Áo Bóng Chuyền', 'store')" class="w-full pl-5 pr-4 py-2.5 text-left hover:bg-orange-50 hover:text-orange-600 transition">Quần Áo Bóng Chuyền</button>
-              <button type="button" onclick="selectCatalogFilter('Quần Áo Bóng Đá', 'store')" class="w-full pl-5 pr-4 py-2.5 text-left hover:bg-orange-50 hover:text-orange-600 transition">Quần Áo Bóng Đá</button>
-              <button type="button" onclick="selectCatalogFilter('Bóng Thi Đấu', 'store')" class="w-full pl-5 pr-4 py-2.5 text-left hover:bg-orange-50 hover:text-orange-600 transition">Bóng Thi Đấu</button>
-              <button type="button" onclick="selectCatalogFilter('Phụ Kiện', 'store')" class="w-full pl-5 pr-4 py-2.5 text-left hover:bg-orange-50 hover:text-orange-600 transition">Phụ Kiện</button>
+              <button type="button" onclick="selectCatalogFilter('Quần áo bóng chuyền', 'store')" class="w-full pl-5 pr-4 py-2.5 text-left hover:bg-orange-50 hover:text-orange-600 transition">Quần áo bóng chuyền</button>
+              <button type="button" onclick="selectCatalogFilter('Quần áo bóng đá', 'store')" class="w-full pl-5 pr-4 py-2.5 text-left hover:bg-orange-50 hover:text-orange-600 transition">Quần áo bóng đá</button>
+              <button type="button" onclick="selectCatalogFilter('Giày bóng chuyền', 'store')" class="w-full pl-5 pr-4 py-2.5 text-left hover:bg-orange-50 hover:text-orange-600 transition">Giày bóng chuyền</button>
+              <button type="button" onclick="selectCatalogFilter('Giày pickleball/cầu lông', 'store')" class="w-full pl-5 pr-4 py-2.5 text-left hover:bg-orange-50 hover:text-orange-600 transition">Giày pickleball/cầu lông</button>
+              <button type="button" onclick="selectCatalogFilter('Giày bóng đá', 'store')" class="w-full pl-5 pr-4 py-2.5 text-left hover:bg-orange-50 hover:text-orange-600 transition">Giày bóng đá</button>
+              <button type="button" onclick="selectCatalogFilter('Bóng thi đấu', 'store')" class="w-full pl-5 pr-4 py-2.5 text-left hover:bg-orange-50 hover:text-orange-600 transition">Bóng thi đấu</button>
+              <button type="button" onclick="selectCatalogFilter('Phụ kiện thể thao', 'store')" class="w-full pl-5 pr-4 py-2.5 text-left hover:bg-orange-50 hover:text-orange-600 transition">Phụ kiện thể thao</button>
               <button type="button" onclick="selectCatalogFilter('ALL', 'mystery')" class="w-full pl-5 pr-4 py-2.5 text-left hover:bg-orange-50 hover:text-orange-600 transition">Túi Mù & Set Quà</button>
               <button type="button" onclick="selectCatalogFilter('ALL', 'clearance')" class="w-full pl-5 pr-4 py-2.5 text-left hover:bg-orange-50 hover:text-orange-600 transition">Săn Hàng Lẻ Size</button>
             </div>
@@ -156,16 +157,16 @@
     <!-- INFO BANNER -->
     <section class="glass-card rounded-2xl p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
       <div class="space-y-0.5">
-        <p class="text-xs font-extrabold text-orange-400 uppercase tracking-wide" id="bannerTag">Giày • Quần Áo • Bóng Thi Đấu • Phụ Kiện</p>
-        <h2 class="text-sm sm:text-base font-extrabold text-white" id="bannerTitle">Giày, quần áo bóng chuyền – bóng đá, bóng thi đấu & phụ kiện tại BMT</h2>
-        <p class="text-xs text-slate-400" id="bannerDesc">Nhận đặt đồ đội in tên số theo yêu cầu • Thử đồ trực tiếp tại 08 Nguyễn Đình Chiểu, BMT • Freeship nội thành BMT từ 150.000đ.</p>
+        <p class="text-xs font-extrabold text-orange-400 uppercase tracking-wide" id="bannerTag">THỂ THAO THANH TÂM • BUÔN MA THUỘT</p>
+        <h2 class="text-sm sm:text-base font-extrabold text-white" id="bannerTitle">Quần áo, giày thi đấu, bóng & phụ kiện thể thao tại 08 Nguyễn Đình Chiểu</h2>
+        <p class="text-xs text-slate-400" id="bannerDesc">Thử đồ trực tiếp tại 08 Nguyễn Đình Chiểu, BMT • Freeship nội thành BMT cho đơn từ 150.000đ.</p>
       </div>
       <div class="flex items-center gap-2 shrink-0">
         <button onclick="toggleCatalogDrawer(true)" class="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-bold text-orange-300 transition">
           <i class="fa-solid fa-bars mr-1"></i>Chọn danh mục
         </button>
         <a href="https://zalo.me/0906075077" target="_blank" class="px-3 py-2 rounded-xl bg-sky-500/15 hover:bg-sky-500/25 border border-sky-500/40 text-xs font-extrabold text-sky-300 transition">
-          <i class="fa-solid fa-comment-dots mr-1"></i>Đặt đội / Zalo
+          <i class="fa-solid fa-comment-dots mr-1"></i>Chat Zalo Shop
         </a>
       </div>
     </section>
@@ -174,17 +175,18 @@
     <section class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
       <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar" id="categoryFilters">
         <button onclick="setCategory('ALL')" data-cat="ALL" class="cat-btn px-3 py-1.5 rounded-xl text-xs font-extrabold bg-slate-100 text-slate-950 shrink-0">Tất cả</button>
-        <button onclick="setCategory('Giày Bóng Chuyền')" data-cat="Giày Bóng Chuyền" class="cat-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-900 text-slate-300 border border-slate-800 hover:border-slate-700 shrink-0">Giày Bóng Chuyền</button>
-        <button onclick="setCategory('Giày Bóng Đá')" data-cat="Giày Bóng Đá" class="cat-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-900 text-slate-300 border border-slate-800 hover:border-slate-700 shrink-0">Giày Bóng Đá</button>
-        <button onclick="setCategory('Quần Áo Bóng Chuyền')" data-cat="Quần Áo Bóng Chuyền" class="cat-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-900 text-slate-300 border border-slate-800 hover:border-slate-700 shrink-0">Quần Áo Bóng Chuyền</button>
-        <button onclick="setCategory('Quần Áo Bóng Đá')" data-cat="Quần Áo Bóng Đá" class="cat-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-900 text-slate-300 border border-slate-800 hover:border-slate-700 shrink-0">Quần Áo Bóng Đá</button>
-        <button onclick="setCategory('Bóng Thi Đấu')" data-cat="Bóng Thi Đấu" class="cat-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-900 text-slate-300 border border-slate-800 hover:border-slate-700 shrink-0">Bóng Thi Đấu</button>
-        <button onclick="setCategory('Phụ Kiện')" data-cat="Phụ Kiện" class="cat-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-900 text-slate-300 border border-slate-800 hover:border-slate-700 shrink-0">Phụ Kiện</button>
+        <button onclick="setCategory('Quần áo bóng chuyền')" data-cat="Quần áo bóng chuyền" class="cat-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-900 text-slate-300 border border-slate-800 hover:border-slate-700 shrink-0">Quần áo bóng chuyền</button>
+        <button onclick="setCategory('Quần áo bóng đá')" data-cat="Quần áo bóng đá" class="cat-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-900 text-slate-300 border border-slate-800 hover:border-slate-700 shrink-0">Quần áo bóng đá</button>
+        <button onclick="setCategory('Giày bóng chuyền')" data-cat="Giày bóng chuyền" class="cat-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-900 text-slate-300 border border-slate-800 hover:border-slate-700 shrink-0">Giày bóng chuyền</button>
+        <button onclick="setCategory('Giày pickleball/cầu lông')" data-cat="Giày pickleball/cầu lông" class="cat-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-900 text-slate-300 border border-slate-800 hover:border-slate-700 shrink-0">Giày pickleball/cầu lông</button>
+        <button onclick="setCategory('Giày bóng đá')" data-cat="Giày bóng đá" class="cat-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-900 text-slate-300 border border-slate-800 hover:border-slate-700 shrink-0">Giày bóng đá</button>
+        <button onclick="setCategory('Bóng thi đấu')" data-cat="Bóng thi đấu" class="cat-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-900 text-slate-300 border border-slate-800 hover:border-slate-700 shrink-0">Bóng thi đấu</button>
+        <button onclick="setCategory('Phụ kiện thể thao')" data-cat="Phụ kiện thể thao" class="cat-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-900 text-slate-300 border border-slate-800 hover:border-slate-700 shrink-0">Phụ kiện thể thao</button>
       </div>
 
       <div class="relative w-full sm:w-64">
         <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-xs"></i>
-        <input type="text" id="searchInput" oninput="renderProducts()" placeholder="Tìm giày, áo, bóng chuyền, bóng đá..." class="w-full pl-8 pr-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-orange-500" />
+        <input type="text" id="searchInput" oninput="renderProducts()" placeholder="Tìm sản phẩm tại cửa hàng..." class="w-full pl-8 pr-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-orange-500" />
       </div>
     </section>
 
@@ -194,8 +196,8 @@
     <!-- EMPTY STATE -->
     <section id="emptyState" class="hidden glass-card rounded-2xl p-8 text-center space-y-2">
       <i class="fa-solid fa-box-open text-2xl text-slate-500"></i>
-      <p class="text-sm font-bold text-slate-300">Chưa có sản phẩm phù hợp trong mục này</p>
-      <p class="text-xs text-slate-400">Anh/chị thử chọn danh mục khác hoặc nhắn Zalo 0906.075.077 để shop gửi mẫu mới tại 08 Nguyễn Đình Chiểu nhé.</p>
+      <p class="text-sm font-bold text-slate-300">Chưa có sản phẩm trong mục này</p>
+      <p class="text-xs text-slate-400">Anh/chị có thể bấm Đồng bộ để tải dữ liệu mới nhất từ Google Sheets hoặc nhắn Zalo 0906.075.077 để shop hỗ trợ.</p>
     </section>
 
   </main>
@@ -273,6 +275,7 @@
             <label class="block text-[11px] font-bold text-slate-400 mb-1">Bộ môn chơi</label>
             <select id="sizeSport" onchange="calculateShoeSize()" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100 font-bold">
               <option value="volleyball">Giày Bóng Chuyền</option>
+              <option value="court">Giày Pickleball / Cầu Lông</option>
               <option value="football">Giày Bóng Đá (TF/IC)</option>
             </select>
           </div>
@@ -360,7 +363,7 @@
         <div class="p-3.5 rounded-2xl bg-gradient-to-br from-orange-500/15 to-amber-500/10 border border-orange-500/40 space-y-1.5">
           <p class="text-[11px] text-orange-300 font-bold uppercase">Gợi ý size quần áo thi đấu:</p>
           <p class="text-xl font-black text-white" id="recommendedClothesText">Size L</p>
-          <p class="text-[11px] text-slate-300 leading-relaxed" id="clothesAdviceNote">Form thể thao co giãn 4 chiều, thoáng mồ hôi. Nếu thích mặc rộng thoải mái khi bật nhảy hoặc có bụng, anh/chị nhích lên 1 size.</p>
+          <p class="text-[11px] text-slate-300 leading-relaxed" id="clothesAdviceNote">Form thể thao co giãn 4 chiều, thoáng mồ hôi. Nếu thích mặc rộng thoải mái khi vận động, anh/chị nhích lên 1 size.</p>
         </div>
 
         <div class="border border-slate-800 rounded-2xl overflow-hidden">
@@ -542,15 +545,16 @@
         <button onclick="closeModal('addProductModal')" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
       </div>
       <form onsubmit="handleAddProduct(event)" class="space-y-2.5">
-        <input type="text" id="npName" required placeholder="Tên sản phẩm (VD: Bộ Quần Áo Bóng Chuyền...) *" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
+        <input type="text" id="npName" required placeholder="Tên sản phẩm *" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
         <div class="grid grid-cols-2 gap-2">
           <select id="npCategory" class="px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100">
-            <option value="Giày Bóng Chuyền">Giày Bóng Chuyền</option>
-            <option value="Giày Bóng Đá">Giày Bóng Đá</option>
-            <option value="Quần Áo Bóng Chuyền">Quần Áo Bóng Chuyền</option>
-            <option value="Quần Áo Bóng Đá">Quần Áo Bóng Đá</option>
-            <option value="Bóng Thi Đấu">Bóng Thi Đấu</option>
-            <option value="Phụ Kiện">Phụ Kiện</option>
+            <option value="Quần áo bóng chuyền">Quần áo bóng chuyền</option>
+            <option value="Quần áo bóng đá">Quần áo bóng đá</option>
+            <option value="Giày bóng chuyền">Giày bóng chuyền</option>
+            <option value="Giày pickleball/cầu lông">Giày pickleball/cầu lông</option>
+            <option value="Giày bóng đá">Giày bóng đá</option>
+            <option value="Bóng thi đấu">Bóng thi đấu</option>
+            <option value="Phụ kiện thể thao">Phụ kiện thể thao</option>
           </select>
           <select id="npSection" class="px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100">
             <option value="store">Cửa Hàng Chính</option>
@@ -559,11 +563,11 @@
           </select>
         </div>
         <div class="grid grid-cols-2 gap-2">
-          <input type="number" id="npPrice" required placeholder="Giá bán (VD: 145000) *" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
+          <input type="number" id="npPrice" required placeholder="Giá bán (VNĐ) *" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
           <input type="number" id="npOldPrice" placeholder="Giá gốc gạch ngang (nếu có)" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
         </div>
-        <input type="text" id="npOptions" required placeholder="Size / Màu (VD: S, M, L, XL, XXL hoặc 39, 40, 41) *" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
-        <input type="text" id="npBadge" placeholder="Nhãn nổi bật (VD: Nhận in tên số, Vải mè Thái)" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
+        <input type="text" id="npOptions" required placeholder="Size / Phân loại (cách nhau dấu phẩy: S, M, L, XL hoặc 39, 40, 41) *" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
+        <input type="text" id="npBadge" placeholder="Nhãn nổi bật (tùy chọn)" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
 
         <!-- CHỌN TỐI ĐA 5 ẢNH 1:1 (600x600) TỪ MÁY / ĐIỆN THOẠI -->
         <div class="p-3 rounded-2xl bg-slate-950 border border-dashed border-slate-700 space-y-2">
@@ -578,7 +582,7 @@
           <div id="npImagePreviewGrid" class="grid grid-cols-5 gap-1.5"></div>
         </div>
 
-        <textarea id="npDesc" rows="2" placeholder="Mô tả chất liệu, form dáng, công dụng..." class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100"></textarea>
+        <textarea id="npDesc" rows="2" placeholder="Mô tả chi tiết sản phẩm..." class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100"></textarea>
         <button type="submit" id="btnSaveProduct" class="w-full py-2.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-extrabold">Lưu & Đồng Bộ Lên Google Sheets</button>
       </form>
     </div>
@@ -603,141 +607,7 @@
     const SHOP_ZALO = "0906075077";
     const MAX_IMAGES = 5;
 
-    const SAMPLE_PRODUCTS = [
-      {
-        id: "SP01",
-        section: "store",
-        category: "Quần Áo Bóng Chuyền",
-        name: "Bộ Quần Áo Bóng Chuyền Nam/Nữ Vải Mè Thoáng Khí",
-        price: 145000,
-        oldPrice: 175000,
-        badge: "Nhận in tên số đội",
-        options: ["Size S", "Size M", "Size L", "Size XL", "Size XXL"],
-        images: ["https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&w=600&h=600&q=80"],
-        desc: "Chất vải mè thể thao co giãn 4 chiều, thấm hút mồ hôi nhanh khi thi đấu ngoài trời và trong nhà. Nhận đặt theo đội từ 6 bộ trở lên."
-      },
-      {
-        id: "SP02",
-        section: "store",
-        category: "Quần Áo Bóng Đá",
-        name: "Bộ Quần Áo Bóng Đá Thiết Kế / Đặt Đội Phủi",
-        price: 135000,
-        oldPrice: 165000,
-        badge: "Đủ size S–XXL",
-        options: ["Size S", "Size M", "Size L", "Size XL", "Size XXL"],
-        images: ["https://images.unsplash.com/photo-1522778119026-d647f0596c20?auto=format&fit=crop&w=600&h=600&q=80"],
-        desc: "Vải thun lạnh thể thao nhẹ mát, không bết dính mồ hôi. Hỗ trợ in tên, số áo và logo đội bóng theo yêu cầu tại BMT."
-      },
-      {
-        id: "SP03",
-        section: "store",
-        category: "Giày Bóng Chuyền",
-        name: "Giày Bóng Chuyền Chuyên Dụng Bám Sân",
-        price: 520000,
-        oldPrice: 590000,
-        badge: "Hàng tuyển chọn",
-        options: ["Size 39", "Size 40", "Size 41", "Size 42"],
-        images: ["https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&h=600&q=80"],
-        desc: "Đế cao su bám sân bê tông & sân thảm cực tốt, cổ giày ôm ổn định chống lật cổ chân khi bật nhảy chắn bóng."
-      },
-      {
-        id: "SP04",
-        section: "store",
-        category: "Giày Bóng Đá",
-        name: "Giày Bóng Đá Sân Cỏ Nhân Tạo Đinh TF",
-        price: 450000,
-        oldPrice: 510000,
-        badge: "Khâu sẵn mũi",
-        options: ["Size 39", "Size 40", "Size 41", "Size 42", "Size 43"],
-        images: ["https://images.unsplash.com/photo-1511886929837-354d827aae26?auto=format&fit=crop&w=600&h=600&q=80"],
-        desc: "Đinh dăm TF bám sân cỏ nhân tạo, form ôm chân thật bóng, đã khâu sẵn mũi chắc chắn."
-      },
-      {
-        id: "SP05",
-        section: "store",
-        category: "Bóng Thi Đấu",
-        name: "Bóng Chuyền Thi Đấu Da Mềm Chuẩn Sân",
-        price: 340000,
-        oldPrice: 380000,
-        badge: "Tặng kim + lưới",
-        options: ["Quả bóng tiêu chuẩn"],
-        images: ["https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=600&h=600&q=80"],
-        desc: "Chất liệu da PU mềm êm tay khi đỡ bước 1, giữ hơi lâu, phù hợp tập luyện và thi đấu phong trào tại BMT."
-      },
-      {
-        id: "SP06",
-        section: "store",
-        category: "Bóng Thi Đấu",
-        name: "Bóng Đá Số 5 Thi Đấu Sân 7 / Sân 11",
-        price: 390000,
-        oldPrice: 440000,
-        badge: "Freeship BMT",
-        options: ["Bóng số 5"],
-        images: ["https://images.unsplash.com/photo-1575361204480-aadea25e6e68?auto=format&fit=crop&w=600&h=600&q=80"],
-        desc: "Độ nảy chuẩn, chống thấm nước khi đá trời mưa Tây Nguyên, tặng kèm kim bơm và túi lưới."
-      },
-      {
-        id: "SP07",
-        section: "store",
-        category: "Phụ Kiện",
-        name: "Combo 3 Đôi Vớ Chống Trượt Thể Thao Dày Dặn",
-        price: 99000,
-        oldPrice: 135000,
-        badge: "Bán chạy",
-        options: ["Trắng", "Đen", "Mix 3 màu"],
-        images: ["https://images.unsplash.com/photo-1586350977771-b3b0abd50c82?auto=format&fit=crop&w=600&h=600&q=80"],
-        desc: "Hạt silicon chống trượt lòng bàn chân, dệt đệm gót êm ái cho cả bóng đá và bóng chuyền."
-      },
-      {
-        id: "SP08",
-        section: "store",
-        category: "Phụ Kiện",
-        name: "Băng Bảo Vệ Gối & Cổ Chân Thể Thao",
-        price: 110000,
-        oldPrice: 140000,
-        badge: "Bảo hộ sân đấu",
-        options: ["Băng Gối (1 cặp)", "Băng Cổ Chân (1 chiếc)", "Băng Ngón Tay (10 chiếc)"],
-        images: ["https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=600&h=600&q=80"],
-        desc: "Co giãn 4 chiều thoáng khí, hỗ trợ giảm chấn thương khớp gối và cổ chân khi bật nhảy hoặc tranh chấp."
-      },
-      {
-        id: "SP09",
-        section: "mystery",
-        category: "Phụ Kiện",
-        name: "Túi Mù Phụ Kiện Thể Thao Khởi Động (99K)",
-        price: 99000,
-        oldPrice: 160000,
-        badge: "Giá trị thật > 140K",
-        options: ["Hệ Bóng Chuyền", "Hệ Bóng Đá"],
-        images: ["https://images.unsplash.com/photo-1513885535751-8b9238bd345a?auto=format&fit=crop&w=600&h=600&q=80"],
-        desc: "Gồm 1 đôi vớ chống trượt + 1 phụ kiện bảo hộ/túi rút + 1 món ngẫu nhiên tại Thể Thao Thanh Tâm. Có cơ hội trúng balo thể thao!"
-      },
-      {
-        id: "SP10",
-        section: "mystery",
-        category: "Phụ Kiện",
-        name: "Set Quà Thể Thao Cá Nhân Hóa (Bóng Chuyền / Bóng Đá)",
-        price: 249000,
-        oldPrice: 310000,
-        badge: "Kèm thiệp chúc mừng",
-        options: ["Set Bóng Chuyền", "Set Bóng Đá"],
-        images: ["https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=600&h=600&q=80"],
-        desc: "Hộp quà chỉn chu gồm túi đựng giày thể thao + vớ chống trượt + băng bảo hộ + thiệp viết lời chúc theo yêu cầu."
-      },
-      {
-        id: "SP11",
-        section: "clearance",
-        category: "Giày Bóng Đá",
-        name: "Giày Bóng Đá Lẻ Size Cuối (Còn 1 đôi)",
-        price: 290000,
-        oldPrice: 460000,
-        badge: "Lẻ 1 đôi duy nhất",
-        options: ["Size 41"],
-        images: ["https://images.unsplash.com/photo-1560272564-c83b66b1ad12?auto=format&fit=crop&w=600&h=600&q=80"],
-        desc: "Hàng trưng bày mới 99% tại 08 Nguyễn Đình Chiểu, bảo hành keo đế đầy đủ từ shop."
-      }
-    ];
-
+    const SAMPLE_PRODUCTS = [];
     const FALLBACK_SQUARE_IMG = "https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=600&h=600&q=80";
 
     let products = [...SAMPLE_PRODUCTS];
@@ -862,19 +732,19 @@
 
       const banners = {
         store: {
-          tag: "Giày • Quần Áo • Bóng Thi Đấu • Phụ Kiện",
-          title: "Giày, quần áo bóng chuyền – bóng đá, bóng thi đấu & phụ kiện tại BMT",
-          desc: "Nhận đặt đồ đội in tên số theo yêu cầu • Thử đồ trực tiếp tại 08 Nguyễn Đình Chiểu, BMT • Freeship nội thành BMT từ 150.000đ."
+          tag: "THỂ THAO THANH TÂM • BUÔN MA THUỘT",
+          title: "Quần áo, giày thi đấu, bóng & phụ kiện thể thao tại 08 Nguyễn Đình Chiểu",
+          desc: "Thử đồ trực tiếp tại 08 Nguyễn Đình Chiểu, BMT • Freeship nội thành BMT cho đơn từ 150.000đ."
         },
         mystery: {
           tag: "Túi Mù & Set Quà Tặng Thể Thao",
-          title: "Túi Mù Phụ Kiện (99K) & Set Quà Tặng Đóng Gói Theo Yêu Cầu",
-          desc: "Cam kết giá trị thật trong mỗi túi luôn cao hơn giá bán • Phù hợp làm quà sinh nhật, giải đấu phong trào."
+          title: "Túi Mù Phụ Kiện & Set Quà Tặng Đóng Gói Theo Yêu Cầu",
+          desc: "Phù hợp làm quà tặng, giải đấu phong trào • Đặt nhanh qua website hoặc Zalo 0906.075.077."
         },
         clearance: {
           tag: "Săn Hàng Lẻ Size Cuối Tại Shop",
-          title: "Giày & Trang Phục Thể Thao Lẻ Size Giá Tốt",
-          desc: "Sản phẩm chính chủ tại 08 Nguyễn Đình Chiểu, còn đúng 1–2 size cuối, bảo hành keo đế đầy đủ."
+          title: "Sản Phẩm Lẻ Size Cuối Tại Cửa Hàng",
+          desc: "Hàng trực tiếp tại 08 Nguyễn Đình Chiểu, Buôn Ma Thuột • Liên hệ Zalo để kiểm tra size nhanh."
         }
       };
       document.getElementById("bannerTag").innerText = banners[tab].tag;
@@ -910,7 +780,7 @@
 
       const filtered = products.filter(p => {
         const matchTab = p.section === currentTab;
-        const matchCat = currentCategory === "ALL" || p.category === currentCategory;
+        const matchCat = currentCategory === "ALL" || p.category.toLowerCase() === currentCategory.toLowerCase();
         const matchKey = !keyword || p.name.toLowerCase().includes(keyword) || (p.desc || "").toLowerCase().includes(keyword);
         return matchTab && matchCat && matchKey;
       });
@@ -982,7 +852,7 @@
       document.getElementById("pmTitle").innerText = p.name;
       document.getElementById("pmPrice").innerText = formatVND(p.price);
       document.getElementById("pmOldPrice").innerText = p.oldPrice ? formatVND(p.oldPrice) : "";
-      document.getElementById("pmDesc").innerText = p.desc || "Sản phẩm thể thao tuyển chọn tại Thể Thao Thanh Tâm BMT.";
+      document.getElementById("pmDesc").innerText = p.desc || "Sản phẩm thể thao tại Thể Thao Thanh Tâm BMT.";
 
       renderDetailGallery();
       renderOptionButtons();
@@ -1102,6 +972,8 @@
 
       if (sport === "football") {
         note += " Với giày đá bóng sân cỏ nhân tạo (đinh TF), nên mang kèm vớ chống trượt để cảm giác bóng tốt nhất.";
+      } else if (sport === "court") {
+        note += " Với giày pickleball / cầu lông, form ôm chân giúp di chuyển ngang và phanh gấp ổn định.";
       } else {
         note += " Với giày bóng chuyền, nên chừa khoảng 0.5 cm ở mũi để tránh dồn ngón chân khi bật nhảy tiếp đất.";
       }
@@ -1110,7 +982,12 @@
       document.getElementById("recommendedSizeText").innerText = `Size ${euDisplay} EU (Chân ${len.toFixed(1)} cm)`;
       document.getElementById("sizeAdviceNote").innerText = note;
 
-      const sportName = sport === "football" ? "Giày Bóng Đá" : "Giày Bóng Chuyền";
+      const sportLabelMap = {
+        football: "Giày bóng đá",
+        court: "Giày pickleball/cầu lông",
+        volleyball: "Giày bóng chuyền"
+      };
+      const sportName = sportLabelMap[sport] || "Giày thể thao";
       const msg = encodeURIComponent(`Chào shop, chân mình dài ${len.toFixed(1)}cm (${shape === 'wide' ? 'chân bè' : 'chân thon'}), shop tư vấn giúp mình mẫu ${sportName} size ${euDisplay} nhé!`);
       document.getElementById("sizeZaloBtn").href = `https://zalo.me/${SHOP_ZALO}?text=${msg}`;
     }
@@ -1128,9 +1005,9 @@
 
       document.getElementById("recommendedClothesText").innerText = `Size ${size}`;
       document.getElementById("clothesAdviceNote").innerText =
-        `Phù hợp với chiều cao khoảng ${h}cm, cân nặng ${w}kg. Nếu thích mặc rộng thoải mái khi vận động mạnh, anh/chị có thể chọn tăng 1 size.`;
+        `Phù hợp với chiều cao khoảng ${h}cm, cân nặng ${w}kg. Nếu thích mặc rộng thoải mái khi vận động, anh/chị có thể chọn tăng 1 size.`;
 
-      const msg = encodeURIComponent(`Chào shop, mình cao ${h}cm nặng ${w}kg (gợi ý Size ${size}), shop gửi giúp mình các mẫu quần áo bóng chuyền/bóng đá còn size này nhé!`);
+      const msg = encodeURIComponent(`Chào shop, mình cao ${h}cm nặng ${w}kg (gợi ý Size ${size}), shop gửi giúp mình các mẫu quần áo còn size này nhé!`);
       document.getElementById("sizeZaloBtn").href = `https://zalo.me/${SHOP_ZALO}?text=${msg}`;
     }
 
@@ -1376,7 +1253,7 @@ Hình thức: ${method} ${address}`);
           renderProducts();
           if (showAlert) alert("Đã đồng bộ " + products.length + " sản phẩm từ Google Sheets!");
         } else if (showAlert) {
-          alert("Đã kết nối Google Sheets! Hiện Sheet đang dùng danh sách mẫu ban đầu.");
+          alert("Đã kết nối Google Sheets! Hiện chưa có sản phẩm nào trong Sheet.");
         }
       } catch (err) {
         console.error("Lỗi tải dữ liệu Sheet:", err);
@@ -1393,7 +1270,7 @@ Hình thức: ${method} ${address}`);
           html: `
             <p>• <strong>Cam kết chất lượng:</strong> Toàn bộ sản phẩm đăng bán trên website thuộc quyền kinh doanh trực tiếp của <strong>Hộ Kinh Doanh Thể Thao Thanh Tâm</strong> (08 Nguyễn Đình Chiểu, Buôn Ma Thuột).</p>
             <p>• <strong>Đổi size linh hoạt:</strong> Hỗ trợ đổi size trong vòng <strong>07 ngày</strong> kể từ ngày nhận hàng (sản phẩm còn nguyên tem mác, chưa qua sử dụng ngoài sân, áp dụng cho hàng chưa in ấn riêng).</p>
-            <p>• <strong>Bảo hành keo đế:</strong> Bảo hành keo đế 03 tháng đối với các dòng giày bóng chuyền và giày bóng đá mua tại cửa hàng.</p>
+            <p>• <strong>Bảo hành keo đế:</strong> Bảo hành keo đế 03 tháng đối với các dòng giày mua tại cửa hàng.</p>
           `
         },
         shipping: {
