@@ -79,7 +79,6 @@
   <div id="catalogDrawer" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-xs flex">
     <div class="w-full max-w-xs bg-white text-slate-900 h-full flex flex-col justify-between shadow-2xl overflow-y-auto">
       <div>
-        <!-- Thanh tiêu đề cam -->
         <div class="bg-orange-500 text-white px-4 py-3 flex items-center justify-between sticky top-0 z-10">
           <span class="text-xs font-black tracking-wide uppercase">DANH MỤC SẢN PHẨM</span>
           <button type="button" onclick="toggleCatalogDrawer(false)" class="text-white/90 hover:text-white p-1">
@@ -88,12 +87,10 @@
         </div>
 
         <div class="divide-y divide-slate-200 text-xs">
-          <!-- Trang chủ -->
           <button type="button" onclick="selectCatalogFilter('ALL', 'store')" class="w-full px-4 py-3 text-left font-black tracking-wide text-slate-900 hover:bg-slate-50 uppercase flex items-center justify-between">
             <span>TRANG CHỦ (TẤT CẢ)</span>
           </button>
 
-          <!-- Mục SẢN PHẨM sổ xuống -->
           <div>
             <button type="button" onclick="toggleSubCatalog()" class="w-full px-4 py-3 text-left font-black tracking-wide text-orange-600 hover:bg-slate-50 uppercase flex items-center justify-between">
               <span>SẢN PHẨM</span>
@@ -395,20 +392,20 @@
     </div>
   </div>
 
-  <!-- ==================== MODAL: CHI TIẾT SẢN PHẨM & GALLERY 1:1 ==================== -->
+  <!-- ==================== MODAL: CHI TIẾT SẢN PHẨM (CHỌN MÀU + SIZE + SỐ LƯỢNG) ==================== -->
   <div id="productModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-3">
-    <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-5 space-y-3.5 text-xs shadow-2xl max-h-[90vh] overflow-y-auto">
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-5 space-y-3.5 text-xs shadow-2xl max-h-[92vh] overflow-y-auto">
       <div class="flex items-start justify-between gap-2 border-b border-slate-800 pb-2.5">
         <div>
           <span id="pmCategory" class="text-[10px] font-extrabold uppercase text-orange-400"></span>
-          <h3 id="pmTitle" class="text-sm font-black text-white mt-0.5"></h3>
+          <h3 id="pmTitle" class="text-sm sm:text-base font-black text-white mt-0.5 leading-snug"></h3>
         </div>
         <button onclick="closeModal('productModal')" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-base"></i></button>
       </div>
 
       <!-- KHUNG ẢNH 1:1 + NÚT CHUYỂN + DẢI ẢNH THU NHỎ -->
       <div class="space-y-2">
-        <div class="relative aspect-square w-full max-w-[320px] mx-auto rounded-2xl overflow-hidden bg-slate-950 border border-slate-800">
+        <div class="relative aspect-square w-full max-w-[270px] mx-auto rounded-2xl overflow-hidden bg-slate-950 border border-slate-800">
           <img id="pmImage" src="" alt="" class="w-full h-full object-cover" />
           <button id="pmPrevBtn" type="button" onclick="stepProductImage(-1)" class="hidden absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-slate-950/80 hover:bg-slate-900 text-white border border-slate-700 flex items-center justify-center">
             <i class="fa-solid fa-chevron-left text-xs"></i>
@@ -431,9 +428,32 @@
         </button>
       </div>
 
-      <div>
-        <label class="block text-[11px] font-bold text-slate-400 mb-1.5">Chọn Size / Phân loại có sẵn:</label>
+      <!-- CHỌN MÀU KÈM ẢNH NHỎ -->
+      <div id="pmColorSection" class="hidden space-y-1.5">
+        <div class="flex items-center gap-2 text-xs">
+          <span class="font-bold text-slate-300">Màu</span>
+          <span id="pmSelectedColorLabel" class="font-extrabold text-amber-400"></span>
+        </div>
+        <div id="pmColorGrid" class="grid grid-cols-3 gap-2"></div>
+      </div>
+
+      <!-- CHỌN SIZE / PHÂN LOẠI -->
+      <div class="space-y-1.5">
+        <div class="flex items-center gap-2 text-xs">
+          <span class="font-bold text-slate-300" id="pmOptionHeading">Size</span>
+          <span id="pmSelectedOptionLabel" class="font-extrabold text-amber-400"></span>
+        </div>
         <div id="pmOptions" class="flex flex-wrap gap-1.5"></div>
+      </div>
+
+      <!-- CHỌN SỐ LƯỢNG -->
+      <div class="flex items-center justify-between pt-1">
+        <span class="text-xs font-bold text-slate-300">Số lượng</span>
+        <div class="inline-flex items-center rounded-xl border border-slate-700 bg-slate-950 overflow-hidden">
+          <button type="button" onclick="changeDetailQty(-1)" class="px-3 py-1.5 text-slate-200 hover:bg-slate-800 font-black">-</button>
+          <span id="pmQtyValue" class="px-4 py-1.5 font-black text-white text-xs">1</span>
+          <button type="button" onclick="changeDetailQty(1)" class="px-3 py-1.5 text-slate-200 hover:bg-slate-800 font-black">+</button>
+        </div>
       </div>
 
       <p id="pmDesc" class="text-slate-300 leading-relaxed bg-slate-950/70 p-3 rounded-xl border border-slate-800/80"></p>
@@ -566,7 +586,8 @@
           <input type="number" id="npPrice" required placeholder="Giá bán (VNĐ) *" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
           <input type="number" id="npOldPrice" placeholder="Giá gốc gạch ngang (nếu có)" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
         </div>
-        <input type="text" id="npOptions" required placeholder="Size / Phân loại (cách nhau dấu phẩy: S, M, L, XL hoặc 39, 40, 41) *" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
+        <input type="text" id="npColors" placeholder="Các màu (cách nhau dấu phẩy, VD: Xanh Vàng, Cam Vàng, Xanh Trắng)" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
+        <input type="text" id="npOptions" required placeholder="Size / Phân loại (cách nhau dấu phẩy: M, L, XL, XXL hoặc 39, 40, 41) *" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
         <input type="text" id="npBadge" placeholder="Nhãn nổi bật (tùy chọn)" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100" />
 
         <!-- CHỌN TỐI ĐA 5 ẢNH 1:1 (600x600) TỪ MÁY / ĐIỆN THOẠI -->
@@ -638,10 +659,38 @@
 
     function getProductImages(p) {
       if (Array.isArray(p.images) && p.images.length) return p.images.filter(Boolean);
+      if (Array.isArray(p.colors) && p.colors.length) {
+        const cImgs = p.colors.map(c => c && c.image).filter(Boolean);
+        if (cImgs.length) return cImgs;
+      }
       if (typeof p.image === "string" && p.image.trim()) {
         return p.image.split("|").map(s => s.trim()).filter(Boolean);
       }
       return [FALLBACK_SQUARE_IMG];
+    }
+
+    function getNormalizedColors(p) {
+      const gallery = getProductImages(p);
+      if (Array.isArray(p.colors) && p.colors.length) {
+        return p.colors
+          .map((c, idx) => {
+            if (typeof c === "string") {
+              return { name: c.trim(), image: gallery[idx] || gallery[0] || FALLBACK_SQUARE_IMG };
+            }
+            if (c && c.name) {
+              return { name: String(c.name).trim(), image: c.image || gallery[idx] || gallery[0] || FALLBACK_SQUARE_IMG };
+            }
+            return null;
+          })
+          .filter(Boolean);
+      }
+      if (typeof p.colors === "string" && p.colors.trim()) {
+        return p.colors
+          .split(",")
+          .map((name, idx) => ({ name: name.trim(), image: gallery[idx] || gallery[0] || FALLBACK_SQUARE_IMG }))
+          .filter(c => c.name);
+      }
+      return [];
     }
 
     function normalizePhone(raw) {
@@ -795,9 +844,12 @@
       grid.innerHTML = filtered.map(p => {
         const imgs = getProductImages(p);
         const coverImg = imgs[0] || FALLBACK_SQUARE_IMG;
+        const colorList = getNormalizedColors(p);
+        const defaultColor = colorList[0] ? colorList[0].name : "";
         const defaultOpt = (p.options && p.options[0]) ? p.options[0] : "Tiêu chuẩn";
+        const variantLabel = defaultColor ? `${defaultColor} - ${defaultOpt}` : defaultOpt;
         const sizeType = detectSizeTypeFromName(p.name);
-        const zaloMsg = encodeURIComponent(`Chào Thể Thao Thanh Tâm BMT, mình muốn hỏi mua: ${p.name} (${defaultOpt}) - Giá ${formatVND(p.price)}`);
+        const zaloMsg = encodeURIComponent(`Chào Thể Thao Thanh Tâm BMT, mình muốn hỏi mua: ${p.name} (${variantLabel}) - Giá ${formatVND(p.price)}`);
         return `
           <article class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between group hover:border-orange-500/50 transition">
             <div>
@@ -812,7 +864,7 @@
                   ${sizeType ? `<button onclick="openSizeModal('${sizeType}')" class="text-amber-400 hover:underline font-bold">Bảng size</button>` : ""}
                 </div>
                 <h3 onclick="openProductDetail('${p.id}')" class="text-xs sm:text-sm font-extrabold text-slate-100 line-clamp-2 cursor-pointer hover:text-orange-400 transition">${p.name}</h3>
-                <p class="text-[11px] text-slate-400 truncate">${(p.options || []).join(" • ")}</p>
+                <p class="text-[11px] text-slate-400 truncate">${colorList.length ? colorList.map(c => c.name).join(" • ") : (p.options || []).join(" • ")}</p>
               </div>
             </div>
 
@@ -836,7 +888,10 @@
     }
 
     let selectedProduct = null;
+    let productColors = [];
+    let selectedColorObj = null;
     let selectedOption = "";
+    let detailQty = 1;
     let detailImages = [];
     let currentImgIdx = 0;
 
@@ -844,7 +899,10 @@
       const p = products.find(item => item.id === id);
       if (!p) return;
       selectedProduct = p;
+      productColors = getNormalizedColors(p);
+      selectedColorObj = productColors[0] || null;
       selectedOption = (p.options && p.options[0]) ? p.options[0] : "Tiêu chuẩn";
+      detailQty = 1;
       detailImages = getProductImages(p);
       currentImgIdx = 0;
 
@@ -853,18 +911,61 @@
       document.getElementById("pmPrice").innerText = formatVND(p.price);
       document.getElementById("pmOldPrice").innerText = p.oldPrice ? formatVND(p.oldPrice) : "";
       document.getElementById("pmDesc").innerText = p.desc || "Sản phẩm thể thao tại Thể Thao Thanh Tâm BMT.";
+      document.getElementById("pmQtyValue").innerText = detailQty;
 
-      renderDetailGallery();
+      renderColorSelector();
       renderOptionButtons();
+      renderDetailGallery();
       updateDetailZaloLink();
 
       document.getElementById("pmAddCartBtn").onclick = () => {
-        addToCart(selectedProduct, selectedOption);
+        const combinedOpt = selectedColorObj ? `${selectedColorObj.name} - ${selectedOption}` : selectedOption;
+        addToCart(selectedProduct, combinedOpt, detailQty);
         closeModal("productModal");
         toggleCart(true);
       };
 
       document.getElementById("productModal").classList.remove("hidden");
+    }
+
+    function renderColorSelector() {
+      const section = document.getElementById("pmColorSection");
+      const label = document.getElementById("pmSelectedColorLabel");
+      const grid = document.getElementById("pmColorGrid");
+
+      if (!productColors.length) {
+        section.classList.add("hidden");
+        grid.innerHTML = "";
+        return;
+      }
+
+      section.classList.remove("hidden");
+      label.innerText = selectedColorObj ? selectedColorObj.name : "";
+
+      grid.innerHTML = productColors.map((c, idx) => {
+        const active = selectedColorObj && selectedColorObj.name === c.name;
+        return `
+          <button type="button" onclick="selectProductColor(${idx})" class="p-1.5 rounded-xl border-2 text-left transition flex flex-col items-center gap-1 ${active ? 'border-amber-400 bg-amber-400/10' : 'border-slate-800 bg-slate-950 hover:border-slate-700'}">
+            <div class="w-full aspect-square rounded-lg overflow-hidden bg-slate-900">
+              <img src="${c.image || FALLBACK_SQUARE_IMG}" alt="${c.name}" class="w-full h-full object-cover" />
+            </div>
+            <span class="text-[11px] font-bold text-slate-100 truncate w-full text-center">${c.name}</span>
+          </button>
+        `;
+      }).join("");
+    }
+
+    function selectProductColor(idx) {
+      const chosen = productColors[idx];
+      if (!chosen) return;
+      selectedColorObj = chosen;
+      const foundImgIdx = detailImages.findIndex(url => url === chosen.image);
+      if (foundImgIdx >= 0) {
+        currentImgIdx = foundImgIdx;
+      }
+      renderColorSelector();
+      renderDetailGallery();
+      updateDetailZaloLink();
     }
 
     function renderDetailGallery() {
@@ -890,7 +991,7 @@
       thumbsBox.innerHTML = detailImages.map((url, idx) => {
         const active = idx === currentImgIdx;
         return `
-          <button type="button" onclick="selectDetailImage(${idx})" class="w-12 h-12 rounded-xl overflow-hidden border-2 transition ${active ? 'border-orange-500' : 'border-slate-800 opacity-70 hover:opacity-100'}">
+          <button type="button" onclick="selectDetailImage(${idx})" class="w-11 h-11 rounded-xl overflow-hidden border-2 transition ${active ? 'border-orange-500' : 'border-slate-800 opacity-70 hover:opacity-100'}">
             <img src="${url}" alt="Ảnh ${idx + 1}" class="w-full h-full object-cover" />
           </button>
         `;
@@ -911,10 +1012,13 @@
 
     function renderOptionButtons() {
       const box = document.getElementById("pmOptions");
+      const label = document.getElementById("pmSelectedOptionLabel");
       const opts = (selectedProduct.options && selectedProduct.options.length) ? selectedProduct.options : ["Tiêu chuẩn"];
+      label.innerText = selectedOption;
+
       box.innerHTML = opts.map(opt => {
         const active = opt === selectedOption;
-        return `<button type="button" onclick="selectProductOption('${opt.replace(/'/g, "\\'")}')" class="px-3 py-1.5 rounded-xl text-xs font-bold border transition ${active ? 'bg-orange-500 text-slate-950 border-orange-500' : 'bg-slate-950 text-slate-300 border-slate-700 hover:border-slate-500'}">${opt}</button>`;
+        return `<button type="button" onclick="selectProductOption('${opt.replace(/'/g, "\\'")}')" class="min-w-[46px] px-3 py-1.5 rounded-xl text-xs font-extrabold border transition ${active ? 'border-amber-400 bg-amber-400/15 text-amber-300' : 'bg-slate-950 text-slate-300 border-slate-700 hover:border-slate-500'}">${opt}</button>`;
       }).join("");
     }
 
@@ -924,8 +1028,15 @@
       updateDetailZaloLink();
     }
 
+    function changeDetailQty(delta) {
+      detailQty = Math.max(1, detailQty + delta);
+      document.getElementById("pmQtyValue").innerText = detailQty;
+      updateDetailZaloLink();
+    }
+
     function updateDetailZaloLink() {
-      const msg = encodeURIComponent(`Chào Thể Thao Thanh Tâm BMT, mình đặt: ${selectedProduct.name} - Phân loại: ${selectedOption} (${formatVND(selectedProduct.price)})`);
+      const variantText = selectedColorObj ? `Màu ${selectedColorObj.name} - ${selectedOption}` : selectedOption;
+      const msg = encodeURIComponent(`Chào Thể Thao Thanh Tâm BMT, mình đặt: ${selectedProduct.name} | ${variantText} | SL: ${detailQty} (${formatVND(selectedProduct.price * detailQty)})`);
       document.getElementById("pmZaloBtn").href = `https://zalo.me/${SHOP_ZALO}?text=${msg}`;
     }
 
@@ -1011,11 +1122,12 @@
       document.getElementById("sizeZaloBtn").href = `https://zalo.me/${SHOP_ZALO}?text=${msg}`;
     }
 
-    function addToCart(product, option) {
+    function addToCart(product, option, qtyToAdd = 1) {
+      const addCount = Math.max(1, Number(qtyToAdd) || 1);
       const key = `${product.id}__${option}`;
       const existing = cart.find(item => item.key === key);
       if (existing) {
-        existing.qty += 1;
+        existing.qty += addCount;
       } else {
         cart.push({
           key,
@@ -1023,7 +1135,7 @@
           name: product.name,
           option,
           price: product.price,
-          qty: 1
+          qty: addCount
         });
       }
       saveCart();
@@ -1196,6 +1308,14 @@ Hình thức: ${method} ${address}`);
 
       const prodId = "SP" + Date.now().toString().slice(-5);
       const imgsToUse = uploadedImagesBase64.length ? uploadedImagesBase64 : [FALLBACK_SQUARE_IMG];
+      const rawColors = (document.getElementById("npColors").value || "")
+        .split(",")
+        .map(s => s.trim())
+        .filter(Boolean);
+      const colorObjects = rawColors.map((cName, idx) => ({
+        name: cName,
+        image: imgsToUse[idx] || imgsToUse[0] || FALLBACK_SQUARE_IMG
+      }));
 
       const newProd = {
         id: prodId,
@@ -1204,6 +1324,7 @@ Hình thức: ${method} ${address}`);
         section: document.getElementById("npSection").value,
         price: Number(document.getElementById("npPrice").value),
         oldPrice: Number(document.getElementById("npOldPrice").value) || 0,
+        colors: colorObjects,
         options: document.getElementById("npOptions").value.split(",").map(s => s.trim()).filter(Boolean),
         badge: document.getElementById("npBadge").value.trim(),
         images: imgsToUse,
