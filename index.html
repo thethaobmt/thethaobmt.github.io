@@ -6,6 +6,7 @@
   <title>THỂ THAO THANH TÂM BMT • Quần Áo • Giày • Bóng Thi Đấu • Phụ Kiện</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap');
     body { font-family: 'Be Vietnam Pro', sans-serif; background-color: #090d16; color: #f1f5f9; }
@@ -51,9 +52,14 @@
       </div>
 
       <div class="flex items-center gap-1.5 shrink-0">
+        <button onclick="openShareModal('store')" class="px-2.5 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-bold text-emerald-400 flex items-center gap-1.5 transition" title="Chia sẻ link & Mã QR cửa hàng">
+          <i class="fa-solid fa-qrcode"></i>
+          <span class="hidden sm:inline">Chia sẻ / QR</span>
+        </button>
+
         <button onclick="openSizeModal('shoe')" class="px-2.5 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-bold text-amber-400 flex items-center gap-1.5 transition" title="Tư vấn chọn size giày & quần áo">
           <i class="fa-solid fa-ruler-combined"></i>
-          <span class="hidden sm:inline">Tư vấn size</span>
+          <span class="hidden md:inline">Tư vấn size</span>
         </button>
 
         <button onclick="syncFromSheet(true)" id="btnSync" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 text-xs transition" title="Đồng bộ dữ liệu">
@@ -129,6 +135,11 @@
             <i class="fa-solid fa-ruler-combined text-orange-500"></i>
           </button>
 
+          <button type="button" onclick="toggleCatalogDrawer(false); openShareModal('store');" class="w-full px-4 py-3 text-left font-bold text-slate-800 hover:bg-slate-50 flex items-center justify-between">
+            <span>Chia sẻ link & Mã QR cửa hàng</span>
+            <i class="fa-solid fa-qrcode text-emerald-600"></i>
+          </button>
+
           <a href="https://zalo.me/0906075077" target="_blank" class="w-full px-4 py-3 text-left font-bold text-slate-800 hover:bg-slate-50 flex items-center justify-between">
             <span>Liên hệ Zalo Shop (0906.075.077)</span>
             <i class="fa-solid fa-comment-dots text-sky-600"></i>
@@ -172,7 +183,10 @@
         <h2 class="text-sm sm:text-base font-extrabold text-white" id="bannerTitle">Quần áo, giày thi đấu, bóng & phụ kiện thể thao tại 08 Nguyễn Đình Chiểu</h2>
         <p class="text-xs text-slate-400" id="bannerDesc">Thử đồ trực tiếp tại 08 Nguyễn Đình Chiểu, BMT • Freeship nội thành BMT cho đơn từ 150.000đ.</p>
       </div>
-      <div class="flex items-center gap-2 shrink-0">
+      <div class="flex flex-wrap items-center gap-2 shrink-0">
+        <button onclick="openShareModal('store')" class="px-3 py-2 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/40 text-xs font-extrabold text-emerald-300 transition">
+          <i class="fa-solid fa-qrcode mr-1"></i>Chia sẻ / QR
+        </button>
         <button onclick="toggleCatalogDrawer(true)" class="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-bold text-orange-300 transition">
           <i class="fa-solid fa-bars mr-1"></i>Chọn danh mục
         </button>
@@ -241,6 +255,9 @@
             Thanh toán: <strong class="text-slate-200">Tiền mặt khi nhận hàng (COD) hoặc thanh toán qua tài khoản Hộ kinh doanh</strong>
           </p>
           <div class="flex flex-wrap sm:justify-end gap-3 pt-1">
+            <button type="button" onclick="openShareModal('store')" class="text-emerald-400 hover:underline font-bold">
+              Chia sẻ / Mã QR Shop
+            </button>
             <button type="button" onclick="openPolicyModal('terms')" class="text-slate-300 hover:text-orange-400 underline underline-offset-2 transition">
               Chính sách bán hàng & Đổi trả
             </button>
@@ -261,24 +278,65 @@
     </div>
   </footer>
 
-  <!-- ==================== MODAL: QUAY / MỞ TÚI MÙ (CHỌN GÓI CƠ BẢN / TIÊU CHUẨN / PREMIUM) ==================== -->
+  <!-- ==================== MODAL: CHIA SẺ & MÃ QR ==================== -->
+  <div id="shareModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-3">
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-sm w-full p-5 space-y-4 text-xs shadow-2xl text-center">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-2.5 text-left">
+        <div>
+          <span class="text-[10px] font-extrabold uppercase text-emerald-400">CHIA SẺ & MÃ QR</span>
+          <h3 id="shareTitle" class="text-sm font-black text-white mt-0.5 truncate">THỂ THAO THANH TÂM BMT</h3>
+        </div>
+        <button onclick="closeModal('shareModal')" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-base"></i></button>
+      </div>
+
+      <div class="p-4 rounded-2xl bg-white text-slate-900 inline-flex flex-col items-center gap-2 mx-auto shadow-inner">
+        <div id="qrCodeBox" class="w-40 h-40 flex items-center justify-center"></div>
+        <span id="qrCaption" class="text-[10px] font-extrabold text-slate-700 max-w-[170px] truncate">thethaobmt.github.io</span>
+      </div>
+
+      <div class="text-left space-y-1">
+        <label class="block text-[11px] font-bold text-slate-400">Đường dẫn chia sẻ:</label>
+        <div class="flex gap-1.5">
+          <input type="text" id="shareUrlInput" readonly class="flex-1 px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-200 text-[11px]" />
+          <button type="button" onclick="copyShareUrl()" class="px-3 py-2 rounded-xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-extrabold shrink-0">
+            <i class="fa-regular fa-copy mr-1"></i>Copy
+          </button>
+        </div>
+        <p id="copyFeedback" class="hidden text-[11px] font-bold text-emerald-400 pt-0.5">Đã sao chép đường dẫn!</p>
+      </div>
+
+      <div class="grid grid-cols-2 gap-2 pt-1">
+        <button type="button" onclick="downloadQrImage()" class="py-2.5 px-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-amber-300 font-extrabold">
+          <i class="fa-solid fa-download mr-1"></i>Tải ảnh QR
+        </button>
+        <a id="shareZaloBtn" href="#" target="_blank" class="py-2.5 px-2 rounded-xl bg-sky-500/20 hover:bg-sky-500/30 border border-sky-500/40 text-sky-300 font-extrabold">
+          <i class="fa-solid fa-share-nodes mr-1"></i>Gửi qua Zalo
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: QUAY / MỞ TÚI MÙ ==================== -->
   <div id="mysteryModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-3">
     <div class="bg-slate-900 border border-amber-500/40 rounded-3xl max-w-md w-full p-5 space-y-3.5 text-xs shadow-2xl max-h-[92vh] overflow-y-auto">
-      <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+      <div class="flex items-start justify-between gap-2 border-b border-slate-800 pb-2.5">
         <div>
           <span class="text-[10px] font-extrabold uppercase text-amber-400">TRẢI NGHIỆM BỐC TÚI MÙ</span>
           <h3 id="mmTitle" class="text-sm sm:text-base font-black text-white mt-0.5 leading-snug"></h3>
         </div>
-        <button onclick="closeModal('mysteryModal')" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-base"></i></button>
+        <div class="flex items-center gap-2 shrink-0">
+          <button type="button" onclick="openShareCurrentMystery()" class="px-2.5 py-1 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-emerald-400 font-bold text-[11px]" title="Tạo mã QR / chia sẻ gói túi mù này">
+            <i class="fa-solid fa-qrcode mr-1"></i>QR
+          </button>
+          <button onclick="closeModal('mysteryModal')" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-base"></i></button>
+        </div>
       </div>
 
-      <!-- CHỌN HẠNG GÓI (CƠ BẢN / TIÊU CHUẨN / PREMIUM) -->
       <div class="space-y-1.5">
         <span class="block text-[11px] font-bold text-slate-300">1. Chọn hạng gói túi mù (giá trị quà luôn cao hơn giá gói):</span>
         <div id="mmTierGrid" class="grid grid-cols-3 gap-2"></div>
       </div>
 
-      <!-- SÂN KHẤU QUAY & MỞ TÚI -->
       <div class="p-4 rounded-2xl bg-gradient-to-br from-slate-950 via-slate-900 to-amber-950/30 border border-amber-500/30 text-center space-y-3">
         <div id="mmBagVisual" class="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-amber-400 to-orange-600 text-slate-950 flex items-center justify-center text-2xl shadow-lg shadow-orange-500/25">
           <i class="fa-solid fa-gift"></i>
@@ -294,7 +352,6 @@
         </button>
       </div>
 
-      <!-- DANH SÁCH MÓN CÓ THỂ CÓ TRONG GÓI -->
       <div class="space-y-1.5">
         <div class="flex items-center justify-between text-[11px]">
           <span class="font-bold text-slate-300">Quà có thể trúng trong <strong id="mmActiveTierLabel" class="text-amber-300">gói này</strong>:</span>
@@ -303,7 +360,6 @@
         <div id="mmPoolList" class="flex flex-wrap gap-1.5"></div>
       </div>
 
-      <!-- SỐ LƯỢNG & TỔNG TIỀN -->
       <div class="flex items-center justify-between pt-2 border-t border-slate-800">
         <div>
           <span class="text-[11px] text-slate-400 block">Đơn giá gói:</span>
@@ -475,7 +531,7 @@
     </div>
   </div>
 
-  <!-- ==================== MODAL: CHI TIẾT SẢN PHẨM (CHỌN MÀU + SIZE + SỐ LƯỢNG) ==================== -->
+  <!-- ==================== MODAL: CHI TIẾT SẢN PHẨM ==================== -->
   <div id="productModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-3">
     <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-5 space-y-3.5 text-xs shadow-2xl max-h-[92vh] overflow-y-auto">
       <div class="flex items-start justify-between gap-2 border-b border-slate-800 pb-2.5">
@@ -483,7 +539,12 @@
           <span id="pmCategory" class="text-[10px] font-extrabold uppercase text-orange-400"></span>
           <h3 id="pmTitle" class="text-sm sm:text-base font-black text-white mt-0.5 leading-snug"></h3>
         </div>
-        <button onclick="closeModal('productModal')" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-base"></i></button>
+        <div class="flex items-center gap-2 shrink-0">
+          <button type="button" onclick="openShareCurrentProduct()" class="px-2.5 py-1 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-emerald-400 font-bold text-[11px]" title="Tạo mã QR / chia sẻ sản phẩm này">
+            <i class="fa-solid fa-qrcode mr-1"></i>QR
+          </button>
+          <button onclick="closeModal('productModal')" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-base"></i></button>
+        </div>
       </div>
 
       <div class="space-y-2">
@@ -760,6 +821,105 @@
     let mysteryQty = 1;
     let mysterySpinTimer = null;
 
+    let currentShareLabel = "THỂ THAO THANH TÂM BMT";
+
+    function buildShareUrl(productId = "") {
+      const base = `${window.location.origin}${window.location.pathname}`;
+      if (!productId) return base;
+      return `${base}?sp=${encodeURIComponent(productId)}`;
+    }
+
+    function openShareModal(mode = "store", prod = null) {
+      let url = buildShareUrl("");
+      let title = "THỂ THAO THANH TÂM BMT";
+      let caption = "08 Nguyễn Đình Chiểu, BMT";
+
+      if (mode === "product" && prod) {
+        url = buildShareUrl(prod.id);
+        title = prod.name;
+        caption = `${formatVND(prod.price)} • ${prod.category}`;
+      }
+
+      currentShareLabel = title;
+      document.getElementById("shareTitle").innerText = title;
+      document.getElementById("qrCaption").innerText = caption;
+      document.getElementById("shareUrlInput").value = url;
+      document.getElementById("copyFeedback").classList.add("hidden");
+
+      const qrBox = document.getElementById("qrCodeBox");
+      qrBox.innerHTML = "";
+      if (typeof QRCode !== "undefined") {
+        new QRCode(qrBox, {
+          text: url,
+          width: 150,
+          height: 150,
+          colorDark: "#090d16",
+          colorLight: "#ffffff",
+          correctLevel: QRCode.CorrectLevel.M
+        });
+      }
+
+      const zaloMsg = encodeURIComponent(`Xem ${title} tại Thể Thao Thanh Tâm BMT: ${url}`);
+      document.getElementById("shareZaloBtn").href = `https://zalo.me/${SHOP_ZALO}?text=${zaloMsg}`;
+      document.getElementById("shareModal").classList.remove("hidden");
+    }
+
+    function openShareCurrentProduct() {
+      if (!selectedProduct) return;
+      openShareModal("product", selectedProduct);
+    }
+
+    function openShareCurrentMystery() {
+      if (!activeMysteryProduct) return;
+      openShareModal("product", activeMysteryProduct);
+    }
+
+    function copyShareUrl() {
+      const input = document.getElementById("shareUrlInput");
+      const val = input.value;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(val).catch(() => {});
+      }
+      input.select();
+      document.execCommand("copy");
+      document.getElementById("copyFeedback").classList.remove("hidden");
+    }
+
+    function downloadQrImage() {
+      const qrBox = document.getElementById("qrCodeBox");
+      const canvas = qrBox.querySelector("canvas");
+      const img = qrBox.querySelector("img");
+      let dataUrl = "";
+      if (canvas) {
+        dataUrl = canvas.toDataURL("image/png");
+      } else if (img && img.src) {
+        dataUrl = img.src;
+      }
+      if (!dataUrl) return;
+
+      const link = document.createElement("a");
+      const safeName = currentShareLabel.toLowerCase().replace(/[^a-z0-9]+/gi, "_").replace(/^_|_$/g, "") || "qr_shop";
+      link.download = `QR_${safeName}.png`;
+      link.href = dataUrl;
+      link.click();
+    }
+
+    function openSharedProductIfPresent() {
+      const params = new URLSearchParams(window.location.search);
+      const spId = params.get("sp");
+      if (!spId || !products.length) return;
+      const found = products.find(p => String(p.id) === String(spId));
+      if (!found) return;
+
+      if (found.section === "mystery") {
+        switchTab("mystery");
+        openMysteryModal(found.id);
+      } else {
+        switchTab(found.section || "store");
+        openProductDetail(found.id);
+      }
+    }
+
     function toggleCatalogDrawer(open) {
       document.getElementById("catalogDrawer").classList.toggle("hidden", !open);
     }
@@ -928,7 +1088,6 @@
     function pickWeightedIndex(len) {
       if (len <= 1) return 0;
       if (len === 2) return Math.random() < 0.85 ? 0 : 1;
-      // Món cuối là Giải Đặc Biệt (Secret ~8%), các món đầu chia đều 92%
       if (Math.random() < 0.08) return len - 1;
       return Math.floor(Math.random() * (len - 1));
     }
@@ -1419,6 +1578,9 @@
               <div class="relative aspect-square bg-slate-950 overflow-hidden cursor-pointer" onclick="${isMystery ? `openMysteryModal('${p.id}')` : `openProductDetail('${p.id}')`}">
                 <img src="${coverImg}" alt="${p.name}" class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-300" loading="lazy" />
                 ${p.badge ? `<span class="absolute top-2 left-2 px-2 py-0.5 rounded-lg bg-slate-950/85 backdrop-blur-xs border border-orange-500/40 text-[10px] font-extrabold text-orange-400">${p.badge}</span>` : ""}
+                <button type="button" onclick="event.stopPropagation(); openShareModal('product', products.find(x => x.id === '${p.id}'))" class="absolute top-2 right-2 w-7 h-7 rounded-lg bg-slate-950/80 hover:bg-slate-900 border border-slate-700 text-emerald-400 flex items-center justify-center text-[11px]" title="Chia sẻ / QR">
+                  <i class="fa-solid fa-qrcode"></i>
+                </button>
                 ${imgs.length > 1 ? `<span class="absolute bottom-2 right-2 px-1.5 py-0.5 rounded-md bg-slate-950/85 text-[10px] font-bold text-slate-200"><i class="fa-regular fa-images mr-1"></i>${imgs.length}</span>` : ""}
               </div>
               <div class="p-3 space-y-1.5">
@@ -1986,6 +2148,7 @@ Hình thức: ${method} ${address}`);
         if (data && Array.isArray(data.products) && data.products.length) {
           products = data.products;
           renderProducts();
+          openSharedProductIfPresent();
           if (showAlert) alert("Đã đồng bộ " + products.length + " sản phẩm từ Google Sheets!");
         } else if (showAlert) {
           alert("Đã kết nối Google Sheets! Hiện chưa có sản phẩm nào trong Sheet.");
