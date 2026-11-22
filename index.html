@@ -12,6 +12,20 @@
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     .glass-card { background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(51, 65, 85, 0.75); }
+    @keyframes bagShake {
+      0%, 100% { transform: rotate(0deg) scale(1); }
+      20% { transform: rotate(-10deg) scale(1.06); }
+      40% { transform: rotate(10deg) scale(1.08); }
+      60% { transform: rotate(-8deg) scale(1.06); }
+      80% { transform: rotate(8deg) scale(1.04); }
+    }
+    .bag-shaking { animation: bagShake 0.45s ease-in-out infinite; }
+    @keyframes revealPop {
+      0% { transform: scale(0.75); opacity: 0.2; }
+      70% { transform: scale(1.06); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .reveal-pop { animation: revealPop 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
   </style>
 </head>
 <body class="min-h-screen flex flex-col selection:bg-orange-500 selection:text-white">
@@ -246,6 +260,74 @@
       </div>
     </div>
   </footer>
+
+  <!-- ==================== MODAL: QUAY / MỞ TÚI MÙ ==================== -->
+  <div id="mysteryModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-3">
+    <div class="bg-slate-900 border border-amber-500/40 rounded-3xl max-w-md w-full p-5 space-y-4 text-xs shadow-2xl max-h-[92vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+        <div>
+          <span class="text-[10px] font-extrabold uppercase text-amber-400">TRẢI NGHIỆM BỐC TÚI MÙ</span>
+          <h3 id="mmTitle" class="text-sm sm:text-base font-black text-white mt-0.5 leading-snug"></h3>
+        </div>
+        <button onclick="closeModal('mysteryModal')" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-base"></i></button>
+      </div>
+
+      <!-- SÂN KHẤU QUAY & MỞ TÚI -->
+      <div class="p-4 rounded-2xl bg-gradient-to-br from-slate-950 via-slate-900 to-amber-950/30 border border-amber-500/30 text-center space-y-3">
+        <div id="mmBagVisual" class="w-20 h-20 mx-auto rounded-2xl bg-gradient-to-br from-amber-400 to-orange-600 text-slate-950 flex items-center justify-center text-3xl shadow-lg shadow-orange-500/25">
+          <i class="fa-solid fa-gift"></i>
+        </div>
+
+        <div class="space-y-1 min-h-[54px] flex flex-col items-center justify-center">
+          <span id="mmRarityBadge" class="hidden px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase"></span>
+          <p id="mmSlotText" class="text-sm sm:text-base font-black text-amber-300">Bấm nút bên dưới để bốc & hé lộ món quà trong túi!</p>
+        </div>
+
+        <button type="button" id="mmSpinBtn" onclick="spinMysteryBag()" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-300 hover:to-orange-400 text-slate-950 font-black text-xs uppercase tracking-wide shadow-md transition">
+          <i class="fa-solid fa-dice mr-1.5"></i>Quay / Mở Túi Mù Ngay
+        </button>
+      </div>
+
+      <!-- DANH SÁCH MÓN CÓ THỂ CÓ TRONG GÓI -->
+      <div class="space-y-1.5">
+        <div class="flex items-center justify-between text-[11px]">
+          <span class="font-bold text-slate-300">Danh sách món có thể trúng trong gói:</span>
+          <span id="mmPoolCount" class="text-amber-400 font-extrabold"></span>
+        </div>
+        <div id="mmPoolList" class="flex flex-wrap gap-1.5"></div>
+      </div>
+
+      <!-- CHỌN PHÂN LOẠI GÓI & SỐ LƯỢNG -->
+      <div class="grid grid-cols-2 gap-2 items-end pt-1">
+        <div>
+          <label class="block text-[11px] font-bold text-slate-400 mb-1">Phân loại gói</label>
+          <select id="mmOptionSelect" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100 font-bold"></select>
+        </div>
+        <div>
+          <label class="block text-[11px] font-bold text-slate-400 mb-1">Số lượng túi</label>
+          <div class="inline-flex items-center rounded-xl border border-slate-700 bg-slate-950 overflow-hidden w-full justify-between">
+            <button type="button" onclick="changeMysteryQty(-1)" class="px-3 py-2 text-slate-200 hover:bg-slate-800 font-black">-</button>
+            <span id="mmQtyValue" class="font-black text-white text-xs">1</span>
+            <button type="button" onclick="changeMysteryQty(1)" class="px-3 py-2 text-slate-200 hover:bg-slate-800 font-black">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between pt-1 border-t border-slate-800">
+        <span class="text-slate-400 font-bold">Giá gói:</span>
+        <span id="mmPrice" class="text-base font-black text-orange-400"></span>
+      </div>
+
+      <div class="grid grid-cols-2 gap-2">
+        <button type="button" onclick="addMysteryToCart()" class="py-2.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-extrabold">
+          <i class="fa-solid fa-cart-plus mr-1"></i>Thêm vào đơn
+        </button>
+        <a id="mmZaloBtn" href="#" target="_blank" class="py-2.5 rounded-xl bg-sky-500/20 hover:bg-sky-500/30 border border-sky-500/40 text-sky-300 font-extrabold text-center">
+          <i class="fa-solid fa-comment-dots mr-1"></i>Chốt nhanh Zalo
+        </a>
+      </div>
+    </div>
+  </div>
 
   <!-- ==================== MODAL: TƯ VẤN SIZE GIÀY & QUẦN ÁO ==================== -->
   <div id="sizeModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-3">
@@ -616,7 +698,7 @@
           <div id="npImagePreviewGrid" class="grid grid-cols-3 gap-2"></div>
         </div>
 
-        <textarea id="npDesc" rows="2" placeholder="Mô tả chi tiết sản phẩm..." class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100"></textarea>
+        <textarea id="npDesc" rows="2" placeholder="Mô tả chi tiết sản phẩm (với Túi Mù, liệt kê các món có thể trúng cách nhau dấu phẩy)..." class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-slate-100"></textarea>
         <button type="submit" id="btnSaveProduct" class="w-full py-2.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-extrabold">Lưu & Đồng Bộ Lên Google Sheets</button>
       </form>
     </div>
@@ -641,6 +723,14 @@
     const SHOP_ZALO = "0906075077";
     const MAX_IMAGES = 5;
     const MAX_DETAIL_PER_COLOR = 5;
+    const DEFAULT_MYSTERY_POOL = [
+      "Quấn cán vợt cao su/vải",
+      "Vớ thể thao cổ cao/cổ ngắn",
+      "Băng cổ tay / băng trán thấm mồ hôi",
+      "Dây buộc giày thể thao",
+      "Túi rút phụ kiện thể thao",
+      "Bình nước / Phễu / Phụ kiện sân tập"
+    ];
 
     const SAMPLE_PRODUCTS = [];
     const FALLBACK_SQUARE_IMG = "https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=600&h=600&q=80";
@@ -653,6 +743,13 @@
 
     let uploadedImagesBase64 = [];
     let colorMediaDrafts = [];
+
+    // Biến trạng thái riêng cho Modal Quay / Mở Túi Mù
+    let activeMysteryProduct = null;
+    let mysteryPool = [];
+    let mysteryRevealedItem = "";
+    let mysteryQty = 1;
+    let mysterySpinTimer = null;
 
     function toggleCatalogDrawer(open) {
       document.getElementById("catalogDrawer").classList.toggle("hidden", !open);
@@ -671,6 +768,134 @@
       currentCategory = cat || "ALL";
       switchTab(currentTab);
       setCategory(currentCategory);
+    }
+
+    function getMysteryPoolFromProduct(p) {
+      const raw = String((p && p.desc) || "").trim();
+      if (!raw) return [...DEFAULT_MYSTERY_POOL];
+      const parts = raw
+        .split(/[,|\n;]+/)
+        .map(s => s.replace(/^[-•*]+\s*/, "").trim())
+        .filter(Boolean);
+      return parts.length >= 2 ? parts : [...DEFAULT_MYSTERY_POOL];
+    }
+
+    function openMysteryModal(id) {
+      const p = products.find(item => item.id === id);
+      if (!p) return;
+      if (mysterySpinTimer) {
+        clearInterval(mysterySpinTimer);
+        mysterySpinTimer = null;
+      }
+
+      activeMysteryProduct = p;
+      mysteryPool = getMysteryPoolFromProduct(p);
+      mysteryRevealedItem = "";
+      mysteryQty = 1;
+
+      document.getElementById("mmTitle").innerText = p.name;
+      document.getElementById("mmPrice").innerText = formatVND(p.price);
+      document.getElementById("mmQtyValue").innerText = mysteryQty;
+      document.getElementById("mmPoolCount").innerText = `${mysteryPool.length} món`;
+
+      const bagEl = document.getElementById("mmBagVisual");
+      bagEl.className = "w-20 h-20 mx-auto rounded-2xl bg-gradient-to-br from-amber-400 to-orange-600 text-slate-950 flex items-center justify-center text-3xl shadow-lg shadow-orange-500/25";
+      bagEl.innerHTML = `<i class="fa-solid fa-gift"></i>`;
+
+      const rarityEl = document.getElementById("mmRarityBadge");
+      rarityEl.classList.add("hidden");
+
+      const slotEl = document.getElementById("mmSlotText");
+      slotEl.className = "text-sm sm:text-base font-black text-amber-300";
+      slotEl.innerText = "Bấm nút bên dưới để bốc & hé lộ món quà trong túi!";
+
+      const spinBtn = document.getElementById("mmSpinBtn");
+      spinBtn.disabled = false;
+      spinBtn.innerHTML = `<i class="fa-solid fa-dice mr-1.5"></i>Quay / Mở Túi Mù Ngay`;
+
+      document.getElementById("mmPoolList").innerHTML = mysteryPool.map(item => `
+        <span class="px-2.5 py-1 rounded-xl bg-slate-950 border border-slate-800 text-[11px] font-bold text-slate-300">${item}</span>
+      `).join("");
+
+      const opts = (p.options && p.options.length) ? p.options : ["Tiêu chuẩn"];
+      const selectEl = document.getElementById("mmOptionSelect");
+      selectEl.innerHTML = opts.map(o => `<option value="${o}">${o}</option>`).join("");
+      selectEl.onchange = updateMysteryZaloLink;
+
+      updateMysteryZaloLink();
+      document.getElementById("mysteryModal").classList.remove("hidden");
+    }
+
+    function spinMysteryBag() {
+      if (!activeMysteryProduct || !mysteryPool.length || mysterySpinTimer) return;
+
+      const spinBtn = document.getElementById("mmSpinBtn");
+      const bagEl = document.getElementById("mmBagVisual");
+      const slotEl = document.getElementById("mmSlotText");
+      const rarityEl = document.getElementById("mmRarityBadge");
+
+      spinBtn.disabled = true;
+      spinBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-1.5"></i>Đang lắc & mở túi...`;
+      bagEl.classList.add("bag-shaking");
+      rarityEl.classList.add("hidden");
+
+      let ticks = 0;
+      const totalTicks = 18;
+      mysterySpinTimer = setInterval(() => {
+        const previewItem = mysteryPool[ticks % mysteryPool.length];
+        slotEl.className = "text-sm font-extrabold text-slate-200";
+        slotEl.innerText = previewItem;
+        ticks++;
+
+        if (ticks >= totalTicks) {
+          clearInterval(mysterySpinTimer);
+          mysterySpinTimer = null;
+
+          const pickedIdx = Math.floor(Math.random() * mysteryPool.length);
+          mysteryRevealedItem = mysteryPool[pickedIdx];
+
+          bagEl.classList.remove("bag-shaking");
+          bagEl.innerHTML = `<i class="fa-solid fa-sparkles"></i>`;
+
+          const isSpecial = pickedIdx === mysteryPool.length - 1 || pickedIdx === 0;
+          rarityEl.classList.remove("hidden");
+          rarityEl.className = isSpecial
+            ? "px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-amber-400/20 text-amber-300 border border-amber-400/40"
+            : "px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-500/40";
+          rarityEl.innerText = isSpecial ? "★ Quà Nổi Bật Trong Túi" : "✓ Món Quà Hé Lộ";
+
+          slotEl.className = "text-base font-black text-white reveal-pop";
+          slotEl.innerText = mysteryRevealedItem;
+
+          spinBtn.disabled = false;
+          spinBtn.innerHTML = `<i class="fa-solid fa-rotate-right mr-1.5"></i>Quay Thử Túi Khác`;
+
+          updateMysteryZaloLink();
+        }
+      }, 65);
+    }
+
+    function changeMysteryQty(delta) {
+      mysteryQty = Math.max(1, mysteryQty + delta);
+      document.getElementById("mmQtyValue").innerText = mysteryQty;
+      updateMysteryZaloLink();
+    }
+
+    function updateMysteryZaloLink() {
+      if (!activeMysteryProduct) return;
+      const opt = document.getElementById("mmOptionSelect").value || "Tiêu chuẩn";
+      const luckyNote = mysteryRevealedItem ? ` | Quay mở ra: ${mysteryRevealedItem}` : "";
+      const msg = encodeURIComponent(`Chào Thể Thao Thanh Tâm BMT, mình đặt Túi Mù: ${activeMysteryProduct.name} (${opt}${luckyNote}) x${mysteryQty} - Tổng ${formatVND(activeMysteryProduct.price * mysteryQty)}`);
+      document.getElementById("mmZaloBtn").href = `https://zalo.me/${SHOP_ZALO}?text=${msg}`;
+    }
+
+    function addMysteryToCart() {
+      if (!activeMysteryProduct) return;
+      const opt = document.getElementById("mmOptionSelect").value || "Tiêu chuẩn";
+      const combinedOpt = mysteryRevealedItem ? `${opt} • Mở ra: ${mysteryRevealedItem}` : `${opt} • Túi mù ngẫu nhiên`;
+      addToCart(activeMysteryProduct, combinedOpt, mysteryQty);
+      closeModal("mysteryModal");
+      toggleCart(true);
     }
 
     function getProductImages(p) {
@@ -1004,8 +1229,8 @@
         },
         mystery: {
           tag: "Túi Mù & Set Quà Tặng Thể Thao",
-          title: "Túi Mù Phụ Kiện & Set Quà Tặng Đóng Gói Theo Yêu Cầu",
-          desc: "Phù hợp làm quà tặng, giải đấu phong trào • Đặt nhanh qua website hoặc Zalo 0906.075.077."
+          title: "Bốc / Mở Túi Mù Phụ Kiện & Set Quà Tặng Đóng Gói Theo Yêu Cầu",
+          desc: "Quay mở thử quà trước khi chốt • Phù hợp làm quà tặng, giải đấu phong trào tại BMT."
         },
         clearance: {
           tag: "Săn Hàng Lẻ Size Cuối Tại Shop",
@@ -1066,12 +1291,13 @@
         const defaultOpt = (p.options && p.options[0]) ? p.options[0] : "Tiêu chuẩn";
         const variantLabel = defaultColor ? `${defaultColor} - ${defaultOpt}` : defaultOpt;
         const sizeType = detectSizeTypeFromName(p.name);
+        const isMystery = p.section === "mystery";
         const zaloMsg = encodeURIComponent(`Chào Thể Thao Thanh Tâm BMT, mình muốn hỏi mua: ${p.name} (${variantLabel}) - Giá ${formatVND(p.price)}`);
 
         return `
           <article class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between group hover:border-orange-500/50 transition">
             <div>
-              <div class="relative aspect-square bg-slate-950 overflow-hidden cursor-pointer" onclick="openProductDetail('${p.id}')">
+              <div class="relative aspect-square bg-slate-950 overflow-hidden cursor-pointer" onclick="${isMystery ? `openMysteryModal('${p.id}')` : `openProductDetail('${p.id}')`}">
                 <img src="${coverImg}" alt="${p.name}" class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-300" loading="lazy" />
                 ${p.badge ? `<span class="absolute top-2 left-2 px-2 py-0.5 rounded-lg bg-slate-950/85 backdrop-blur-xs border border-orange-500/40 text-[10px] font-extrabold text-orange-400">${p.badge}</span>` : ""}
                 ${imgs.length > 1 ? `<span class="absolute bottom-2 right-2 px-1.5 py-0.5 rounded-md bg-slate-950/85 text-[10px] font-bold text-slate-200"><i class="fa-regular fa-images mr-1"></i>${imgs.length}</span>` : ""}
@@ -1081,8 +1307,8 @@
                   <span class="font-bold text-slate-400">${p.category}</span>
                   ${sizeType ? `<button onclick="openSizeModal('${sizeType}')" class="text-amber-400 hover:underline font-bold">Bảng size</button>` : ""}
                 </div>
-                <h3 onclick="openProductDetail('${p.id}')" class="text-xs sm:text-sm font-extrabold text-slate-100 line-clamp-2 cursor-pointer hover:text-orange-400 transition">${p.name}</h3>
-                <p class="text-[11px] text-slate-400 truncate">${colorList.length ? colorList.map(c => c.name).join(" • ") : (p.options || []).join(" • ")}</p>
+                <h3 onclick="${isMystery ? `openMysteryModal('${p.id}')` : `openProductDetail('${p.id}')`}" class="text-xs sm:text-sm font-extrabold text-slate-100 line-clamp-2 cursor-pointer hover:text-orange-400 transition">${p.name}</h3>
+                <p class="text-[11px] text-slate-400 truncate">${isMystery ? `Quay mở túi mù • ${(p.options || ["Tiêu chuẩn"]).join(" • ")}` : (colorList.length ? colorList.map(c => c.name).join(" • ") : (p.options || []).join(" • "))}</p>
               </div>
             </div>
 
@@ -1092,9 +1318,14 @@
                 ${p.oldPrice ? `<span class="text-[10px] text-slate-500 line-through">${formatVND(p.oldPrice)}</span>` : ""}
               </div>
               <div class="grid grid-cols-5 gap-1.5">
-                <button onclick="openProductDetail('${p.id}')" class="col-span-3 py-1.5 px-2 rounded-xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-extrabold text-[11px] transition">
-                  + Chọn mua
-                </button>
+                ${isMystery
+                  ? `<button onclick="openMysteryModal('${p.id}')" class="col-span-3 py-1.5 px-2 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-300 hover:to-orange-400 text-slate-950 font-extrabold text-[11px] transition">
+                      <i class="fa-solid fa-dice mr-1"></i>Mở túi mù
+                    </button>`
+                  : `<button onclick="openProductDetail('${p.id}')" class="col-span-3 py-1.5 px-2 rounded-xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-extrabold text-[11px] transition">
+                      + Chọn mua
+                    </button>`
+                }
                 <a href="https://zalo.me/${SHOP_ZALO}?text=${zaloMsg}" target="_blank" class="col-span-2 py-1.5 px-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-sky-300 font-bold text-[11px] text-center transition">
                   Zalo
                 </a>
@@ -1681,6 +1912,10 @@ Hình thức: ${method} ${address}`);
     }
 
     function closeModal(id) {
+      if (id === "mysteryModal" && mysterySpinTimer) {
+        clearInterval(mysterySpinTimer);
+        mysterySpinTimer = null;
+      }
       document.getElementById(id).classList.add("hidden");
     }
 
